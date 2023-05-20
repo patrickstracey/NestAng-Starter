@@ -32,7 +32,6 @@ yarn-error.log
 prod.values.ts
 testem.log
 /typings
-.editorconfig
 
 # System Files
 .DS_Store
