@@ -1,0 +1,39 @@
+.idea
+cache
+
+# compiled output
+dist
+dist-frontend
+/tmp
+/out-tsc
+
+# dependencies
+node_modules
+coverage
+
+# IDEs and editors
+/.idea
+/.vscode
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# misc
+/.angular/cache
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+prod.values.ts
+testem.log
+/typings
+.editorconfig
+
+# System Files
+.DS_Store
+Thumbs.db
