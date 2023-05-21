@@ -1,12 +1,12 @@
-@import url("https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&family=Nunito:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Jost&family=Nunito:wght@400;700&display=swap");
 
 :root {
-  --header-font: "Lora", serif;
+  --header-font: "Jost", serif;
   --body-font: "Nunito", sans-serif;
   font-family: var(--body-font);
 }
 
-h1 {
+h1, h2 {
   font-family: var(--header-font);
   font-weight: 400 ;
 }

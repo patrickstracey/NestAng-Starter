@@ -1,0 +1,49 @@
+.input-group {
+  margin-bottom: 32px;
+}
+
+label {
+  font-family: var(--body-font);
+  margin-bottom: 4px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+input,
+textarea {
+  font-family: var(--body-font);
+  font-size: 1.1rem;
+  padding: 4px 6px;
+}
+
+input[type="checkbox"] {
+  height: 24px;
+  width: 24px;
+}
+
+select {
+  font-size: 1.1rem;
+  font-weight: 400;
+  font-family: var(--body-font);
+  padding: 4px 6px;
+}
+
+.error {
+  color: var(--warn-color);
+}
+
+.required {
+  color: var(--primary-color);
+}
+
+input,
+textarea,
+select {
+  &.error {
+    border-color: var(--warn-color);
+    border-style: dashed;
+    border-radius: 6px;
+    border-width: 2px;
+    color: black;
+  }
+}
