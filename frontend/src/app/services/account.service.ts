@@ -1,17 +1,16 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {first, Observable, of, tap} from 'rxjs';
-import {UserInterface} from "../../../../shared/interfaces";
-import {PermissionEnum} from "../../../../shared/enums";
-import {ACCOUNT} from "../../../../mock_data";
-
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { first, Observable, of, tap } from 'rxjs';
+import { UserInterface } from '../../../../shared/interfaces';
+import { PermissionEnum } from '../../../../shared/enums';
+import { USER } from '../../../../mock_data';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AccountService {
   private baseUrl = 'api/account';
-  private account: UserInterface | null = ACCOUNT;
+  private account: UserInterface | null = USER;
   private permission: PermissionEnum = PermissionEnum.USER;
 
   constructor(private http: HttpClient) {}
@@ -39,13 +38,12 @@ export class AccountService {
     return this.fetchAccount();
   }
 
-
   patchAccount(accountChanges: UserInterface): Observable<UserInterface> {
     //temp
-    this.account = {...this.account, ...accountChanges}
+    this.account = { ...this.account, ...accountChanges };
     return of(this.account).pipe(first());
 
-/*    return this.http.patch<UserInterface>(this.baseUrl, accountChanges).pipe(
+    /*    return this.http.patch<UserInterface>(this.baseUrl, accountChanges).pipe(
       tap((account) => {
         this.setupAccount(account);
       })

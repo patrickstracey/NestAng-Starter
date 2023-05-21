@@ -1,8 +1,7 @@
-import {UserInterface} from "../shared/interfaces";
-import {TypesEnum} from "../shared/enums";
+import { UserInterface } from "../shared/interfaces";
+import { TypesEnum } from "../shared/enums";
 
-
-export const ACCOUNT: UserInterface = {
+export const USER: UserInterface = {
   _id: "62c35d41bfcd41842d54760b",
   type: TypesEnum.USER,
   name: "Shaun Geladerniromalvonne",
