@@ -22,7 +22,7 @@ async function bootstrap() {
 function setupDatabase(app: INestApplication) {
   initMongoDatabase((err, db) => {
     if (err) {
-      Logger.error('Failed to Connect to Mongo Database, is it running?');
+      Logger.warn('Failed to Connect to Mongo Database, is it running?');
       Logger.error(err);
     } else {
       app.get(MongoService).assignDatabase(db);
