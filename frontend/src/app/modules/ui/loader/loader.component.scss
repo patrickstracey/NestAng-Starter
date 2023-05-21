@@ -1,0 +1,87 @@
+.anim-holder {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 32px;
+}
+
+.loader {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-align: center;
+  width: 220px;
+}
+
+.circle {
+  height: 16px;
+  width: 16px;
+  background-color: var(--primary-light);
+  animation-duration: 2.4s;
+  position: relative;
+  opacity: 0;
+  animation-name: flash;
+  animation-direction: reverse;
+  animation-iteration-count: infinite;
+  border-radius: 100%;
+}
+.text {
+  font-size: 24px;
+}
+
+.box {
+  background-color: var(--primary-light);
+  border-radius: 8px;
+  animation-name: grow;
+  animation-direction: normal;
+  animation-iteration-count: infinite;
+  animation-duration: 2.4s;
+  opacity: 0.8;
+}
+
+@keyframes flash {
+  0% {
+    opacity: 0;
+    height: 8px;
+    width: 8px;
+    right: 80px;
+  }
+
+  40% {
+    opacity: 0.4;
+    right: 24px;
+  }
+
+  85% {
+    opacity: 0.8;
+    right: 16px;
+    height: 16px;
+    width: 16px;
+  }
+
+  100% {
+    opacity: 0;
+    right: 16px;
+  }
+}
+
+@keyframes grow {
+  0% {
+    width: 0;
+    height: 24px;
+    opacity: 0.8;
+  }
+
+  90% {
+    opacity: 0.2;
+  }
+
+  100% {
+    width: 200px;
+    height: 12px;
+    opacity: 0;
+  }
+}

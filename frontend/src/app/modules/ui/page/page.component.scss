@@ -1,0 +1,34 @@
+.row {
+  justify-content: space-between;
+}
+
+.mainboard {
+  flex-grow: 1;
+  padding-right: 16px;
+  width: 70%;
+}
+
+.sideboard {
+  min-width: 300px;
+  width: 30%;
+  max-width: 400px;
+  flex-grow: 1;
+}
+
+@media screen and (max-width: 767px) {
+  .row {
+    flex-direction: column;
+  }
+
+  .mainboard {
+    flex-grow: 1;
+    width: 100%;
+    padding-top: 16px;
+    padding-right: 4px;
+  }
+
+  .sideboard {
+    width: 100%;
+    max-width: unset;
+  }
+}
