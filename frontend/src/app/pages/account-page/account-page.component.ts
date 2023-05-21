@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
-import {AccountInterface} from '../../../../../shared/interfaces';
+import {UserInterface} from '../../../../../shared/interfaces';
 import {AccountService} from "../../services";
 
 
@@ -16,7 +16,7 @@ export class AccountPageComponent implements OnInit {
   name = new FormControl<string | null>(null, Validators.required);
   phone = new FormControl<string | null>(null, Validators.required);
   email = new FormControl<string | null>(null, Validators.required);
-  account: AccountInterface | null = null;
+  account: UserInterface | null = null;
   loading: boolean = true;
 
   constructor(
