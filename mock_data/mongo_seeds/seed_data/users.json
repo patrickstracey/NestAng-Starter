@@ -1,0 +1,42 @@
+[
+  {
+    "_id": { "$oid": "62c1d8a85101d7e8e7bfbbfe" },
+    "type": 1,
+    "name": "Shaun Geladerniromalvonne",
+    "email": "dev@nestAngFakeEmail.com",
+    "phone": "515-555-0144",
+    "password": "supply-a-value-that-is-valid-in-your-local-env-here"
+  },
+  {
+    "_id": { "$oid": "6342027c0f78226171c10835" },
+    "type": 1,
+    "name": "Abraham Jelson",
+    "email": "aJels@nestAngFakeEmail.com",
+    "phone": "402-555-0186",
+    "password": "supply-a-value-that-is-valid-in-your-local-env-here"
+  },
+  {
+    "_id": { "$oid": "63420287c1219afcd4aee72" },
+    "type": 1,
+    "name": "Kelsey Frankis",
+    "email": "k_is_frank@nestAngFakeEmail.com",
+    "phone": "601-555-0180",
+    "password": "supply-a-value-that-is-valid-in-your-local-env-here"
+  },
+  {
+    "_id": { "$oid": "646aba64910fa7cd2eea88cb" },
+    "type": 1,
+    "name": "Drew Manas",
+    "email": "drewman91as@nestAngFakeEmail.com",
+    "phone": "225-555-0123",
+    "password": "supply-a-value-that-is-valid-in-your-local-env-here"
+  },
+  {
+    "_id": { "$oid": "646aba6ece9f3ccdfd8d2d52" },
+    "type": 1,
+    "name": "Whitney Lawrence",
+    "email": "whitney17Lawr@nestAngFakeEmail.com",
+    "phone": "701-555-0171",
+    "password": "supply-a-value-that-is-valid-in-your-local-env-here"
+  }
+]
