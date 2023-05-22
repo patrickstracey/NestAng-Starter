@@ -1,11 +1,11 @@
 import {BaseInterface} from "./base.interface";
 import {TypesEnum} from "../enums";
 
-export interface AccountInterface extends BaseInterface, BaseAccountInterface {
+export interface UserInterface extends BaseInterface, BaseUserInterface {
     type: TypesEnum.USER;
 }
 
-export interface BaseAccountInterface {
+export interface BaseUserInterface {
     type: TypesEnum.USER;
     name: string;
     email: string;

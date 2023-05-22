@@ -1,31 +1,31 @@
 <h1>Account Information</h1>
 <ui-page>
-  <ui-card class="holder" *ngIf="account && !loading">
-    <div class="account-item row">
+  <ui-card class="holder" *ngIf="user && !loading">
+    <div class="user-item row">
       <div class="info-item">
         <h3>Name</h3>
-        <span *ngIf="!nameEdit">{{ account.name }}</span>
+        <span *ngIf="!nameEdit">{{ user.name }}</span>
         <input type="text" *ngIf="nameEdit" [formControl]="name" />
       </div>
       <button class="btn primary" (click)="editName()">
         {{ nameEdit ? "Save Name" : "Update" }}
       </button>
     </div>
-    <div class="account-item row">
+    <div class="user-item row">
       <div class="info-item">
         <h3>Email</h3>
-        <span *ngIf="!emailEdit">{{ account.email }}</span>
+        <span *ngIf="!emailEdit">{{ user.email }}</span>
         <input type="email" *ngIf="emailEdit" [formControl]="email" />
       </div>
       <button class="btn primary" (click)="editEmail()">
         {{ emailEdit ? "Save Email" : "Update" }}
       </button>
     </div>
-    <div class="account-item row">
+    <div class="user-item row">
       <div class="info-item">
         <h3>Phone</h3>
         <span *ngIf="!phoneEdit">{{
-          account.phone ? (account.phone) : "No phone number on file"
+          user.phone ? user.phone : "No phone number on file"
         }}</span>
         <input type="tel" *ngIf="phoneEdit" [formControl]="phone" />
       </div>
@@ -34,9 +34,9 @@
       </button>
     </div>
   </ui-card>
-  <div *ngIf="!account && !loading"><p>Failed to Load Account</p></div>
+  <div *ngIf="!user && !loading"><p>Failed to Load Account</p></div>
   <div sideboard>
-    <ui-card><p>Maybe put some account specific tips here?</p></ui-card>
+    <ui-card><p>Maybe put some user specific tips here?</p></ui-card>
   </div>
 </ui-page>
 <ui-loader
