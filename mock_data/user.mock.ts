@@ -2,9 +2,9 @@ import { UserInterface } from "../shared/interfaces";
 import { TypesEnum } from "../shared/enums";
 
 export const USER: UserInterface = {
-  _id: "62c35d41bfcd41842d54760b",
+  _id: "646abbdb0df697921dc69a72",
   type: TypesEnum.USER,
-  name: "Shaun Geladerniromalvonne",
-  email: "shaumgellaman037342@fakeEmail.com",
+  name: "Mr. Temporary",
+  email: "waitingToHookupController@fakeEmail.com",
   phone: "515-555-0198",
 };
