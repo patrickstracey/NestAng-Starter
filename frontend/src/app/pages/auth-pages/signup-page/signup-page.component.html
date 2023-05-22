@@ -1,0 +1,73 @@
+<div class="page">
+  <div class="sign-in-card row fade-in">
+    <div class="card-content">
+      <div class="header">
+        <h1>{{ invite ? "Join" : "Create" }} Your Neighborhood</h1>
+      </div>
+      <div *ngIf="invite" class="fade-in address">
+        <p>{{ invite.street }}</p>
+      </div>
+
+      <form [formGroup]="signup">
+        <div class="input-group column">
+          <label for="name">Your Name</label>
+          <input
+            type="text"
+            id="name"
+            formControlName="name"
+            autocomplete="name"
+            required
+          />
+        </div>
+        <div class="input-group column">
+          <label for="email">Email</label>
+          <input
+            type="text"
+            id="email"
+            formControlName="email"
+            autocomplete="email"
+            required
+            [ngClass]="{ error: emailError }"
+          />
+        </div>
+        <div class="input-group column">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
+            autocomplete="new-password"
+            required
+            [ngClass]="{ error: passwordError }"
+          />
+        </div>
+        <div class="input-group column">
+          <label for="passwordConfirm">Confirm Password</label>
+          <input
+            type="password"
+            id="passwordConfirm"
+            formControlName="passwordConfirm"
+            autocomplete="new-password"
+            required
+            [ngClass]="{ error: passwordError }"
+          />
+        </div>
+        <p class="error" *ngIf="passwordError">Passwords do not match'</p>
+        <p class="error" *ngIf="emailError">
+          {{ emailError }}
+        </p>
+        <button class="btn primary" (click)="attemptSignup()">Signup</button>
+      </form>
+      <div class="signup-link">
+        <a routerLink="/welcome/login">Already Have an Account? Log In.</a>
+      </div>
+    </div>
+    <div class="welcome-image signup">
+      <img
+        class="img-hero"
+        alt="blue craftsman house"
+        src="https://images.unsplash.com/photo-1625603736199-775425d2890a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
+      />
+    </div>
+  </div>
+</div>
