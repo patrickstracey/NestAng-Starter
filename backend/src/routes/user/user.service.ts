@@ -5,11 +5,7 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
-import {
-  BaseUserInterface,
-  TokenInterface,
-  UserInterface,
-} from '../../../../shared/interfaces';
+import { BaseUserInterface, TokenInterface, UserInterface } from '../../../../shared/interfaces';
 import { SignupDto, UserEditDto } from './user.dto';
 import { DatabaseTables, TypesEnum } from '../../../../shared/enums';
 import { MongoService } from '../../database/mongo';
@@ -38,10 +34,7 @@ export class UserService {
     }
   }
 
-  async getUserByEmail(
-    email: string,
-    withPassword = false,
-  ): Promise<UserInterface> {
+  async getUserByEmail(email: string, withPassword = false): Promise<UserInterface> {
     try {
       let account = (await this.db.findOne({ email: email })) as UserInterface;
       if (withPassword) {
@@ -55,10 +48,7 @@ export class UserService {
     }
   }
 
-  async updateUser(
-    token: TokenInterface,
-    updates: UserEditDto,
-  ): Promise<UserInterface> {
+  async updateUser(token: TokenInterface, updates: UserEditDto): Promise<UserInterface> {
     const id = updates._id;
     if (id == token.uid) {
       delete updates['_id'];
@@ -75,10 +65,7 @@ export class UserService {
     }
   }
 
-  async insertNewUser(
-    signupAttempt: SignupDto,
-    encryptedPassword: string,
-  ): Promise<UserInterface> {
+  async insertNewUser(signupAttempt: SignupDto, encryptedPassword: string): Promise<UserInterface> {
     try {
       const newUser: BaseUserInterface = {
         email: signupAttempt.email,
@@ -104,17 +91,12 @@ export class UserService {
       const result = await this.db.findOne({ email: emailCheck });
       return !result;
     } catch (err) {
-      Logger.error(
-        `Failed to lookup user by email on unique check: [${emailCheck}]`,
-      );
+      Logger.error(`Failed to lookup user by email on unique check: [${emailCheck}]`);
       throw new NotFoundException();
     }
   }
 
-  async updatePassword(
-    account_id: string,
-    newPassword: string,
-  ): Promise<boolean> {
+  async updatePassword(account_id: string, newPassword: string): Promise<boolean> {
     try {
       const update = { password: newPassword };
       const options = { upsert: false, returnDocument: 'after' };
@@ -125,13 +107,11 @@ export class UserService {
       );
       return !!result;
     } catch (e) {
-      throw new InternalServerErrorException(
-        'Something went wrong during password update.',
-      );
+      throw new InternalServerErrorException('Something went wrong during password update.');
     }
   }
 
-  private cleanUser(account: UserInterface): UserInterface {
+  cleanUser(account: UserInterface): UserInterface {
     const { password, ...clean } = account;
     return clean;
   }
