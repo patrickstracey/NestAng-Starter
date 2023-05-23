@@ -52,4 +52,8 @@ export class UserService {
   get isAdmin(): boolean {
     return this.permission === PermissionEnum.ADMIN;
   }
+
+  resetService() {
+    this.user = null;
+  }
 }

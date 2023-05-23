@@ -1,5 +1,5 @@
-import {UserInterface} from "./user.interface";
-import {PermissionEnum} from "../enums";
+import { UserInterface } from "./user.interface";
+import { PermissionEnum } from "../enums";
 
 export interface LoginInterface {
   email: string;
@@ -12,7 +12,7 @@ export interface SignupInterface extends LoginInterface {
 
 export interface SessionInterface {
   access_token: string;
-  account: UserInterface;
+  user: UserInterface;
   permission: PermissionEnum;
 }
 
