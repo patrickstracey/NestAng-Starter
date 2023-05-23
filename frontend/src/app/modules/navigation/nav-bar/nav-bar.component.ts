@@ -1,8 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-//import {AccessInterface} from '../../../../../../shared/interfaces';
-import {Subscription} from 'rxjs';
-//import {AuthService} from '../../auth/auth.service';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { AuthService, UserService } from '../../../services';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'nav-bar',
@@ -14,8 +13,8 @@ export class NavBarComponent implements OnInit {
   isAdmin: boolean = false;
 
   constructor(
-    //private _auth: AuthService,
-    //private _account: AccountService,
+    private _auth: AuthService,
+    private _user: UserService,
     private _router: Router
   ) {}
 
@@ -29,13 +28,12 @@ export class NavBarComponent implements OnInit {
   }
 
   logout() {
-    //this._auth.logout();
+    this._auth.logout();
   }
 
   subscribeToAuth() {
-/*    this.authSub = this._auth.authenticated$.subscribe((authValue) => {
+    this.authSub = this._auth.authenticated$.subscribe((authValue) => {
       this.isAdmin = authValue.admin;
-      this.access = this._auth.session?.access;
-    });*/
+    });
   }
 }
