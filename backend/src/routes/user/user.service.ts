@@ -9,11 +9,11 @@ import {
   BaseUserInterface,
   TokenInterface,
   UserInterface,
-} from '../../../shared/interfaces';
+} from '../../../../shared/interfaces';
 import { SignupDto, UserEditDto } from './user.dto';
-import { DatabaseTables, TypesEnum } from '../../../shared/enums';
-import { MongoService } from '../database/mongo';
-import { USER } from '../../../mock_data';
+import { DatabaseTables, TypesEnum } from '../../../../shared/enums';
+import { MongoService } from '../../database/mongo';
+import { USER } from '../../../../mock_data';
 
 @Injectable()
 export class UserService {

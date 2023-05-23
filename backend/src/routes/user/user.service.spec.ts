@@ -4,10 +4,13 @@ import {
   MongoService,
   TestCloseLocalDb,
   TestConnectLocalDb,
-} from '../database/mongo';
-import { MOCK_ADMIN_TOKEN, MOCK_RESIDENT_TOKEN } from '../../test/token_helper';
-import { UserInterface } from '../../../shared/interfaces';
-import { TypesEnum } from '../../../shared/enums';
+} from '../../database/mongo';
+import {
+  MOCK_ADMIN_TOKEN,
+  MOCK_RESIDENT_TOKEN,
+} from '../../../test/token_helper';
+import { UserInterface } from '../../../../shared/interfaces';
+import { TypesEnum } from '../../../../shared/enums';
 import { ForbiddenException } from '@nestjs/common';
 import { UserEditDto } from './user.dto';
 
