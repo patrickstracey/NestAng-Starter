@@ -8,6 +8,8 @@ This template repo aims to give you an initial fullstack scaffold for a project 
 
 Currently it is meant for one-backend and one front-end and I have therefore kept the `package.json` for each separate, but I have used this stack successfully in a multi-app monorepo using [Nx](https://nx.dev/).
 
+There are also some READMEs with additional context for their respective areas in the `backend`, `frontend`, and `mock_data/mongo_seeds` directories.
+
 ### The Stack
 | Front-end                                               | Back-end                         | Database                          | Email                                                                                         | Upload Storage                                   | Deployment                            |
 |---------------------------------------------------------|----------------------------------|-----------------------------------|-----------------------------------------------------------------------------------------------|--------------------------------------------------|---------------------------------------|
@@ -38,7 +40,7 @@ I have used these services and built these features in multiple projects before 
 - Deployment scripts and configs, I use Render but these should be usable with any comparable hosting provider
 - ACL management. A big part of any SaaS project is the ability for organizations to add and manage their users across potentially multiple accounts.
 - An Admin Portal
-- More extensive README documentation
+- More extensive README documentation, currently there are meaningfully written READMEs in the `backend`, `frontend`, and `mock_data/mongo_seeds` directories.
 
 ### Database
 I tend to start projects with MongoDB since I think their Atlas and Compass offerings are great and the nature of NoSQL gives you some quick flexibility while prototyping. With strict typing I have found myself not using popular ORM frameworks like [Mongoose](https://mongoosejs.com/docs/) but I know they have become standard for many, my hope is that Mongoose would be easy for you to add to this scaffold. 
