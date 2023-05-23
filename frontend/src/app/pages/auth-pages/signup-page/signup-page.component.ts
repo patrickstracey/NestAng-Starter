@@ -4,7 +4,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../../services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InviteInterface } from '../../../../../../shared/interfaces';
 

@@ -5,7 +5,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../../services';
 
 @Component({
   selector: 'page-reset-password',
