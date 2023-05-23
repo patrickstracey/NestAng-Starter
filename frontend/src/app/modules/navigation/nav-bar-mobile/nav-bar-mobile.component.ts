@@ -1,6 +1,7 @@
-import {Component} from '@angular/core';
-import {Subscription} from 'rxjs';
-import {Router} from '@angular/router';
+import { Component } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { AuthService, UserService } from '../../../services';
 
 @Component({
   selector: 'nav-bar-mobile',
@@ -13,13 +14,13 @@ export class NavBarMobileComponent {
   menuOpen: boolean = false;
 
   constructor(
-    //private _auth: AuthService,
-    //private _account: AccountService,
+    private _auth: AuthService,
+    private _account: UserService,
     private _router: Router
   ) {}
 
   ngOnInit() {
-    //this.subscribeToAuth();
+    this.subscribeToAuth();
   }
 
   ngOnDestroy() {
@@ -28,15 +29,14 @@ export class NavBarMobileComponent {
   }
 
   logout() {
-    //this._auth.logout();
+    this._auth.logout();
   }
 
-/*  subscribeToAuth() {
+  subscribeToAuth() {
     this.authSub = this._auth.authenticated$.subscribe((authValue) => {
       this.isAdmin = authValue.admin;
     });
-  }*/
-
+  }
 
   openMenu() {
     this.menuOpen = !this.menuOpen;

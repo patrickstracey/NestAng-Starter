@@ -1,0 +1,114 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+}
+
+.sign-in-card {
+  margin: auto;
+  background-color: white;
+  box-shadow: rgba(17, 17, 26, 0.1) 0 8px 24px,
+    rgba(17, 17, 26, 0.1) 0 16px 56px, rgba(17, 17, 26, 0.1) 0 24px 80px;
+}
+
+.input-group {
+  margin-bottom: 12px;
+  text-align: left;
+
+  input {
+    font-size: 1.2rem;
+  }
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 24px;
+  max-width: 400px;
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  h1,
+  h3 {
+    margin: 0;
+  }
+}
+
+.btn {
+  width: 100%;
+}
+
+.card-content {
+  padding: 16px;
+  min-width: 40%;
+  flex-grow: 1;
+
+  &.request {
+    max-width: 340px;
+  }
+}
+
+.welcome-image {
+  border-radius: 0 4px 4px 0;
+
+  &.login {
+    width: 450px;
+  }
+
+  .img-hero {
+    height: 100%;
+    width: 100%;
+    border-radius: 0 4px 4px 0;
+    object-fit: cover;
+    object-position: 77%;
+  }
+}
+
+.signup-link {
+  margin-top: 16px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+
+  a {
+    margin-bottom: 12px;
+  }
+}
+
+.address {
+  text-align: center;
+  border: 1px solid;
+  border-radius: 4px;
+  margin-bottom: 24px;
+  border-color: var(--primary-color);
+}
+
+@media screen and (max-width: 860px) {
+  .row {
+    flex-direction: column-reverse;
+  }
+
+  .welcome-image {
+    border-radius: 4px 4px 0 0;
+    width: 100%;
+
+    &.login {
+      height: 100px;
+      width: 100%;
+    }
+
+    &.signup {
+      height: 100px;
+    }
+
+    .img-hero {
+      border-radius: 4px 4px 0 0;
+    }
+  }
+
+  .card-content {
+    &.request {
+      max-width: unset;
+    }
+  }
+}

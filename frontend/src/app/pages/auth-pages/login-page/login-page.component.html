@@ -1,0 +1,49 @@
+<div class="page">
+  <div class="sign-in-card row fade-in">
+    <div class="card-content">
+      <div class="header">
+        <h1>Welcome to NestAng</h1>
+      </div>
+      <form [formGroup]="login">
+        <div class="input-group column">
+          <label for="email">Email</label>
+          <input
+            type="text"
+            id="email"
+            formControlName="email"
+            autocomplete="email"
+            required
+            [ngClass]="{ error: loginError }"
+          />
+        </div>
+        <div class="input-group column">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
+            autocomplete="current-password"
+            required
+            [ngClass]="{ error: loginError }"
+          />
+        </div>
+        <p class="error" *ngIf="loginError">
+          {{ loginError }}
+        </p>
+
+        <button class="btn primary" (click)="attemptLogin()">Log In</button>
+      </form>
+      <div class="signup-link column">
+        <a routerLink="/signup">New User? Get Started Here.</a>
+        <a routerLink="/request-reset">Oh no! I forgot my password.</a>
+      </div>
+    </div>
+    <div class="welcome-image login">
+      <img
+        class="img-hero"
+        alt="a lightbulb held by a person"
+        src="{{ imageUrl }}"
+      />
+    </div>
+  </div>
+</div>

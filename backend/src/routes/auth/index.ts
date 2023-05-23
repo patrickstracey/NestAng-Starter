@@ -1,2 +1,2 @@
-export * from './user.service';
+export * from './auth.module';
 export * from './auth.service';

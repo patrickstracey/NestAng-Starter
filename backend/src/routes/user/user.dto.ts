@@ -1,5 +1,12 @@
-import {IsDefined, IsEmail, IsMongoId, IsOptional, IsPhoneNumber, IsString} from "class-validator";
-import {SignupInterface} from "../../../shared/interfaces";
+import {
+  IsDefined,
+  IsEmail,
+  IsMongoId,
+  IsOptional,
+  IsPhoneNumber,
+  IsString,
+} from 'class-validator';
+import { SignupInterface } from '../../../../shared/interfaces';
 
 export class UserEditDto {
   @IsMongoId()
@@ -9,7 +16,7 @@ export class UserEditDto {
   name?: string;
   @IsEmail()
   email: string;
-  @IsPhoneNumber("US")
+  @IsPhoneNumber('US')
   @IsOptional()
   phone?: string;
 }
