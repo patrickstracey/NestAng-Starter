@@ -25,7 +25,7 @@
       <div class="info-item">
         <h3>Phone</h3>
         <span *ngIf="!phoneEdit">{{
-          user.phone ? user.phone : "No phone number on file"
+          user.phone ? (user.phone | phone) : "No phone number on file"
         }}</span>
         <input type="tel" *ngIf="phoneEdit" [formControl]="phone" />
       </div>
