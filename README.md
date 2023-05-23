@@ -6,7 +6,7 @@ _A Simple Template for full-stack Typescript projects utilizing Angular & NestJs
 ## About
 This template repo aims to give you an initial fullstack scaffold for a project utilizing Angular on the front-end and NestJs on the back-end. Given that NestJs took a lot of inspiration from Angular, I find that these two together feel like almost a single cohesive framework across the entire stack. They are both great projects maintained by great teams who also write outstanding documentation.
 
-Currently it is meant for one-backend and one front-end but I have used this stack in a multi-app monorepo using [Nx](https://nx.dev/).
+Currently it is meant for one-backend and one front-end and I have therefore kept the `package.json` for each separate, but I have used this stack successfully in a multi-app monorepo using [Nx](https://nx.dev/).
 
 ### The Stack
 | Front-end                                               | Back-end                         | Database                          | Email                                                                                         | Upload Storage                                   | Deployment                            |
@@ -31,7 +31,7 @@ I have done a few projects with this stack now and found myself re-writing certa
 - Auth guards, route decorators, and interceptors
 - Account & Dashboard page
 
-### What Is Not Yet Implemented
+### What Is Not Yet Implemented (as of 5/22/23)
 I have used these services and built these features in multiple projects before and so my hope is that I will be able to get to adding these fairly quickly, but at the moment the project still needs the following items added:
 - Mail service for sending welcome emails, invites, and password reset items
 - Uploads functionality for both images and pdfs to be stored on Google Cloud Storage
