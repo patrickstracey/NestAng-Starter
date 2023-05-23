@@ -5,7 +5,7 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { SessionInterface, UserInterface } from '../../../../shared/interfaces';
+import { SessionInterface, TokenInterface, UserInterface } from '../../../../shared/interfaces';
 import { EmailOnlyDto, LoginDto, SignupDto } from './auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { PermissionEnum } from '../../../../shared/enums';
@@ -105,6 +105,11 @@ export class AuthService {
       acc: session.permission,
     };
     return this.JWT_SERVICE.sign(payload);
+  }
+
+  async refreshToken(token: TokenInterface): Promise<SessionInterface> {
+    const account = await this._user.getUser(token);
+    return this.generateJwtSession(account);
   }
 
   async generateResetPasswordEmail(emailDto: EmailOnlyDto): Promise<boolean> {

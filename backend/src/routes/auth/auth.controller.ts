@@ -1,8 +1,8 @@
 import { Body, Controller, Param, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { SessionInterface } from '../../../../shared/interfaces';
+import { SessionInterface, TokenInterface } from '../../../../shared/interfaces';
 import { EmailOnlyDto, LoginDto, SignupDto } from './auth.dto';
-import { Public } from '../../utility/decorators';
+import { Public, TokenData } from '../../utility/decorators';
 
 //import { InvitesService } from "../invites/invites.service";
 
@@ -58,4 +58,9 @@ export class AuthController {
   ): Promise<boolean> {
     return this._auth.resetUserPassword(reset_id, signupReq);
   }*/
+
+  @Post('/refresh')
+  refreshUser(@TokenData() token: TokenInterface): Promise<SessionInterface> {
+    return this._auth.refreshToken(token);
+  }
 }
