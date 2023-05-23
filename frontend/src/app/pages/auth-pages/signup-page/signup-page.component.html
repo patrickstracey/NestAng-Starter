@@ -2,10 +2,7 @@
   <div class="sign-in-card row fade-in">
     <div class="card-content">
       <div class="header">
-        <h1>{{ invite ? "Join" : "Create" }} Your Neighborhood</h1>
-      </div>
-      <div *ngIf="invite" class="fade-in address">
-        <p>{{ invite.street }}</p>
+        <h1>{{ invite ? "Join" : "Create" }} Your Organization Account</h1>
       </div>
 
       <form [formGroup]="signup">
@@ -59,7 +56,7 @@
         <button class="btn primary" (click)="attemptSignup()">Signup</button>
       </form>
       <div class="signup-link">
-        <a routerLink="/welcome/login">Already Have an Account? Log In.</a>
+        <a routerLink="/login">Already Have an Account? Log In.</a>
       </div>
     </div>
     <div class="welcome-image signup">
