@@ -50,13 +50,13 @@ If you would like to read up more on how to setup and seed a MongoDB with this p
 ## FAQ
 **Some of this code seems a bit messy?**
 
-Yes it is probably not all ideal and I am hoping to clean it up and standardize functionality in the weeks ahead, as of writing this the project is only three days old and a lot of the base items were pulled from projects that I was trying to build quickly as a solo dev.
+Yes it is probably not all ideal so I am planning to clean it up and standardize functionality in the weeks ahead, as of writing this the project is only three days old and a lot of the base items were pulled from projects that I was trying to build quickly as a solo dev.
 
-Additionally, I often prefer readability of small gains in performance or formatting. I find that clearly stating a result variable even when you can simply return the result of a function is often easier for newer and developers to understand and quick onboarding time is important to me.
+Additionally, I often prefer readability over the small gains in performance or formatting that more advanced methods might give you. I find that clearly stating a result variable even when you can simply return the result of a function is often easier for newer and developers to understand and quick onboarding time is important to me.
 
-**I prefer SQL.**
+**This is using Mongo but I prefer SQL.**
 
-Hey me too, and my hope is to add a SQL solution to this project in the future so that those who use it can quickly configure their `DatabaseModule` to use the solution they prefer.  
+Hey I like SQL too, and my hope is to add a SQL solution to this project in the future so that those who use it can quickly configure their `DatabaseModule` to use the solution they prefer.  
 
 **Why the Commitment to certain providers?**
 
