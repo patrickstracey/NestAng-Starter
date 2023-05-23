@@ -9,7 +9,6 @@ import { BaseUserInterface, TokenInterface, UserInterface } from '../../../../sh
 import { SignupDto, UserEditDto } from './user.dto';
 import { DatabaseTables, TypesEnum } from '../../../../shared/enums';
 import { MongoService } from '../../database/mongo';
-import { USER } from '../../../../mock_data';
 
 @Injectable()
 export class UserService {
@@ -21,9 +20,6 @@ export class UserService {
   }
 
   async getUser(token: TokenInterface): Promise<UserInterface> {
-    //To Do: Remove this temporary return block
-    return USER;
-
     try {
       let account = (await this.db.findOne({
         _id: this._dbService.bsonConvert(token.uid),

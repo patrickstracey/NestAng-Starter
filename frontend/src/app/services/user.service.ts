@@ -38,15 +38,11 @@ export class UserService {
   }
 
   patchUser(userChanges: UserInterface): Observable<UserInterface> {
-    //temp
-    this.user = { ...this.user, ...userChanges };
-    return of(this.user).pipe(first());
-
-    /*    return this.http.patch<UserInterface>(this.baseUrl, userChanges).pipe(
+    return this.http.patch<UserInterface>(this.baseUrl, userChanges).pipe(
       tap((user) => {
         this.setupUser(user);
       })
-    );*/
+    );
   }
 
   get isAdmin(): boolean {
