@@ -9,10 +9,12 @@ import { BaseUserInterface, TokenInterface, UserInterface } from '../../../../sh
 import { SignupDto, UserEditDto } from './user.dto';
 import { DatabaseTables, TypesEnum } from '../../../../shared/enums';
 import { MongoService } from '../../database/mongo';
+import { MailService } from '../../mail';
 
 @Injectable()
 export class UserService {
-  constructor(private _dbService: MongoService) {}
+  constructor(private _dbService: MongoService, private _mail: MailService) {}
+
   private collectionString = DatabaseTables.USERS;
 
   get db() {
@@ -21,7 +23,7 @@ export class UserService {
 
   async getUser(token: TokenInterface): Promise<UserInterface> {
     try {
-      let account = (await this.db.findOne({
+      const account = (await this.db.findOne({
         _id: this._dbService.bsonConvert(token.uid),
       })) as UserInterface;
       return this.cleanUser(account);
@@ -32,7 +34,7 @@ export class UserService {
 
   async getUserByEmail(email: string, withPassword = false): Promise<UserInterface> {
     try {
-      let account = (await this.db.findOne({ email: email })) as UserInterface;
+      const account = (await this.db.findOne({ email: email })) as UserInterface;
       if (withPassword) {
         //return object includes password, careful!
         return account;
@@ -71,11 +73,12 @@ export class UserService {
         name: signupAttempt.name,
         date_created: new Date(),
       };
-      let insertResult = await this.db.insertOne(newUser);
-      let returnedUser: UserInterface = {
+      const insertResult = await this.db.insertOne(newUser);
+      const returnedUser: UserInterface = {
         _id: insertResult['insertedId'],
         ...newUser,
       };
+      this._mail.sendCreationWelcomeEmail(newUser.email);
       return this.cleanUser(returnedUser);
     } catch (err) {
       throw new InternalServerErrorException('Unable to insert new user.');
