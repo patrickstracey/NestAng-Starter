@@ -46,7 +46,7 @@ export class MailService {
     const linkUrl = `${environment.sendgrid.url}/reset-password/${resetUuid}`;
     const result: IntegratedEmailTemplate = {
       to: toEmail,
-      from: 'no-reply@nestang.com',
+      from: `no-reply${environment.sendgrid.email_domain}`,
       templateId: TEMPLATE_IDS.PASSWORD_RESET,
       dynamicTemplateData: {
         linkUrl: linkUrl,
@@ -64,7 +64,7 @@ export class MailService {
 
     const result: IntegratedEmailTemplate = {
       to: email,
-      from: 'welcome@nestang.com',
+      from: `welcome${environment.sendgrid.email_domain}`,
       templateId: TEMPLATE_IDS.INVITE,
       dynamicTemplateData: dynamicData,
     };
@@ -75,7 +75,7 @@ export class MailService {
   sendCreationWelcomeEmail(email: string) {
     const result: IntegratedEmailTemplate = {
       to: email,
-      from: 'welcome@nestang.com',
+      from: `welcome${environment.sendgrid.email_domain}`,
       templateId: TEMPLATE_IDS.WELCOME,
       dynamicTemplateData: null,
     };

@@ -10,5 +10,6 @@ export const environment = {
   sendgrid: {
     api_key: '{{YOUR_SENDGRID_API_KEY}}',
     url: 'http://localhost:4200',
+    email_domain: '@{{YOUR_EMAIL_DOMAIN}}.com',
   },
 };
