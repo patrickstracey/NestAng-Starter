@@ -7,4 +7,8 @@ export const environment = {
     mongo_uri: 'mongodb://localhost:27017', //DO NOT EXPOSE THIS VALUE IN A PROD ENVIRONMENT!
     name: 'nestAng',
   },
+  sendgrid: {
+    api_key: '{{YOUR_SENDGRID_API_KEY}}',
+    url: 'http://localhost:4200',
+  },
 };
