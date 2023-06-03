@@ -29,6 +29,7 @@ a {
   text-align: center;
   text-decoration: none;
   margin-right: 8px;
+
   &:hover {
     text-decoration: none;
   }
@@ -66,6 +67,11 @@ a {
       background-color: var(--warn-color);
       color: white;
     }
+  }
+
+  &.header {
+    height: 42px;
+    align-self: center;
   }
 }
 

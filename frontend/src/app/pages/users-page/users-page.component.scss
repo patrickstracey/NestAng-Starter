@@ -1,0 +1,24 @@
+.user-info {
+  margin: 0;
+  font-size: 16px;
+}
+
+.user-type {
+  color: var(--primary-color);
+  font-style: italic;
+}
+
+.user-add {
+  margin-top: 12px;
+}
+
+.selector {
+  select,
+  input {
+    width: 60%;
+  }
+}
+
+#invite-options {
+  gap: 16px;
+}
