@@ -11,12 +11,13 @@
       <h1 id="logo-text">NestAng</h1>
 
       <a (click)="navigate('/')">Home</a>
-      <a (click)="navigate('/account')">Account</a>
+      <a (click)="navigate('/account')">My Account</a>
     </div>
 
     <div class="content" id="admin" *ngIf="isAdmin">
       <h1 id="admin-header">Admin Menu</h1>
-      <a (click)="navigate('/company/account')">Company Account</a>
+      <a (click)="navigate('/organization/users')" data-cy="com-users"><small>Organization</small><br/> Users</a>
+      <a (click)="navigate('/organization/account')" data-cy="com-account"><small>Organization</small><br/> Account</a>
     </div>
   </ng-container>
 </div>
