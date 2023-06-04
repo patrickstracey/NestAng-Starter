@@ -22,5 +22,6 @@ export interface CookieInterface {
 
 export interface TokenInterface {
   uid: string;
+  oid: string | undefined;
   acc: PermissionEnum.USER | PermissionEnum.ADMIN;
 }
