@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { first, Observable, of, tap } from 'rxjs';
 import {
   SuccessMessageInterface,
-  UserInterface,
+  AclInterface,
 } from '../../../../shared/interfaces';
 
 @Injectable({
@@ -11,31 +11,31 @@ import {
 })
 export class AclService {
   private baseUrl = 'api/organization/users';
-  private users: UserInterface[] = [];
+  private users: AclInterface[] = [];
 
   constructor(private http: HttpClient) {}
 
-  private fetchUsers(): Observable<UserInterface[]> {
-    return this.http.get<UserInterface[]>(this.baseUrl).pipe(
+  private fetchUsers(): Observable<AclInterface[]> {
+    return this.http.get<AclInterface[]>(this.baseUrl).pipe(
       tap((users) => {
         this.setupUsers(users);
       })
     );
   }
 
-  setupUsers(users: UserInterface[]) {
+  setupUsers(users: AclInterface[]) {
     this.users = users;
   }
 
-  getUsers(): Observable<UserInterface[]> {
+  getUsers(): Observable<AclInterface[]> {
     if (this.users.length > 0) {
       return of(this.users).pipe(first());
     }
     return this.fetchUsers();
   }
 
-  patchUser(userChanges: UserInterface): Observable<UserInterface> {
-    return this.http.patch<UserInterface>(this.baseUrl, userChanges).pipe(
+  patchUser(userChanges: AclInterface): Observable<AclInterface> {
+    return this.http.patch<AclInterface>(this.baseUrl, userChanges).pipe(
       tap((user) => {
         for (let x = 0; x < this.users.length; x++) {
           if (this.users[x]._id == user._id) {
@@ -62,8 +62,8 @@ export class AclService {
       );
   }
 
-  addUser(email: string): Observable<UserInterface> {
-    return this.http.post<UserInterface>(this.baseUrl, email).pipe(
+  addUser(email: string): Observable<AclInterface> {
+    return this.http.post<AclInterface>(this.baseUrl, email).pipe(
       tap((user) => {
         this.users.push(user);
       })

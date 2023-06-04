@@ -49,11 +49,9 @@
     <div class="user-item row" *ngFor="let user of users">
       <div class="info-item">
         <h3>
-          {{ user.name }}
+          {{ user.name_user }}
         </h3>
-        <p class="user-info">{{ user.email }}</p>
-        <p class="user-info">{{ user.phone ? (user.phone | phone) : "" }}</p>
-        <p class="user-info user-type">Regular User</p>
+        <p class="user-info">Regular User</p>
       </div>
       <button
         class="btn warn mini"

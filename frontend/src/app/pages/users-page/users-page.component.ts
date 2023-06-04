@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { UserInterface } from '../../../../../shared/interfaces';
-import { AclService } from '../../services/acl.service';
-import { UserService } from '../../services';
-import { TypesEnum } from '../../../../../shared/enums';
+import { AclInterface } from '../../../../../shared/interfaces';
+import { UserService, AclService } from '../../services';
 
 @Component({
   selector: 'page-users',
@@ -21,17 +19,15 @@ export class UsersPageComponent implements OnInit {
   );
   adminErrorMessage: string | null = null;
   isAdmin: boolean = false;
-  users: UserInterface[] = [];
+  users: AclInterface[] = [];
   usersEdit: boolean = false;
   saving: boolean = false;
-  typesEnum = TypesEnum;
   inviteOpen: boolean = false;
   userId: string | null = null;
 
   constructor(private _acls: AclService, private _userAccount: UserService) {}
 
   ngOnInit() {
-    this._userAccount.getUser().subscribe((res) => (this.users = [res]));
     this.loadUsers();
     this.setupUserChecks();
   }
@@ -49,7 +45,7 @@ export class UsersPageComponent implements OnInit {
     });
   }
 
-  deleteUser(user: UserInterface) {
+  deleteUser(user: AclInterface) {
     this._acls.removeUser(user._id).subscribe({
       next: () => {
         this.users = this.users.filter((keep) => keep._id != user._id);
