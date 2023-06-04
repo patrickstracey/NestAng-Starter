@@ -3,6 +3,7 @@ import { AclDto } from './acl.dto';
 import { MongoService } from '../../database/mongo';
 import { DatabaseTables, TypesEnum } from '../../../../shared/enums';
 import { AclInterface, BaseAclInterface, SuccessMessageInterface } from '../../../../shared/interfaces';
+import { ObjectId } from 'mongodb';
 
 @Injectable()
 export class AclsService {
@@ -27,6 +28,10 @@ export class AclsService {
 
   async findAllByOrg(id_organization: string): Promise<AclInterface[]> {
     return (await this.dbService.getAllOrgItems(this.aclCollection, id_organization)) as AclInterface[];
+  }
+
+  async findAllByUser(id_user: string | ObjectId): Promise<AclInterface[]> {
+    return (await this.dbService.getAllUserItems(this.aclCollection, id_user)) as AclInterface[];
   }
 
   async update(id: string, updateAclDto: AclDto): Promise<AclInterface> {

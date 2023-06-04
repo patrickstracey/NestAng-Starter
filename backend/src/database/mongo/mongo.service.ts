@@ -25,8 +25,11 @@ export class MongoService {
     }
   }
 
-  bsonConvert(id: string): ObjectId {
-    return new ObjectId(id);
+  bsonConvert(id: string | ObjectId): ObjectId {
+    if (typeof id === 'string') {
+      return new ObjectId(id);
+    }
+    return id;
   }
 
   stringConvert(id: ObjectId): string {
@@ -59,7 +62,24 @@ export class MongoService {
         new NotFoundException();
       }
     } catch (err) {
-      Logger.error(`DB Service: Failed to find itemfrom [${collection}] with org id: [${id_organization}]`);
+      Logger.error(`DB Service: Failed to find items from [${collection}] with org id: [${id_organization}]`);
+      throw new NotFoundException();
+    }
+  }
+
+  async getAllUserItems(collection: DatabaseTables, id_user: string | ObjectId): Promise<BaseInterface[]> {
+    try {
+      const result = await this._db
+        .collection(collection)
+        .find({ id_user: this.bsonConvert(id_user) })
+        .toArray();
+      if (result) {
+        return result;
+      } else {
+        new NotFoundException();
+      }
+    } catch (err) {
+      Logger.error(`DB Service: Failed to find items from [${collection}] with user id: [${id_user}]`);
       throw new NotFoundException();
     }
   }

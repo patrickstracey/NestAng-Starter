@@ -7,11 +7,13 @@ import { environment } from '../../../environments/environment';
 import { JwtStrategy } from './jwt.strategy';
 import { UserModule } from '../user';
 import { MongoModule } from '../../database/mongo';
+import { AclsModule, AclsService } from '../acls';
 
 @Module({
   imports: [
     MongoModule,
     UserModule,
+    AclsModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secret: environment.jwt_secret,
@@ -20,6 +22,6 @@ import { MongoModule } from '../../database/mongo';
   ],
 
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, AclsService],
 })
 export class AuthModule {}
