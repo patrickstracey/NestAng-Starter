@@ -7,8 +7,9 @@
       "$oid": "647bd4435dc018840fbc59fa"
     },
     "type": 2,
-    "name": "Shaun Geladerniromalvonne",
-    "permission": 33
+    "name_user": "Shaun Geladerniromalvonne",
+    "permission": 33,
+    "name_organization": "NestAng Org #1"
   },
   {
     "id_user": {
@@ -18,19 +19,21 @@
       "$oid": "647bd4435dc018840fbc59fa"
     },
     "type": 2,
-    "name": "Abraham Jelson",
-    "permission": 11
+    "name_user": "Abraham Jelson",
+    "permission": 11,
+    "name_organization": "NestAng Org #1"
   },
   {
     "id_user": {
-      "$oid": "63420287c1219afcd4aee72"
+      "$oid": "647cd16fe45d0e3d84c1b72d"
     },
     "id_organization": {
       "$oid": "647bd4435dc018840fbc59fa"
     },
     "type": 2,
-    "name": "Kelsey Frankis",
-    "permission": 33
+    "name_user": "Kelsey Frankis",
+    "permission": 33,
+    "name_organization": "NestAng Org #1"
   },
   {
     "id_user": {
@@ -40,8 +43,9 @@
       "$oid": "647bd4435dc018840fbc59fa"
     },
     "type": 2,
-    "name": "Drew Manas",
-    "permission": 11
+    "name_user": "Drew Manas",
+    "permission": 11,
+    "name_organization": "NestAng Org #1"
   },
   {
     "id_user": {
@@ -51,7 +55,8 @@
       "$oid": "647bd4435dc018840fbc59fa"
     },
     "type": 2,
-    "name": "Whitney Lawrence",
-    "permission": 11
+    "name_user": "Whitney Lawrence",
+    "permission": 11,
+    "name_organization": "NestAng Org #1"
   }
 ]

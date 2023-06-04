@@ -11,5 +11,6 @@ export interface BaseAclInterface {
   id_organization: ObjectId | string;
   permission: PermissionEnum;
   name_user?: string;
+  name_organization: string;
   type: TypesEnum.ACL;
 }

@@ -21,6 +21,7 @@ export class AclsService {
       id_organization: this.dbService.bsonConvert(id_organization),
       permission: createAclDto.permission,
       type: TypesEnum.ACL,
+      name_organization: createAclDto.name_organization,
     };
 
     return (await this.dbService.insertSingleItem(this.aclCollection, newAcl)) as AclInterface;
