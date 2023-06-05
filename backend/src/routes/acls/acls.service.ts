@@ -22,6 +22,7 @@ export class AclsService {
       permission: createAclDto.permission,
       type: TypesEnum.ACL,
       name_organization: createAclDto.name_organization,
+      name_user: createAclDto.name_user,
     };
 
     return (await this.dbService.insertSingleItem(this.aclCollection, newAcl)) as AclInterface;

@@ -1,8 +1,12 @@
-import { IsNumber, IsString } from 'class-validator';
+import { IsEmail, IsNumber, IsString } from 'class-validator';
 
 export class AclDto {
-  @IsNumber()
-  permission: number;
+  @IsEmail()
+  email: string;
   @IsString()
   name_organization: string;
+  @IsString()
+  name_user: string;
+  @IsNumber()
+  permission: number;
 }
