@@ -6,57 +6,96 @@
 </div>
 
 <div *ngIf="inviteOpen">
-  <ui-card [border]="true" *ngIf="inviteOpen">
-    <h2>Invite a new User via Email</h2>
-    <p>
-      Enter the email of the person you would like to invite to your
-      organization. We will send them an email invite to get them onboarded.
-    </p>
-    <div class="selector">
-      <input
-        type="email"
-        id="emailInput"
-        [formControl]="email"
-        required
-        placeholder="userEmail@gmail.com"
-      />
-      <p class="required">This field is required.</p>
-    </div>
+  <ui-card [border]="true">
+    <ng-container *ngIf="!saving">
+      <h2>Invite a new User via Email</h2>
+      <p>
+        Enter the email of the person you would like to invite to your
+        organization. We will send them an email invite to get them onboarded.
+      </p>
+      <form [formGroup]="newAclForm">
+        <div class="row">
+          <div class="selector input-group">
+            <label>Name</label>
+            <input
+              type="string"
+              id="nameInput"
+              formControlName="name_user"
+              required
+              placeholder="David Smith"
+            />
+            <span class="required">This field is required.</span>
+          </div>
+          <div class="selector input-group">
+            <label>Email</label>
+            <input
+              type="email"
+              id="emailInput"
+              formControlName="email"
+              required
+              placeholder="userEmail@gmail.com"
+            />
+            <span class="required">This field is required.</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="selector input-group">
+            <label>Permission Level</label>
+            <select
+              id="permission"
+              name="permission"
+              formControlName="permission"
+            >
+              <option [value]="permissions.USER" selected>Regular User</option>
+              <option [value]="permissions.ADMIN">Administrator</option>
+            </select>
+            <span class="required">This field is required.</span>
+          </div>
+        </div>
+      </form>
 
-    <div class="btn-bar">
-      <button
-        class="btn primary mini admin-add"
-        (click)="inviteNewUser()"
-        [disabled]="saving"
-      >
-        Invite New User
-      </button>
-      <button
-        class="btn secondary mini admin-add"
-        (click)="goBack()"
-        [disabled]="saving"
-      >
-        Cancel
-      </button>
-    </div>
+      <div class="btn-bar">
+        <button
+          class="btn primary mini admin-add"
+          (click)="inviteNewUser()"
+          [disabled]="saving"
+        >
+          Invite New User
+        </button>
+        <button
+          class="btn secondary mini admin-add"
+          (click)="goBack()"
+          [disabled]="saving"
+        >
+          Cancel
+        </button>
+      </div>
+    </ng-container>
+
+    <ui-loader message="Inviting New User" *ngIf="saving"></ui-loader>
   </ui-card>
 </div>
 
 <ui-card>
   <p class="warn">{{ adminErrorMessage }}</p>
 
-  <div class="fade-in">
+  <div>
     <div class="user-item row" *ngFor="let user of users">
-      <div class="info-item">
+      <div class="info-item fade-in">
         <h3>
           {{ user.name_user }}
         </h3>
-        <p class="user-info">Regular User</p>
+        <p class="user-info">
+          {{ permissions[user.permission].toLowerCase() }}
+          <span class="pending" *ngIf="user.id_user == null">
+            - Invite Sent</span
+          >
+        </p>
       </div>
       <button
         class="btn warn mini"
         *ngIf="isAdmin"
-        [disabled]="user._id == userId || usersEdit"
+        [disabled]="user.id_user == userId || usersEdit"
         (click)="deleteUser(user)"
       >
         Delete User

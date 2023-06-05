@@ -10,36 +10,36 @@ import {
   providedIn: 'root',
 })
 export class AclService {
-  private baseUrl = 'api/organization/users';
-  private users: AclInterface[] = [];
+  private baseUrl = 'api/organization/acls';
+  private acls: AclInterface[] = [];
 
   constructor(private http: HttpClient) {}
 
-  private fetchUsers(): Observable<AclInterface[]> {
+  private fetchAcls(): Observable<AclInterface[]> {
     return this.http.get<AclInterface[]>(this.baseUrl).pipe(
-      tap((users) => {
-        this.setupUsers(users);
+      tap((acls) => {
+        this.setupAcls(acls);
       })
     );
   }
 
-  setupUsers(users: AclInterface[]) {
-    this.users = users;
+  setupAcls(acls: AclInterface[]) {
+    this.acls = acls;
   }
 
-  getUsers(): Observable<AclInterface[]> {
-    if (this.users.length > 0) {
-      return of(this.users).pipe(first());
+  getAcls(): Observable<AclInterface[]> {
+    if (this.acls.length > 0) {
+      return of(this.acls).pipe(first());
     }
-    return this.fetchUsers();
+    return this.fetchAcls();
   }
 
-  patchUser(userChanges: AclInterface): Observable<AclInterface> {
+  patchAcl(userChanges: AclInterface): Observable<AclInterface> {
     return this.http.patch<AclInterface>(this.baseUrl, userChanges).pipe(
       tap((user) => {
-        for (let x = 0; x < this.users.length; x++) {
-          if (this.users[x]._id == user._id) {
-            this.users[x] = user;
+        for (let x = 0; x < this.acls.length; x++) {
+          if (this.acls[x].id_user == user._id) {
+            this.acls[x] = user;
             break;
           }
         }
@@ -47,30 +47,36 @@ export class AclService {
     );
   }
 
-  removeUser(user_id: string): Observable<SuccessMessageInterface> {
+  removeAcl(user_id: string): Observable<SuccessMessageInterface> {
     return this.http
       .delete<{ message: 'success' }>(`${this.baseUrl}/${user_id}`)
       .pipe(
         tap(() => {
-          for (let x = 0; x < this.users.length; x++) {
-            if (this.users[x]._id == user_id) {
-              this.users = this.users.splice(x, 1);
-              break;
-            }
-          }
+          this.acls = this.acls.filter((keep) => keep._id != user_id);
         })
       );
   }
 
-  addUser(email: string): Observable<AclInterface> {
-    return this.http.post<AclInterface>(this.baseUrl, email).pipe(
+  addAcl(newAcl: {
+    email: string;
+    permission: number;
+    name_user: string;
+  }): Observable<AclInterface> {
+    const acl = {
+      email: newAcl.email.trim(),
+      permission: Number(newAcl.permission),
+      name_organization: 'test',
+      name_user: newAcl.name_user,
+    };
+
+    return this.http.post<AclInterface>(this.baseUrl, acl).pipe(
       tap((user) => {
-        this.users.push(user);
+        this.acls.push(user);
       })
     );
   }
 
   resetService() {
-    this.users = [];
+    this.acls = [];
   }
 }

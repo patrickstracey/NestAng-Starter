@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { AclInterface } from '../../../../../shared/interfaces';
 import { UserService, AclService } from '../../services';
+import { PermissionEnum } from '../../../../../shared/enums';
 
 @Component({
   selector: 'page-users',
@@ -12,11 +13,7 @@ import { UserService, AclService } from '../../services';
   ],
 })
 export class UsersPageComponent implements OnInit {
-  newAdmin: FormControl = new FormControl<string | null>(null);
-  email: FormControl = new FormControl<string | null>(
-    null,
-    Validators.required
-  );
+  newAclForm!: FormGroup;
   adminErrorMessage: string | null = null;
   isAdmin: boolean = false;
   users: AclInterface[] = [];
@@ -24,17 +21,31 @@ export class UsersPageComponent implements OnInit {
   saving: boolean = false;
   inviteOpen: boolean = false;
   userId: string | null = null;
+  permissions = PermissionEnum;
 
-  constructor(private _acls: AclService, private _userAccount: UserService) {}
+  constructor(
+    private _acls: AclService,
+    private _userAccount: UserService,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit() {
+    this.initForm();
     this.loadUsers();
     this.setupUserChecks();
   }
 
   loadUsers() {
-    this._acls.getUsers().subscribe((users) => {
+    this._acls.getAcls().subscribe((users) => {
       this.users = users;
+    });
+  }
+
+  initForm() {
+    this.newAclForm = this.fb.nonNullable.group({
+      email: [null, [Validators.email]],
+      permission: PermissionEnum.USER,
+      name_user: null,
     });
   }
 
@@ -46,7 +57,7 @@ export class UsersPageComponent implements OnInit {
   }
 
   deleteUser(user: AclInterface) {
-    this._acls.removeUser(user._id).subscribe({
+    this._acls.removeAcl(user._id).subscribe({
       next: () => {
         this.users = this.users.filter((keep) => keep._id != user._id);
         this.adminErrorMessage = null;
@@ -58,17 +69,18 @@ export class UsersPageComponent implements OnInit {
   }
 
   inviteNewUser() {
-    if (this.email.valid) {
-      this._acls.addUser(this.email.value.trim()).subscribe({
+    if (this.newAclForm.valid) {
+      this.saving = true;
+      this._acls.addAcl(this.newAclForm.value).subscribe({
         next: () => {
           this.usersEdit = false;
           this.saving = false;
-          this.email.patchValue(null);
-          this.loadUsers();
+          this.newAclForm.reset();
+          this.inviteOpen = false;
         },
         error: () => {
           this.saving = false;
-          this.adminErrorMessage = `Something went wrong trying to invite ${this.email.value}. Please try again.`;
+          this.adminErrorMessage = `Something went wrong trying to invite ${this.newAclForm.controls['email'].value}. Please try again.`;
         },
       });
     } else {
