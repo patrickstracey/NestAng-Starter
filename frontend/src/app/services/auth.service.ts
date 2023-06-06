@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import {
+  AclInviteInterface,
   CookieInterface,
-  InviteInterface,
   LoginInterface,
   SessionInterface,
   SignupInterface,
@@ -26,6 +26,7 @@ export class AuthService {
     auth: false,
     admin: false,
   });
+
   constructor(
     private _router: Router,
     private http: HttpClient,
@@ -48,7 +49,7 @@ export class AuthService {
 
   signup(
     signupAttempt: SignupInterface,
-    invite: InviteInterface | null
+    invite: AclInviteInterface | null
   ): Observable<SessionInterface> {
     const url =
       invite != null && invite?._id
@@ -110,8 +111,10 @@ export class AuthService {
     });
   }
 
-  findInvite(inviteId: string): Observable<InviteInterface> {
-    return this.http.get<InviteInterface>(`${this.authApi}/signup/${inviteId}`);
+  findInvite(inviteId: string): Observable<AclInviteInterface> {
+    return this.http.get<AclInviteInterface>(
+      `${this.authApi}/signup/${inviteId}`
+    );
   }
 
   findPasswordReset(resetId: string): Observable<boolean> {

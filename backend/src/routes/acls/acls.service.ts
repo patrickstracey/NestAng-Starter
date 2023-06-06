@@ -1,13 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { AclDto } from './acl.dto';
 import { MongoService } from '../../database/mongo';
 import { DatabaseTables, TypesEnum } from '../../../../shared/enums';
-import { AclInterface, BaseAclInterface, SuccessMessageInterface } from '../../../../shared/interfaces';
+import {
+  AclInterface,
+  AclInviteInterface,
+  BaseAclInterface,
+  SuccessMessageInterface,
+  UserInterface,
+} from '../../../../shared/interfaces';
 import { ObjectId } from 'mongodb';
+import { MailService } from '../../mail';
 
 @Injectable()
 export class AclsService {
-  constructor(private dbService: MongoService) {}
+  constructor(private dbService: MongoService, private mailService: MailService) {}
 
   private aclCollection = DatabaseTables.ACLS;
 
@@ -25,7 +32,9 @@ export class AclsService {
       name_user: createAclDto.name_user,
     };
 
-    return (await this.dbService.insertSingleItem(this.aclCollection, newAcl)) as AclInterface;
+    const result = (await this.dbService.insertSingleItem(this.aclCollection, newAcl)) as AclInterface;
+    this.mailService.sendInviteEmail(result._id, createAclDto.email);
+    return result;
   }
 
   async findAllByOrg(id_organization: string): Promise<AclInterface[]> {
@@ -43,5 +52,40 @@ export class AclsService {
 
   async delete(id: string): Promise<SuccessMessageInterface> {
     return await this.dbService.deleteSingleItem(this.aclCollection, id);
+  }
+
+  async getAclInvite(id_acl: string): Promise<AclInviteInterface> {
+    const acl = (await this.dbService.getSingleItem(this.aclCollection, id_acl)) as AclInterface;
+
+    if (acl.id_user == null) {
+      const result: AclInviteInterface = {
+        _id: acl._id,
+        name_organization: acl.name_organization,
+      };
+      return result;
+    }
+
+    throw new NotFoundException('Invite Not Found.');
+  }
+
+  //TO DO: Hook this up
+  async assignUserToAcl(id_acl: string, user: UserInterface) {
+    try {
+      const options = { upsert: false, returnDocument: 'after' };
+      const update = { id_user: this.dbService.bsonConvert(user._id), name_user: user.name };
+      const result = await this.db.findOneAndUpdate(
+        { _id: this.dbService.bsonConvert(id_acl) },
+        { $set: update },
+        options,
+      );
+      if (result.value._id) {
+        return result.value;
+      } else {
+        new InternalServerErrorException(`Unable to update item. No result returned.`);
+      }
+    } catch (err) {
+      Logger.error(`DB Service: Unable to assign acl with id: [${id_acl}] to user with id [${user._id}]`);
+      throw new InternalServerErrorException(`Update of item was not successful`);
+    }
   }
 }
