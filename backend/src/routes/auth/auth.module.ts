@@ -7,7 +7,7 @@ import { environment } from '../../../environments/environment';
 import { JwtStrategy } from './jwt.strategy';
 import { UserModule } from '../user';
 import { MongoModule } from '../../database/mongo';
-import { AclsModule, AclsService } from '../acls';
+import { AclsModule } from '../acls';
 
 @Module({
   imports: [
@@ -22,6 +22,6 @@ import { AclsModule, AclsService } from '../acls';
   ],
 
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, AclsService],
+  providers: [AuthService, JwtStrategy],
 })
 export class AuthModule {}
