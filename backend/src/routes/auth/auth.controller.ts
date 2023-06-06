@@ -1,6 +1,6 @@
-import { Body, Controller, Param, Post } from '@nestjs/common';
+import { Body, Controller, Param, Post, Get } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { SessionInterface, TokenInterface } from '../../../../shared/interfaces';
+import { AclInviteInterface, SessionInterface, TokenInterface } from '../../../../shared/interfaces';
 import { EmailOnlyDto, LoginDto, SignupDto } from './auth.dto';
 import { Public, TokenData } from '../../utility/decorators';
 
@@ -16,12 +16,11 @@ export class AuthController {
     return this._auth.attemptLogin(loginReq);
   }
 
-  //TO DO: Hookup Invites
-  /*  @Public()
-  @Get("/signup/:id")
-  checkForInvite(@Param("id") id: string): Promise<InviteInterface> {
-    return this._invite.getInvite(id);
-  }*/
+  @Public()
+  @Get('/signup/:id')
+  checkForInvite(@Param('id') id: string): Promise<AclInviteInterface> {
+    return this._auth.getInvite(id);
+  }
 
   @Public()
   @Post('/signup/:id')
@@ -45,19 +44,19 @@ export class AuthController {
   }
 
   /*  @Public()
-  @Get('/password-reset/:id')
-  getResetValidity(@Param('id') reset_id: string): Promise<boolean> {
-    return this._auth.checkValidityOfResetLink(reset_id);
-  }
-
-  @Public()
-  @Post('/password-reset/:id')
-  ResetPassword(
-    @Param('id') reset_id: string,
-    @Body() signupReq: PasswordResetDto,
-  ): Promise<boolean> {
-    return this._auth.resetUserPassword(reset_id, signupReq);
-  }*/
+        @Get('/password-reset/:id')
+        getResetValidity(@Param('id') reset_id: string): Promise<boolean> {
+          return this._auth.checkValidityOfResetLink(reset_id);
+        }
+      
+        @Public()
+        @Post('/password-reset/:id')
+        ResetPassword(
+          @Param('id') reset_id: string,
+          @Body() signupReq: PasswordResetDto,
+        ): Promise<boolean> {
+          return this._auth.resetUserPassword(reset_id, signupReq);
+        }*/
 
   @Post('/refresh')
   refreshUser(@TokenData() token: TokenInterface): Promise<SessionInterface> {

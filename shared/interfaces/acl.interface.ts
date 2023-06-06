@@ -14,3 +14,8 @@ export interface BaseAclInterface {
   name_organization: string;
   type: TypesEnum.ACL;
 }
+
+export interface AclInviteInterface {
+  _id: ObjectId | string;
+  name_organization: string;
+}

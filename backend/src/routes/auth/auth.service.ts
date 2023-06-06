@@ -5,15 +5,13 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { AclInterface, SessionInterface, TokenInterface, UserInterface } from '../../../../shared/interfaces';
+import { AclInviteInterface, SessionInterface, TokenInterface, UserInterface } from '../../../../shared/interfaces';
 import { EmailOnlyDto, LoginDto, SignupDto } from './auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { PermissionEnum } from '../../../../shared/enums';
 import { UserService } from '../user';
 import { MongoService } from '../../database/mongo';
 import { AclsService } from '../acls';
-
-//import { InvitesService } from "../invites/invites.service";
 
 @Injectable()
 export class AuthService {
@@ -40,10 +38,9 @@ export class AuthService {
 
   async signupUser(signupAttempt: SignupDto, invite_id?: string): Promise<SessionInterface> {
     const createdUser = await this.generateUser(signupAttempt);
-    let startingAcl = undefined;
     try {
       if (invite_id) {
-        //startingAcl = await this.attachToInvite(invite_id, createdUser);
+        await this.aclService.assignUserToAcl(invite_id, createdUser);
       }
       return await this.generateJwtSession(createdUser);
     } catch (err) {
@@ -70,10 +67,7 @@ export class AuthService {
     }
   }
 
-  private async passwordEncrypt(signupAttempt: {
-    password: string;
-    passwordConfirm: string;
-  }): Promise<string> {
+  private async passwordEncrypt(signupAttempt: { password: string; passwordConfirm: string }): Promise<string> {
     if (signupAttempt.password === signupAttempt.passwordConfirm) {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(signupAttempt.password, salt);
@@ -130,22 +124,26 @@ export class AuthService {
     return true;
   }
 
+  getInvite(id: string): Promise<AclInviteInterface> {
+    return this.aclService.getAclInvite(id);
+  }
+
   /*async checkValidityOfResetLink(id: string): Promise<boolean> {
-          return !!(await this._invite.getPasswordResetToken(id));
-        }
-  
-         async resetUserPassword(reset_id: string, resetReq: PasswordResetDto): Promise<boolean> {
-             const resetInfo = await this._invite.getPasswordResetToken(reset_id);
-          if (resetReq.email == resetInfo?.email) {
-            const newPassword = await this.passwordEncrypt({
-              password: resetReq.password,
-              passwordConfirm: resetReq.passwordConfirm,
-            });
-            const result = await this.userService.updatePassword(resetInfo.user, newPassword);
-            this._invite.deletePasswordReset(reset_id);
-            return result;
-          }
-  
-          throw new UnprocessableEntityException('Not a valid Password Reset Request');
-        }*/
+                return !!(await this._invite.getPasswordResetToken(id));
+              }
+        
+               async resetUserPassword(reset_id: string, resetReq: PasswordResetDto): Promise<boolean> {
+                   const resetInfo = await this._invite.getPasswordResetToken(reset_id);
+                if (resetReq.email == resetInfo?.email) {
+                  const newPassword = await this.passwordEncrypt({
+                    password: resetReq.password,
+                    passwordConfirm: resetReq.passwordConfirm,
+                  });
+                  const result = await this.userService.updatePassword(resetInfo.user, newPassword);
+                  this._invite.deletePasswordReset(reset_id);
+                  return result;
+                }
+        
+                throw new UnprocessableEntityException('Not a valid Password Reset Request');
+              }*/
 }
