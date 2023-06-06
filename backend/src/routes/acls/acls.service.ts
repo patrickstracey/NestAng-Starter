@@ -68,7 +68,6 @@ export class AclsService {
     throw new NotFoundException('Invite Not Found.');
   }
 
-  //TO DO: Hook this up
   async assignUserToAcl(id_acl: string, user: UserInterface) {
     try {
       const options = { upsert: false, returnDocument: 'after' };
