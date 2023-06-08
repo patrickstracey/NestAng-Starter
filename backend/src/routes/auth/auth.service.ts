@@ -88,11 +88,12 @@ export class AuthService {
 
   private async buildSession(user: UserInterface): Promise<SessionInterface> {
     const acls = await this.aclService.findAllByUser(user._id);
+    const starting_acl = acls.length > 0 ? acls[0] : null;
     const session: SessionInterface = {
       user: user,
       access_token: null,
-      permission: PermissionEnum.ADMIN,
-      acl_active: acls.length > 0 ? acls[0] : null,
+      permission: starting_acl ? starting_acl.permission : PermissionEnum.USER,
+      acl_active: starting_acl,
       acl_list: acls,
     };
     return session;
@@ -129,21 +130,21 @@ export class AuthService {
   }
 
   /*async checkValidityOfResetLink(id: string): Promise<boolean> {
-                return !!(await this._invite.getPasswordResetToken(id));
-              }
-        
-               async resetUserPassword(reset_id: string, resetReq: PasswordResetDto): Promise<boolean> {
-                   const resetInfo = await this._invite.getPasswordResetToken(reset_id);
-                if (resetReq.email == resetInfo?.email) {
-                  const newPassword = await this.passwordEncrypt({
-                    password: resetReq.password,
-                    passwordConfirm: resetReq.passwordConfirm,
-                  });
-                  const result = await this.userService.updatePassword(resetInfo.user, newPassword);
-                  this._invite.deletePasswordReset(reset_id);
-                  return result;
+                  return !!(await this._invite.getPasswordResetToken(id));
                 }
-        
-                throw new UnprocessableEntityException('Not a valid Password Reset Request');
-              }*/
+          
+                 async resetUserPassword(reset_id: string, resetReq: PasswordResetDto): Promise<boolean> {
+                     const resetInfo = await this._invite.getPasswordResetToken(reset_id);
+                  if (resetReq.email == resetInfo?.email) {
+                    const newPassword = await this.passwordEncrypt({
+                      password: resetReq.password,
+                      passwordConfirm: resetReq.passwordConfirm,
+                    });
+                    const result = await this.userService.updatePassword(resetInfo.user, newPassword);
+                    this._invite.deletePasswordReset(reset_id);
+                    return result;
+                  }
+          
+                  throw new UnprocessableEntityException('Not a valid Password Reset Request');
+                }*/
 }
