@@ -1,5 +1,6 @@
 import { UserInterface } from "./user.interface";
 import { PermissionEnum } from "../enums";
+import { AclInterface } from "./acl.interface";
 
 export interface LoginInterface {
   email: string;
@@ -14,6 +15,8 @@ export interface SessionInterface {
   access_token: string;
   user: UserInterface;
   permission: PermissionEnum;
+  acl_active: AclInterface | null;
+  acl_list: AclInterface[];
 }
 
 export interface CookieInterface {
@@ -22,5 +25,6 @@ export interface CookieInterface {
 
 export interface TokenInterface {
   uid: string;
+  oid: string | undefined;
   acc: PermissionEnum.USER | PermissionEnum.ADMIN;
 }

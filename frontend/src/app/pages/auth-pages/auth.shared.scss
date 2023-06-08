@@ -40,7 +40,7 @@
 
 .card-content {
   padding: 16px;
-  min-width: 40%;
+  min-width: 52%;
   flex-grow: 1;
 
   &.request {
@@ -79,7 +79,7 @@
   }
 }
 
-.address {
+.org-display {
   text-align: center;
   border: 1px solid;
   border-radius: 4px;

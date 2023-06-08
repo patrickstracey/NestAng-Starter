@@ -12,6 +12,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'organization/users',
+    loadChildren: () =>
+      import('./pages/users-page/users-page.module').then(
+        (m) => m.UsersPageModule
+      ),
+  },
+  {
     path: '',
     component: HomePageComponent,
     canActivate: [AuthGuard],

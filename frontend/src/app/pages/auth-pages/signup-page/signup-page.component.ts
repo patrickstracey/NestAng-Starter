@@ -6,7 +6,7 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../../../services';
 import { ActivatedRoute, Router } from '@angular/router';
-import { InviteInterface } from '../../../../../../shared/interfaces';
+import { AclInviteInterface } from '../../../../../../shared/interfaces';
 
 @Component({
   selector: 'page-signup',
@@ -17,7 +17,7 @@ export class SignupPageComponent implements OnInit {
   signup!: UntypedFormGroup;
   emailError: string | null = null;
   passwordError: boolean = false;
-  invite: InviteInterface | null = null;
+  invite: AclInviteInterface | null = null;
 
   constructor(
     private fb: UntypedFormBuilder,

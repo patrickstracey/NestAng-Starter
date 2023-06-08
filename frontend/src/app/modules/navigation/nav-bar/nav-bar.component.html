@@ -2,13 +2,15 @@
   <div class="content" id="all-users">
     <h1 id="logo-text">NestAng</h1>
     <a routerLink="/">Home</a>
-    <a routerLink="/account">Account</a>
+    <a routerLink="/account">My Account</a>
   </div>
 
   <div class="content" id="admin" *ngIf="isAdmin">
     <h1 id="admin-header">Admin Menu</h1>
-    <a routerLink="/company/account" data-cy="com-account">Admin Account</a>
+    <a routerLink="/organization/users" data-cy="com-users"><small>Organization</small><br/> Users</a>
+    <a routerLink="/organization/account" data-cy="com-account"><small>Organization</small><br/> Account</a>
   </div>
+
 
   <div class="content" id="logout-desktop">
     <a (click)="logout()">Log Out ↦</a>
