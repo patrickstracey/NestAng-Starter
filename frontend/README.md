@@ -1,32 +1,58 @@
 # Angular Frontend
 
-The file tree is a work in progress and I encourage you to re-arrange files and modules in a manner which you prefer. I am starting with a structure that has suited me relatively well while also trying to adhere to recommendations from Angular. One of the most notable being:
+The file tree is a work in progress and I encourage you to re-arrange files and modules however you prefer. I am
+starting with a structure that has suited me relatively well while also trying to adhere to recommendations from
+Angular. One of the most notable being:
 
-- Services live in the `services` directory. I know that there are tools and practices out there that highly recommend putting services in the directory with their related components. I have done that in the past but am not doing that here because services don't need to be included in NgModules (which they do need to be in NestJS) and Angular encourages the use of a `services` directory so that is how many people learn the framework. I also find that at a certain point of project scale, many services stop fitting cleanly into a feature or page directory, so let's start with them all together.
-- No state management libraries like NGRX. This project is small and Angular services can get you so far in managing your state effectively. State Management libraries are also tougher to learn and have lots of boilerplate. Given the preference devs have for certain implementations I am avoiding using one here for now. I encourage you to pick whichver one works best for you when it is needed!
+- Services live in the `services` directory. I know that there are tools and practices out there that highly recommend
+  putting services in the directory with their related components. I have done that in the past but am not doing that
+  here because services don't need to be included in NgModules (which they do need to be in NestJS) and Angular
+  encourages the use of a `services` directory meaning that is how many people learn the framework. I also find that at
+  a certain point of project scale, many services stop fitting cleanly into a feature or page directory, so let's start
+  with them all together.
+- No state management libraries like NGRX. This project is small and Angular services can get you far in managing your
+  state effectively. State Management libraries are also tougher to learn and have lots of boilerplate. Given the
+  preference devs have for certain implementations I am avoiding using one here for now, but I encourage you to pick
+  whichever one works best for you when it is needed!
 
-- Components that are used routes are kept in the `pages` directory. If there are subcomponents only used in that component then they will live side-by-side with that component's directory. If the coponent is shared it will be placed in a module within the `modules`. An example of this would be the `card` and `page` components that are stored in the `UiModule` within `modules/ui`.
-- Anything that provides "utility" to your application like guards, pipes, and interceptors are stored in the `utility` directory.
+- Components that are used routes are kept in the `pages` directory. If there are subcomponents only used in that
+  component then they will live side-by-side with that component's directory. If the coponent is shared it will be
+  placed in a module within the `modules`. An example of this would be the `card` and `page` components that are stored
+  in the `UiModule` within `modules/ui`.
+- Anything that provides "utility" to your application like guards, pipes, and interceptors are stored in the `utility`
+  directory.
 
-**I am very much open to recommendations for changing this file structure in the future.** The services recommended structure in Angular differs from nestJs where services are grouped in their respective modules and I'll admit have this organization handled differently between the fornt and back-end doesn't feel super great when the point of using these frameworks together is how similar they feel.
+**I am very much open to recommendations for changing this file structure in the future.** The services recommended
+structure in Angular differs from NestJs where services are grouped in their respective modules. I will admit that
+handling things differently between the front and back-end doesn't feel super great when the point of using these
+frameworks together is how similar they feel.
 
 ## Stylesheets
-There is a `stylesheets` directory that stores `.scss` styles broken out by "type." While some components do have additional styling on top of this you should find 90% of the global styles here. My hope is that this makes it very easy for you to make you app look a bit more unique or replace the styling entirely with your own preferred css framework/library.
 
-The project makews use of [css variables](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties) for colors and fonts so that simply making a change in the `fonts.scss` or `colors.scss` files to your provided choices quickly updates all components across the application.
+There is a `stylesheets` directory that stores `.scss` styles broken out by "type." While some components do have
+additional styling on top of this you should find 90% of the global styles here. My hope is that this makes it very easy
+for you to make you app look a bit more unique or replace the styling entirely with your own preferred css
+framework/library.
 
+The project makes use of [css variables](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties)
+for colors and fonts so that simply making a change in the `fonts.scss` or `colors.scss` files to your provided choices
+quickly updates all components across the application.
 
-## Autogenerated Documentation
+----------------------------
+
+# Autogenerated Angular Documentation
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.3.
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you
+change any of the source files.
 
 ## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Run `ng generate component component-name` to generate a new component. You can also
+use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
 ## Build
 
@@ -38,8 +64,10 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 ## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a
+package that implements end-to-end testing capabilities.
 
 ## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+To get more help on the Angular CLI use `ng help` or go check out
+the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
