@@ -5,19 +5,19 @@ const mongoClient = new MongoClient(environment.database.mongo_uri, {});
 
 let _db;
 
-const initMongoDatabase = (callback) => {
+const initMongoDatabase = () => {
   if (_db) {
-    console.log('Connection already exists');
-    return callback(null, _db);
+    //connection already exists
+    throw new Error('Database Connection Already Exists');
   }
-  mongoClient
+  return mongoClient
     .connect()
     .then((client) => {
       _db = client.db(environment.database.name);
-      callback(null, _db);
+      return _db;
     })
     .catch((error) => {
-      callback(error);
+      throw new Error(error);
     });
 };
 
