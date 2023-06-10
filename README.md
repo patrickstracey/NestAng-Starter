@@ -88,7 +88,9 @@ is often easier for newer and developers to understand and quick onboarding time
 **This is using Mongo but I prefer SQL.**
 
 Hey I like SQL too, and my hope is to add a SQL solution to this project in the future so that those who use it can
-quickly configure their `DatabaseModule` to use the solution they prefer.
+quickly configure their `DatabaseModule` to use the solution they prefer. You can read up on the `DatabaseModule` and
+how to configure it for
+a [different provider here](backend/src/database/README.md).
 
 **Why the Commitment to certain providers?**
 
