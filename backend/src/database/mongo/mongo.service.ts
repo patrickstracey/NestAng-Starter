@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
+import { InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { ObjectId } from 'mongodb';
 import {
   BaseCreationInterface,
@@ -8,7 +8,10 @@ import {
 } from '../../../../shared/interfaces';
 import { DatabaseTables } from '../../../../shared/enums';
 
-@Injectable()
+/**
+ * Please do not import this service directly as it could make switching to another provider difficult!
+ * Use the `DatabaseService` from the `DatabaseModule` instead.
+ */
 export class MongoService {
   private _db: any;
 
@@ -19,13 +22,17 @@ export class MongoService {
   assignDatabase(database: object) {
     if (!this._db && database) {
       this._db = database;
-      Logger.log('Database successfully attached to service');
-    } else {
+      Logger.log('Database successfully attached to MongoService');
+    } else if (this._db) {
       Logger.error('Cannot assign database as one is already in use.');
+    } else if (!database) {
+      Logger.error('Did not receive a database to assign');
+    } else {
+      Logger.error('Something went wrong assigning the database');
     }
   }
 
-  bsonConvert(id: string | ObjectId): ObjectId {
+  idConvert(id: string | ObjectId): ObjectId {
     if (typeof id === 'string') {
       return new ObjectId(id);
     }
@@ -38,7 +45,7 @@ export class MongoService {
 
   async getSingleItem(collection: DatabaseTables, _id: string): Promise<BaseInterface> {
     try {
-      const result = await this._db.collection(collection).findOne({ _id: this.bsonConvert(_id) });
+      const result = await this._db.collection(collection).findOne({ _id: this.idConvert(_id) });
       if (result) {
         return result;
       } else {
@@ -54,7 +61,7 @@ export class MongoService {
     try {
       const result = await this._db
         .collection(collection)
-        .find({ id_organization: this.bsonConvert(id_organization) })
+        .find({ id_organization: this.idConvert(id_organization) })
         .toArray();
       if (result) {
         return result;
@@ -71,7 +78,7 @@ export class MongoService {
     try {
       const result = await this._db
         .collection(collection)
-        .find({ id_user: this.bsonConvert(id_user) })
+        .find({ id_user: this.idConvert(id_user) })
         .toArray();
       if (result) {
         return result;
@@ -98,7 +105,7 @@ export class MongoService {
 
   async deleteSingleItem(collection: DatabaseTables, _id: string): Promise<SuccessMessageInterface> {
     try {
-      await this._db.collection(collection).deleteOne({ _id: this.bsonConvert(_id) });
+      await this._db.collection(collection).deleteOne({ _id: this.idConvert(_id) });
       return { message: 'success' };
     } catch (err) {
       Logger.error(`DB Service: Failed to delete item from collection: [${collection}] with id: [${_id}]`);
@@ -115,7 +122,7 @@ export class MongoService {
       const options = { upsert: false, returnDocument: 'after' };
       const result = await this._db
         .collection(collection)
-        .findOneAndUpdate({ _id: this.bsonConvert(id) }, { $set: item }, options);
+        .findOneAndUpdate({ _id: this.idConvert(id) }, { $set: item }, options);
       if (result.value._id) {
         return result.value;
       } else {

@@ -8,23 +8,23 @@ import {
 import { BaseUserInterface, TokenInterface, UserInterface } from '../../../../shared/interfaces';
 import { SignupDto, UserEditDto } from './user.dto';
 import { DatabaseTables, TypesEnum } from '../../../../shared/enums';
-import { MongoService } from '../../database/mongo';
+import { DatabaseService } from '../../database';
 import { MailService } from '../../mail';
 
 @Injectable()
 export class UserService {
-  constructor(private _dbService: MongoService, private _mail: MailService) {}
+  constructor(private dbService: DatabaseService, private mailService: MailService) {}
 
-  private collectionString = DatabaseTables.USERS;
+  private usersCollection = DatabaseTables.USERS;
 
   get db() {
-    return this._dbService.database.collection(this.collectionString);
+    return this.dbService.database.collection(this.usersCollection);
   }
 
   async getUser(token: TokenInterface): Promise<UserInterface> {
     try {
       const account = (await this.db.findOne({
-        _id: this._dbService.bsonConvert(token.uid),
+        _id: this.dbService.idConvert(token.uid),
       })) as UserInterface;
       return this.cleanUser(account);
     } catch (err) {
@@ -51,8 +51,8 @@ export class UserService {
     if (id == token.uid) {
       delete updates['_id'];
       const updatedUserAttempt = { type: TypesEnum.USER, ...updates };
-      const result = (await this._dbService.updateSingleItem(
-        this.collectionString,
+      const result = (await this.dbService.updateSingleItem(
+        this.usersCollection,
         id,
         updatedUserAttempt,
       )) as UserInterface;
@@ -78,7 +78,7 @@ export class UserService {
         _id: insertResult['insertedId'],
         ...newUser,
       };
-      this._mail.sendCreationWelcomeEmail(newUser.email);
+      this.mailService.sendCreationWelcomeEmail(newUser.email);
       return this.cleanUser(returnedUser);
     } catch (err) {
       throw new InternalServerErrorException('Unable to insert new user.');
@@ -100,7 +100,7 @@ export class UserService {
       const update = { password: newPassword };
       const options = { upsert: false, returnDocument: 'after' };
       const result = await this.db.findOneAndUpdate(
-        { _id: this._dbService.bsonConvert(account_id) },
+        { _id: this.dbService.idConvert(account_id) },
         { $set: update },
         options,
       );

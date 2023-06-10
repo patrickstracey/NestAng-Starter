@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { AclDto } from './acl.dto';
-import { MongoService } from '../../database/mongo';
+import { DatabaseService } from '../../database';
 import { DatabaseTables, TypesEnum } from '../../../../shared/enums';
 import {
   AclInterface,
@@ -14,7 +14,7 @@ import { MailService } from '../../mail';
 
 @Injectable()
 export class AclsService {
-  constructor(private dbService: MongoService, private mailService: MailService) {}
+  constructor(private dbService: DatabaseService, private mailService: MailService) {}
 
   private aclCollection = DatabaseTables.ACLS;
 
@@ -25,7 +25,7 @@ export class AclsService {
   async create(id_organization: string, createAclDto: AclDto): Promise<AclInterface> {
     const newAcl: BaseAclInterface = {
       id_user: null,
-      id_organization: this.dbService.bsonConvert(id_organization),
+      id_organization: this.dbService.idConvert(id_organization),
       permission: createAclDto.permission,
       type: TypesEnum.ACL,
       name_organization: createAclDto.name_organization,
@@ -68,23 +68,23 @@ export class AclsService {
     throw new NotFoundException('Invite Not Found.');
   }
 
-  async assignUserToAcl(id_acl: string, user: UserInterface) {
+  async assignUserToAcl(id_acl: string, user: UserInterface): Promise<AclInterface> {
     try {
       const options = { upsert: false, returnDocument: 'after' };
-      const update = { id_user: this.dbService.bsonConvert(user._id), name_user: user.name };
+      const update = { id_user: this.dbService.idConvert(user._id), name_user: user.name };
       const result = await this.db.findOneAndUpdate(
-        { _id: this.dbService.bsonConvert(id_acl) },
+        { _id: this.dbService.idConvert(id_acl) },
         { $set: update },
         options,
       );
       if (result.value._id) {
         return result.value;
       } else {
-        new InternalServerErrorException(`Unable to update item. No result returned.`);
+        throw new InternalServerErrorException(`Unable to update item. No result returned.`);
       }
     } catch (err) {
       Logger.error(`DB Service: Unable to assign acl with id: [${id_acl}] to user with id [${user._id}]`);
-      throw new InternalServerErrorException(`Update of item was not successful`);
+      throw new InternalServerErrorException(`Update of item was not successful. No result returned.`);
     }
   }
 }
