@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { AclDto } from './acl.dto';
-import { MongoService } from '../../database/mongo';
+import { DatabaseService } from '../../database';
 import { DatabaseTables, TypesEnum } from '../../../../shared/enums';
 import {
   AclInterface,
@@ -14,7 +14,7 @@ import { MailService } from '../../mail';
 
 @Injectable()
 export class AclsService {
-  constructor(private dbService: MongoService, private mailService: MailService) {}
+  constructor(private dbService: DatabaseService, private mailService: MailService) {}
 
   private aclCollection = DatabaseTables.ACLS;
 
