@@ -70,6 +70,9 @@ Mongoose would be easy for you to add to this scaffold.
 If you would like to read up more on how to setup and seed a MongoDB with this
 project [checkout the README](mock_data/mongo_seeds/README.md) in the `mock_data/mongo_seeds` directory.
 
+You can also read up on the `DatabaseModule` and how to configure it for
+a [different provider here](backend/src/database/README.md).
+
 ## FAQ
 
 **Some of this code seems a bit messy?**
