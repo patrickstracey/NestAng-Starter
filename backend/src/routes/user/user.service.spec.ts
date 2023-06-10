@@ -1,30 +1,24 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserService } from './user.service';
-import {
-  MongoService,
-  TestCloseLocalDb,
-  TestConnectLocalDb,
-} from '../../database/mongo';
-import {
-  MOCK_ADMIN_TOKEN,
-  MOCK_RESIDENT_TOKEN,
-} from '../../../test/token_helper';
+import { TestCloseLocalDb, TestConnectLocalDb } from '../../database/mongo';
+import { MOCK_ADMIN_TOKEN, MOCK_RESIDENT_TOKEN } from '../../../test/token_helper';
 import { UserInterface } from '../../../../shared/interfaces';
 import { TypesEnum } from '../../../../shared/enums';
 import { ForbiddenException } from '@nestjs/common';
 import { UserEditDto } from './user.dto';
+import { DatabaseService } from '../../database';
 
 const SEED_DATA: UserInterface[] = require('../../../mongo_seeds/seed_data/users.json');
 
 describe('UserService', () => {
   let service: UserService;
-  let db: MongoService;
+  let db: DatabaseService;
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [UserService, MongoService],
+      providers: [UserService, DatabaseService],
     }).compile();
-    db = module.get<MongoService>(MongoService);
+    db = module.get<DatabaseService>(DatabaseService);
     db.assignDatabase(await TestConnectLocalDb());
     service = module.get<UserService>(UserService);
   });
@@ -87,16 +81,12 @@ describe('UserService', () => {
 
   it("should prevent user from updating someone else's user", async () => {
     const phoneUpdate = { ...getUserDto(SEED_DATA[0]), phone: '8825550119' };
-    await expect(
-      service.updateUser(MOCK_RESIDENT_TOKEN, phoneUpdate),
-    ).rejects.toBeInstanceOf(ForbiddenException);
+    await expect(service.updateUser(MOCK_RESIDENT_TOKEN, phoneUpdate)).rejects.toBeInstanceOf(ForbiddenException);
   });
 
   it("should prevent admin from updating someone else's user", async () => {
     const phoneUpdate = { ...getUserDto(SEED_DATA[1]), phone: '8825550119' };
-    await expect(
-      service.updateUser(MOCK_ADMIN_TOKEN, phoneUpdate),
-    ).rejects.toBeInstanceOf(ForbiddenException);
+    await expect(service.updateUser(MOCK_ADMIN_TOKEN, phoneUpdate)).rejects.toBeInstanceOf(ForbiddenException);
   });
 });
 

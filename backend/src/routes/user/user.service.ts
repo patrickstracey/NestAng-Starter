@@ -5,16 +5,15 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
-import {BaseUserInterface, TokenInterface, UserInterface} from '../../../../shared/interfaces';
-import {SignupDto, UserEditDto} from './user.dto';
-import {DatabaseTables, TypesEnum} from '../../../../shared/enums';
-import {MongoService} from '../../database/mongo';
-import {MailService} from '../../mail';
+import { BaseUserInterface, TokenInterface, UserInterface } from '../../../../shared/interfaces';
+import { SignupDto, UserEditDto } from './user.dto';
+import { DatabaseTables, TypesEnum } from '../../../../shared/enums';
+import { DatabaseService } from '../../database';
+import { MailService } from '../../mail';
 
 @Injectable()
 export class UserService {
-  constructor(private dbService: MongoService, private mailService: MailService) {
-  }
+  constructor(private dbService: DatabaseService, private mailService: MailService) {}
 
   private usersCollection = DatabaseTables.USERS;
 
@@ -35,7 +34,7 @@ export class UserService {
 
   async getUserByEmail(email: string, withPassword = false): Promise<UserInterface> {
     try {
-      const account = (await this.db.findOne({email: email})) as UserInterface;
+      const account = (await this.db.findOne({ email: email })) as UserInterface;
       if (withPassword) {
         //return object includes password, careful!
         return account;
@@ -51,11 +50,11 @@ export class UserService {
     const id = updates._id;
     if (id == token.uid) {
       delete updates['_id'];
-      const updatedUserAttempt = {type: TypesEnum.USER, ...updates};
+      const updatedUserAttempt = { type: TypesEnum.USER, ...updates };
       const result = (await this.dbService.updateSingleItem(
-          this.usersCollection,
-          id,
-          updatedUserAttempt,
+        this.usersCollection,
+        id,
+        updatedUserAttempt,
       )) as UserInterface;
 
       return this.cleanUser(result);
@@ -88,7 +87,7 @@ export class UserService {
 
   async ensureUniqueEmail(emailCheck: string): Promise<boolean> {
     try {
-      const result = await this.db.findOne({email: emailCheck});
+      const result = await this.db.findOne({ email: emailCheck });
       return !result;
     } catch (err) {
       Logger.error(`Failed to lookup user by email on unique check: [${emailCheck}]`);
@@ -98,12 +97,12 @@ export class UserService {
 
   async updatePassword(account_id: string, newPassword: string): Promise<boolean> {
     try {
-      const update = {password: newPassword};
-      const options = {upsert: false, returnDocument: 'after'};
+      const update = { password: newPassword };
+      const options = { upsert: false, returnDocument: 'after' };
       const result = await this.db.findOneAndUpdate(
-          {_id: this.dbService.idConvert(account_id)},
-          {$set: update},
-          options,
+        { _id: this.dbService.idConvert(account_id) },
+        { $set: update },
+        options,
       );
       return !!result;
     } catch (e) {
@@ -112,7 +111,7 @@ export class UserService {
   }
 
   cleanUser(account: UserInterface): UserInterface {
-    const {password, ...clean} = account;
+    const { password, ...clean } = account;
     return clean;
   }
 }
