@@ -25,7 +25,7 @@ export class AclsService {
   async create(id_organization: string, createAclDto: AclDto): Promise<AclInterface> {
     const newAcl: BaseAclInterface = {
       id_user: null,
-      id_organization: this.dbService.bsonConvert(id_organization),
+      id_organization: this.dbService.idConvert(id_organization),
       permission: createAclDto.permission,
       type: TypesEnum.ACL,
       name_organization: createAclDto.name_organization,
@@ -71,9 +71,9 @@ export class AclsService {
   async assignUserToAcl(id_acl: string, user: UserInterface): Promise<AclInterface> {
     try {
       const options = { upsert: false, returnDocument: 'after' };
-      const update = { id_user: this.dbService.bsonConvert(user._id), name_user: user.name };
+      const update = { id_user: this.dbService.idConvert(user._id), name_user: user.name };
       const result = await this.db.findOneAndUpdate(
-        { _id: this.dbService.bsonConvert(id_acl) },
+        { _id: this.dbService.idConvert(id_acl) },
         { $set: update },
         options,
       );
