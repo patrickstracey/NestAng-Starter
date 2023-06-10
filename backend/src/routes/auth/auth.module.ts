@@ -6,12 +6,12 @@ import { JwtModule } from '@nestjs/jwt';
 import { environment } from '../../../environments/environment';
 import { JwtStrategy } from './jwt.strategy';
 import { UserModule } from '../user';
-import { MongoModule } from '../../database/mongo';
+import { DatabaseModule } from '../../database';
 import { AclsModule } from '../acls';
 
 @Module({
   imports: [
-    MongoModule,
+    DatabaseModule,
     UserModule,
     AclsModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
