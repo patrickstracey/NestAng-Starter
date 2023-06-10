@@ -68,7 +68,7 @@ export class AclsService {
     throw new NotFoundException('Invite Not Found.');
   }
 
-  async assignUserToAcl(id_acl: string, user: UserInterface) {
+  async assignUserToAcl(id_acl: string, user: UserInterface): Promise<AclInterface> {
     try {
       const options = { upsert: false, returnDocument: 'after' };
       const update = { id_user: this.dbService.bsonConvert(user._id), name_user: user.name };
@@ -80,11 +80,11 @@ export class AclsService {
       if (result.value._id) {
         return result.value;
       } else {
-        new InternalServerErrorException(`Unable to update item. No result returned.`);
+        throw new InternalServerErrorException(`Unable to update item. No result returned.`);
       }
     } catch (err) {
       Logger.error(`DB Service: Unable to assign acl with id: [${id_acl}] to user with id [${user._id}]`);
-      throw new InternalServerErrorException(`Update of item was not successful`);
+      throw new InternalServerErrorException(`Update of item was not successful. No result returned.`);
     }
   }
 }
