@@ -4,7 +4,6 @@ import {
   InternalServerErrorException,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
 import { AclInviteInterface, SessionInterface, TokenInterface, UserInterface } from '../../../../shared/interfaces';
 import { EmailOnlyDto, LoginDto, SignupDto } from './auth.dto';
 import { JwtService } from '@nestjs/jwt';
@@ -12,6 +11,7 @@ import { PermissionEnum } from '../../../../shared/enums';
 import { UserService } from '../user';
 import { DatabaseService } from '../../database';
 import { AclsService } from '../acls';
+import { PasswordService, PasswordResetDto } from '../../password';
 
 @Injectable()
 export class AuthService {
@@ -19,14 +19,15 @@ export class AuthService {
     private dbService: DatabaseService,
     private userService: UserService,
     private aclService: AclsService,
+    private passwordService: PasswordService,
     private JWT_SERVICE: JwtService,
   ) {}
 
   async attemptLogin(attempt: LoginDto): Promise<SessionInterface> {
     try {
       const user = await this.userService.getUserByEmail(attempt.email, true);
-      const validPassword = await bcrypt.compare(attempt.password, user?.password);
-      if (user && validPassword) {
+
+      if (user && (await this.passwordService.checkPassword(attempt.password, user.password))) {
         return await this.generateJwtSession(this.userService.cleanUser(user));
       } else {
         throw new ForbiddenException('Not a valid user or password combination');
@@ -54,7 +55,7 @@ export class AuthService {
     try {
       const [uniqueEmail, password] = await Promise.all([
         await this.userService.ensureUniqueEmail(signup.email),
-        await this.passwordEncrypt(signup),
+        await this.passwordService.encryptPassword(signup),
       ]);
 
       if (uniqueEmail && password) {
@@ -64,16 +65,6 @@ export class AuthService {
       }
     } catch (e) {
       throw new UnprocessableEntityException(e.response);
-    }
-  }
-
-  private async passwordEncrypt(signupAttempt: { password: string; passwordConfirm: string }): Promise<string> {
-    if (signupAttempt.password === signupAttempt.passwordConfirm) {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(signupAttempt.password, salt);
-      return hashedPassword;
-    } else {
-      throw new UnprocessableEntityException('Passwords do not match');
     }
   }
 
@@ -117,7 +108,7 @@ export class AuthService {
     try {
       const user = await this.userService.getUserByEmail(emailDto.email);
       if (user.email == emailDto.email) {
-        //this._invite.generateEmailResetToken(user._id, user.email);
+        await this.passwordService.createAndSendReset(user._id, user.email);
       }
     } catch (e) {
       return true;
@@ -129,22 +120,24 @@ export class AuthService {
     return this.aclService.getAclInvite(id);
   }
 
-  /*async checkValidityOfResetLink(id: string): Promise<boolean> {
-                    return !!(await this._invite.getPasswordResetToken(id));
-                  }
-            
-                   async resetUserPassword(reset_id: string, resetReq: PasswordResetDto): Promise<boolean> {
-                       const resetInfo = await this._invite.getPasswordResetToken(reset_id);
-                    if (resetReq.email == resetInfo?.email) {
-                      const newPassword = await this.passwordEncrypt({
-                        password: resetReq.password,
-                        passwordConfirm: resetReq.passwordConfirm,
-                      });
-                      const result = await this.userService.updatePassword(resetInfo.user, newPassword);
-                      this._invite.deletePasswordReset(reset_id);
-                      return result;
-                    }
-            
-                    throw new UnprocessableEntityException('Not a valid Password Reset Request');
-                  }*/
+  async checkValidityOfResetLink(id: string): Promise<boolean> {
+    return !!(await this.passwordService.getResetToken(id));
+  }
+
+  async resetUserPassword(reset_id: string, resetReq: PasswordResetDto): Promise<boolean> {
+    try {
+      const resetInfo = await this.passwordService.getResetToken(reset_id);
+      if (resetReq.email == resetInfo?.email) {
+        const newPassword = await this.passwordService.encryptPassword({
+          password: resetReq.password,
+          passwordConfirm: resetReq.passwordConfirm,
+        });
+        const result = await this.userService.updatePassword(resetInfo.id_account, newPassword);
+        this.passwordService.deletePasswordReset(reset_id);
+        return result;
+      }
+    } catch {
+      throw new UnprocessableEntityException('Not a valid Password Reset Request');
+    }
+  }
 }
