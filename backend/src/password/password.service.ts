@@ -36,7 +36,7 @@ export class PasswordService {
 
     const resetToken: PasswordResetInterface = {
       type: TypesEnum.PASSWORD_RESET,
-      id_account: account_id,
+      id_account: this.dbService.idConvert(account_id),
       email: email,
       created: today,
       expires: expires,
