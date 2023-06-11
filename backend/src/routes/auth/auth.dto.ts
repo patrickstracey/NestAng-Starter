@@ -30,15 +30,3 @@ export class EmailOnlyDto {
   @IsDefined()
   email: string;
 }
-
-export class PasswordResetDto {
-  @IsEmail()
-  @IsDefined()
-  email: string;
-  @IsString()
-  @IsDefined()
-  password: string;
-  @IsString()
-  @IsDefined()
-  passwordConfirm: string;
-}

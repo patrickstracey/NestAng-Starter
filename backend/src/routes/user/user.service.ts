@@ -5,6 +5,7 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
+import { ObjectId } from 'mongodb';
 import { BaseUserInterface, TokenInterface, UserInterface } from '../../../../shared/interfaces';
 import { SignupDto, UserEditDto } from './user.dto';
 import { DatabaseTables, TypesEnum } from '../../../../shared/enums';
@@ -95,7 +96,7 @@ export class UserService {
     }
   }
 
-  async updatePassword(account_id: string, newPassword: string): Promise<boolean> {
+  async updatePassword(account_id: ObjectId, newPassword: string): Promise<boolean> {
     try {
       const update = { password: newPassword };
       const options = { upsert: false, returnDocument: 'after' };

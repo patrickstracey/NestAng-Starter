@@ -8,12 +8,14 @@ import { JwtStrategy } from './jwt.strategy';
 import { UserModule } from '../user';
 import { DatabaseModule } from '../../database';
 import { AclsModule } from '../acls';
+import { PasswordModule } from '../../password';
 
 @Module({
   imports: [
     DatabaseModule,
     UserModule,
     AclsModule,
+    PasswordModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secret: environment.jwt_secret,
