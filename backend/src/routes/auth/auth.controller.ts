@@ -1,6 +1,11 @@
 import { Body, Controller, Param, Post, Get } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AclInviteInterface, SessionInterface, TokenInterface } from '../../../../shared/interfaces';
+import {
+  AclInviteInterface,
+  SessionInterface,
+  TokenInterface,
+  SuccessMessageInterface,
+} from '../../../../shared/interfaces';
 import { EmailOnlyDto, LoginDto, SignupDto } from './auth.dto';
 import { PasswordResetDto } from '../../password';
 import { Public, TokenData } from '../../utility/decorators';
@@ -38,7 +43,7 @@ export class AuthController {
 
   @Public()
   @Post('/request-reset')
-  resetPasswordRequest(@Body() signupReq: EmailOnlyDto): Promise<boolean> {
+  resetPasswordRequest(@Body() signupReq: EmailOnlyDto): Promise<SuccessMessageInterface> {
     return this.authService.generateResetPasswordEmail(signupReq);
   }
 

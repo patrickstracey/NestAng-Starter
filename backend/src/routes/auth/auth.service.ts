@@ -4,7 +4,13 @@ import {
   InternalServerErrorException,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { AclInviteInterface, SessionInterface, TokenInterface, UserInterface } from '../../../../shared/interfaces';
+import {
+  AclInviteInterface,
+  SessionInterface,
+  SuccessMessageInterface,
+  TokenInterface,
+  UserInterface,
+} from '../../../../shared/interfaces';
 import { EmailOnlyDto, LoginDto, SignupDto } from './auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { PermissionEnum } from '../../../../shared/enums';
@@ -104,16 +110,17 @@ export class AuthService {
     return this.generateJwtSession(account);
   }
 
-  async generateResetPasswordEmail(emailDto: EmailOnlyDto): Promise<boolean> {
+  async generateResetPasswordEmail(emailDto: EmailOnlyDto): Promise<SuccessMessageInterface> {
+    const result: SuccessMessageInterface = { message: 'success' };
     try {
       const user = await this.userService.getUserByEmail(emailDto.email);
       if (user.email == emailDto.email) {
         await this.passwordService.createAndSendReset(user._id, user.email);
       }
     } catch (e) {
-      return true;
+      return result;
     }
-    return true;
+    return result;
   }
 
   getInvite(id: string): Promise<AclInviteInterface> {
