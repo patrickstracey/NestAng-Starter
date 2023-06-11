@@ -11,12 +11,3 @@ export interface BaseInviteInterface {
   email?: any;
   date_created: Date;
 }
-
-export interface PasswordResetInterface {
-  _id?: any;
-  type: TypesEnum.PASSWORD_RESET;
-  account: any;
-  email: string;
-  created: Date;
-  expires: Date;
-}
