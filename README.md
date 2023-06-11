@@ -58,7 +58,6 @@ get to adding these fairly quickly, but at the moment the project still needs th
 - An Admin Portal
 - More extensive README documentation, currently there are meaningfully written READMEs in the `backend`, `frontend`,
   and `mock_data/mongo_seeds` directories.
-- Password Reset emails
 
 ### Database
 
