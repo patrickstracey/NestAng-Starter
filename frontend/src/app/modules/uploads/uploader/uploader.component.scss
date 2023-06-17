@@ -1,0 +1,40 @@
+.start {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.preview-img {
+  width: 150px;
+  height: 150px;
+  margin-right: 16px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.file {
+  margin-right: 24px;
+  font-style: italic;
+}
+
+.preview-file {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 4px;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+#upload {
+  max-width: 275px;
+  margin-top: 8px;
+  margin-bottom: 4px;
+  text-transform: capitalize;
+}
+
+#remove {
+  max-height: 148px;
+  width: 150px;
+  border-radius: 8px;
+  text-transform: capitalize;
+}

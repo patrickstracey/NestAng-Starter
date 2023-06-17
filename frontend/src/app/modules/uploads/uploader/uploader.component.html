@@ -1,0 +1,56 @@
+<div class="input-group column">
+  <input
+    id="images"
+    type="file"
+    accept="{{ configs.accept }}"
+    [multiple]="limit > 1"
+    (change)="onFileSelected($event)"
+    #fileInput
+    style="display: none"
+  />
+  <button
+    (click)="fileInput.click()"
+    class="btn secondary"
+    id="upload"
+    [disabled]="fileNames.length >= limit"
+  >
+    Select
+    {{ fileNames.length >= limit ? " Limit Reached" : readableImageString }}
+  </button>
+
+  <span
+  >Max file size is {{ configs.sizeLimit / 1000000 }} MB per
+    {{ configs.uploadType }}. {{ limit }} {{ readableImageString }} per
+    upload.</span
+  >
+  <span *ngFor="let err of fileErrors" class="error">{{ err }}</span>
+</div>
+<div class="row start">
+  <ng-container *ngIf="configs.string == 'image'">
+    <img
+      *ngFor="let img of previews"
+      src="{{ img }}"
+      alt="user uploaded image"
+      class="preview-img fade-in"
+    />
+  </ng-container>
+  <ng-container *ngIf="configs.string == 'file'">
+    <div *ngFor="let fileName of fileNames" class="column file">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg"
+        alt="icon representing a pdf file"
+        class="preview-file fade-in"
+      />
+      <span>{{ fileName }}</span>
+    </div>
+  </ng-container>
+
+  <button
+    (click)="removeImages()"
+    class="btn warn"
+    *ngIf="previews.length > 0"
+    id="remove"
+  >
+    Remove {{ limit > 1 ? "All " + readableImageString : readableImageString }}
+  </button>
+</div>
