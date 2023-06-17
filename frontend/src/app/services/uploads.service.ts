@@ -1,14 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, take } from 'rxjs';
-import { TypesEnum } from '../../../../../shared/enums';
-import { DocumentInterface } from '../../../../../shared/interfaces';
+import { TypesEnum } from '../../../../shared/enums';
+import {
+  DocumentInterface,
+  SuccessMessageInterface,
+} from '../../../../shared/interfaces';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UploadsService {
   constructor(private http: HttpClient) {}
+
+  baseUrl = 'api/uploads';
 
   uploadImages(
     type: TypesEnum,
@@ -17,7 +22,7 @@ export class UploadsService {
   ): Observable<string[]> {
     if (images.get('image')) {
       return this.http.post<string[]>(
-        `api/uploads/${type}/${item_id}/images`,
+        `${this.baseUrl}/${type}/${item_id}/images`,
         images
       );
     } else {
@@ -34,7 +39,7 @@ export class UploadsService {
   ): Observable<DocumentInterface> {
     if (form.get('file') && form.get('displayName')) {
       return this.http.post<DocumentInterface>(
-        `api/uploads/${type}/${item_id}/document`,
+        `${this.baseUrl}/${type}/${item_id}/document`,
         form
       );
     }
@@ -42,8 +47,17 @@ export class UploadsService {
   }
 
   getAuthedDocumentUrl(fileName: string): Observable<{ url: string }> {
-    return this.http.post<{ url: string }>('api/uploads/document/url', {
+    return this.http.post<{ url: string }>('${this.baseUrl}/document/url', {
       fileName: fileName,
     });
+  }
+
+  deleteDocument(fileName: string): Observable<SuccessMessageInterface> {
+    return this.http.delete<SuccessMessageInterface>(
+      `${this.baseUrl}/document`,
+      {
+        body: { filename: fileName },
+      }
+    );
   }
 }

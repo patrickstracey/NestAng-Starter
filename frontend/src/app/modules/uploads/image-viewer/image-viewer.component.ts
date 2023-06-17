@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 
 @Component({
@@ -6,15 +6,13 @@ import { environment } from '../../../../environments/environment';
   templateUrl: './image-viewer.component.html',
   styleUrls: ['./image-viewer.component.scss'],
 })
-export class ImageViewerComponent implements OnInit {
+export class ImageViewerComponent {
   imageUrl = environment.IMAGE_URL;
   @Input() images: string[] = [];
   currentImage: string | null = null;
   imageIndex: number = 0;
 
   constructor() {}
-
-  ngOnInit(): void {}
 
   viewImage(index: number) {
     this.imageIndex = index;
