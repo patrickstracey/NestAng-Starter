@@ -21,6 +21,12 @@ const fileConfigs: UploaderConfigInterface = {
   uploadType: 'file (.pdf)',
 };
 
+/**
+ * This component takes and displays files and emits them as form data, you should call the uploads service from the component
+ * that is creating the entity these will be attached to. This allows you to subscribe to a creation event and then attempt
+ * to attach the files to the newly created entity via the upload service while creating the impression of a single unified
+ * step for your users.
+ */
 @Component({
   selector: 'uploader',
   templateUrl: './uploader.component.html',
@@ -32,7 +38,7 @@ export class UploaderComponent implements OnInit {
   fileNames: string[] = [];
   fileErrors: string[] = [];
   uploadedImages = new FormData();
-  readableImageString: string = 'images';
+  readableTypeString: string = 'images';
   configs: UploaderConfigInterface = imageConfigs;
 
   @Input() uploaderType: 'file' | 'image' = 'image';
@@ -47,9 +53,9 @@ export class UploaderComponent implements OnInit {
     }
 
     if (this.limit > 1) {
-      this.readableImageString = this.configs.string + 's';
+      this.readableTypeString = this.configs.string + 's';
     } else {
-      this.readableImageString = this.configs.string;
+      this.readableTypeString = this.configs.string;
     }
   }
 

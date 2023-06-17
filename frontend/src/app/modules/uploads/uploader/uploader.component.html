@@ -15,12 +15,12 @@
     [disabled]="fileNames.length >= limit"
   >
     Select
-    {{ fileNames.length >= limit ? " Limit Reached" : readableImageString }}
+    {{ fileNames.length >= limit ? " Limit Reached" : readableTypeString }}
   </button>
 
   <span
   >Max file size is {{ configs.sizeLimit / 1000000 }} MB per
-    {{ configs.uploadType }}. {{ limit }} {{ readableImageString }} per
+    {{ configs.uploadType }}. {{ limit }} {{ readableTypeString }} per
     upload.</span
   >
   <span *ngFor="let err of fileErrors" class="error">{{ err }}</span>
@@ -51,6 +51,6 @@
     *ngIf="previews.length > 0"
     id="remove"
   >
-    Remove {{ limit > 1 ? "All " + readableImageString : readableImageString }}
+    Remove {{ limit > 1 ? "All " + readableTypeString : readableTypeString }}
   </button>
 </div>

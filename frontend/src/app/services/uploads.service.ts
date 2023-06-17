@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, take } from 'rxjs';
-import { TypesEnum } from '../../../../shared/enums';
 import {
+  BaseInterface,
   DocumentInterface,
   SuccessMessageInterface,
 } from '../../../../shared/interfaces';
@@ -16,13 +16,12 @@ export class UploadsService {
   baseUrl = 'api/uploads';
 
   uploadImages(
-    type: TypesEnum,
-    item_id: string,
+    attached_to: BaseInterface,
     images: FormData
   ): Observable<string[]> {
     if (images.get('image')) {
       return this.http.post<string[]>(
-        `${this.baseUrl}/${type}/${item_id}/images`,
+        `${this.baseUrl}/${attached_to.type}/${attached_to._id}/images`,
         images
       );
     } else {
@@ -33,13 +32,12 @@ export class UploadsService {
   }
 
   uploadDocument(
-    type: TypesEnum,
-    item_id: string,
+    attached_to: BaseInterface,
     form: FormData
   ): Observable<DocumentInterface> {
     if (form.get('file') && form.get('displayName')) {
       return this.http.post<DocumentInterface>(
-        `${this.baseUrl}/${type}/${item_id}/document`,
+        `${this.baseUrl}/${attached_to.type}/${attached_to._id}/document`,
         form
       );
     }
