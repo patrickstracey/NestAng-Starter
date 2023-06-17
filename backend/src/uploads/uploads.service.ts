@@ -34,12 +34,16 @@ export class UploadsService {
     }
   }
 
-  async uploadImages(attach_to: BaseInterface, images: Array<Express.Multer.File>): Promise<string[]> {
+  async uploadImages(
+    token: TokenInterface,
+    attach_to: BaseInterface,
+    images: Array<Express.Multer.File>,
+  ): Promise<string[]> {
     const promises: Promise<string>[] = [];
     const result: string[] = [];
 
     for (let i = 0; i < images.length; i++) {
-      const fileName = this.generateRandomFilename(images[i].mimetype, attach_to.type);
+      const fileName = `${token.oid}/${this.generateRandomFilename(images[i].mimetype, attach_to.type)}`;
       promises.push(this.uploadSingleImage(fileName, images[i].buffer));
     }
 
@@ -124,6 +128,19 @@ export class UploadsService {
     } catch (e) {
       this.logger.error(e);
     }
+  }
+
+  async attemptImageDelete(token: TokenInterface, fileName: string): Promise<SuccessMessageInterface> {
+    const orgId: string = fileName.split('/')[0];
+    if (orgId == token.oid) {
+      try {
+        await this.storage.bucket(environment.google.image_bucket_id).file(`${fileName}`).delete();
+        return { message: 'success' };
+      } catch (e) {
+        this.logger.error(e);
+      }
+    }
+    throw new ForbiddenException('You cannot delete that image');
   }
 
   private generateRandomFilename(fileType: string, itemType: TypesEnum): string {

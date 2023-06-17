@@ -52,9 +52,12 @@ export class UploadsService {
     });
   }
 
-  deleteDocument(fileName: string): Observable<SuccessMessageInterface> {
+  deleteUpload(
+    fileName: string,
+    typeString: 'document' | 'image'
+  ): Observable<SuccessMessageInterface> {
     return this.http.delete<SuccessMessageInterface>(
-      `${this.baseUrl}/document`,
+      `${this.baseUrl}/${typeString}`,
       {
         body: { filename: fileName },
       }
