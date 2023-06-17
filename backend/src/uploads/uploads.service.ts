@@ -9,7 +9,7 @@ import { Storage, GetSignedUrlConfig } from '@google-cloud/storage';
 import { environment } from '../../environments/environment';
 import { DatabaseTables, TypesEnum } from '../../../shared/enums';
 import { DatabaseService } from '../database';
-import { BaseInterface, DocumentInterface, TokenInterface } from '../../../shared/interfaces';
+import { BaseInterface, DocumentInterface, SuccessMessageInterface, TokenInterface } from '../../../shared/interfaces';
 import { ObjectId } from 'mongodb';
 
 @Injectable()
@@ -117,20 +117,10 @@ export class UploadsService {
     }
   }
 
-  attemptDocumentDelete(token: TokenInterface, fileName: string) {
+  async attemptDocumentDelete(token: TokenInterface, fileName: string): Promise<SuccessMessageInterface> {
     try {
-      this.storage
-        .bucket(environment.google.doc_bucket_id)
-        .file(`${token.oid}/${fileName}`)
-        .delete()
-        .then(
-          () => {
-            return;
-          },
-          (err) => {
-            this.logger.error(err);
-          },
-        );
+      await this.storage.bucket(environment.google.doc_bucket_id).file(`${token.oid}/${fileName}`).delete();
+      return { message: 'success' };
     } catch (e) {
       this.logger.error(e);
     }

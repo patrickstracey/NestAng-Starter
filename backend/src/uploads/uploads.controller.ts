@@ -7,11 +7,12 @@ import {
   UseInterceptors,
   BadRequestException,
   Body,
+  Delete,
 } from '@nestjs/common';
 import { FilesInterceptor, FileInterceptor } from '@nestjs/platform-express';
 import { TokenData, Permission } from '../utility/decorators';
 import { PermissionEnum } from '../../../shared/enums';
-import { DocumentInterface, TokenInterface } from '../../../shared/interfaces';
+import { DocumentInterface, SuccessMessageInterface, TokenInterface } from '../../../shared/interfaces';
 import { UploadsService } from './uploads.service';
 import { GetDocUrlDto } from './document.dto';
 
@@ -51,5 +52,14 @@ export class UploadsController {
     @UploadedFiles() images: Array<Express.Multer.File>,
   ): Promise<string[]> {
     return await this.uploadsService.uploadImages({ _id: id, type: type }, images);
+  }
+
+  @Delete('/document')
+  @Permission(PermissionEnum.ADMIN)
+  async deleteDocument(
+    @TokenData() token: TokenInterface,
+    @Body() body: GetDocUrlDto,
+  ): Promise<SuccessMessageInterface> {
+    return this.uploadsService.attemptDocumentDelete(token, body.fileName);
   }
 }
