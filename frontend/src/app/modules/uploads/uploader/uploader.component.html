@@ -1,0 +1,92 @@
+<div class="row start">
+  <ng-container *ngIf="configs.string == 'image'">
+    <img
+      *ngFor="let img of previews"
+      src="{{ img }}"
+      alt="user uploaded image"
+      class="preview-img fade-in"
+    />
+  </ng-container>
+  <ng-container *ngIf="configs.string == 'file'">
+    <div *ngFor="let fileName of fileNames" class="row file">
+      <div class="input-group column start">
+        <label for="title"
+        ><strong>Document Name</strong></label
+        >
+        <input
+          id="title"
+          type="text"
+          [formControl]="documentDisplayName"
+          placeholder="Public Facing Name"
+          required
+          [ngClass]="{
+            error: documentDisplayName.invalid && documentDisplayName.touched
+          }"
+        />
+        <span
+          [ngClass]="{
+            error: documentDisplayName.invalid && documentDisplayName.touched
+          }"
+        >This field is required</span
+        >
+      </div>
+      <div class="column">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg"
+          alt="icon representing a pdf file"
+          class="preview-file fade-in"
+        />
+        <span>{{ fileName }}</span>
+      </div>
+    </div>
+
+
+  </ng-container>
+</div>
+<div class="input-group column">
+  <input
+    id="images"
+    type="file"
+    accept="{{ configs.accept }}"
+    [multiple]="limit > 1"
+    (change)="onFileSelected($event)"
+    onclick="this.value = null"
+    #fileInput
+    style="display: none"
+  />
+  <div class="btn-bar">
+    <button
+      (click)="fileInput.click()"
+      class="btn mini secondary"
+      id="select"
+      [disabled]="fileNames.length >= limit"
+    >
+      Select
+      {{ fileNames.length >= limit ? " Limit Reached" : readableTypeString }}
+    </button>
+    <button
+      (click)="removeImages()"
+      class="btn mini warn"
+      *ngIf="previews.length > 0"
+      id="remove"
+    >
+      Remove {{ limit > 1 ? "All " + readableTypeString : readableTypeString }}
+    </button>
+    <button
+      (click)="upload()"
+      class="btn mini primary"
+      id="upload"
+      *ngIf="attached_to && previews.length > 0"
+    >
+      Save {{ readableTypeString}}
+    </button>
+  </div>
+
+
+  <span
+  >Max file size is {{ configs.sizeLimit / 1000000 }} MB per
+    {{ configs.uploadType }}. {{ limit }} {{ readableTypeString }} per
+    upload.</span
+  >
+  <span *ngFor="let err of fileErrors" class="error">{{ err }}</span>
+</div>

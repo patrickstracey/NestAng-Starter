@@ -1,0 +1,42 @@
+.start {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.preview-img {
+  width: 150px;
+  height: 150px;
+  margin-right: 16px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.file {
+  flex-grow: 1;
+
+  span {
+    font-style: italic;
+  }
+}
+
+.preview-file {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 4px;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+.btn-bar {
+  margin-top: 16px;
+}
+
+.btn {
+  text-transform: capitalize;
+}
+
+.input-group {
+  flex-grow: 1;
+}
+

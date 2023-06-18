@@ -8,8 +8,13 @@ export const environment = {
     name: 'nestAng',
   },
   sendgrid: {
-    api_key: '{{YOUR_SENDGRID_API_KEY}}',
+    api_key: '{{YOUR_SENDGRID_API_KEY}}', //DO NOT EXPOSE THIS VALUE IN A PROD ENVIRONMENT!
     url: 'http://localhost:4200',
     email_domain: '@{{YOUR_EMAIL_DOMAIN}}.com',
+  },
+  google: {
+    project_id: '{{YOUR GCP PROJECT ID}}', //DO NOT EXPOSE THIS VALUE IN A PROD ENVIRONMENT!
+    image_bucket_id: '{{YOUR GCP PUBLIC IMAGE BUCKET ID}}', //DO NOT EXPOSE THIS VALUE IN A PROD ENVIRONMENT!
+    doc_bucket_id: '{{YOUR GCP PRIVATE DOCS BUCKET ID}}', //DO NOT EXPOSE THIS VALUE IN A PROD ENVIRONMENT!
   },
 };
