@@ -16,6 +16,7 @@ import { AclInviteInterface } from '../../../../../../shared/interfaces';
 export class SignupPageComponent implements OnInit {
   signup!: UntypedFormGroup;
   emailError: string | null = null;
+  orgError: string | null = null;
   passwordError: boolean = false;
   invite: AclInviteInterface | null = null;
 
@@ -33,6 +34,7 @@ export class SignupPageComponent implements OnInit {
 
   initLoginForm() {
     this.signup = this.fb.group({
+      organization_name: [''],
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -52,8 +54,13 @@ export class SignupPageComponent implements OnInit {
           this.emailError = err.error.message;
         },
       });
-    } else if (this.signup.controls['email'].invalid) {
-      this.emailError = 'Please enter a valid email address.';
+    } else {
+      if (this.signup.controls['email'].invalid) {
+        this.emailError = 'Please enter a valid email address.';
+      }
+      if (this.signup.controls['organization_name'].invalid) {
+        this.orgError = 'Please enter the name for your new organization.';
+      }
     }
   }
 
@@ -72,6 +79,7 @@ export class SignupPageComponent implements OnInit {
   resetErrors() {
     this.emailError = null;
     this.passwordError = false;
+    this.orgError = null;
   }
 
   getInvite() {
@@ -79,8 +87,15 @@ export class SignupPageComponent implements OnInit {
     if (id) {
       this._auth.findInvite(id).subscribe({
         next: (res) => (this.invite = res),
-        error: () => (this.invite = null),
+        error: () => {
+          this.invite = null;
+          this._router.navigate(['signup']);
+        },
       });
+    } else {
+      this.signup.controls['organization_name'].setValidators(
+        Validators.required
+      );
     }
   }
 }
