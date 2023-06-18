@@ -6,10 +6,15 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { Storage, GetSignedUrlConfig } from '@google-cloud/storage';
-import { environment } from '../../environments/environment';
-import { DatabaseTables, TypesEnum } from '../../../shared/enums';
-import { DatabaseService } from '../database';
-import { BaseInterface, DocumentInterface, SuccessMessageInterface, TokenInterface } from '../../../shared/interfaces';
+import { environment } from '../../../environments/environment';
+import { DatabaseTables, TypesEnum } from '../../../../shared/enums';
+import { DatabaseService } from '../../database';
+import {
+  BaseInterface,
+  DocumentInterface,
+  SuccessMessageInterface,
+  TokenInterface,
+} from '../../../../shared/interfaces';
 import { ObjectId } from 'mongodb';
 
 @Injectable()
@@ -18,17 +23,17 @@ export class UploadsService {
 
   constructor(private databaseService: DatabaseService) {
     this.storage = new Storage({
-      keyFilename: './src/uploads/google.config.json',
+      keyFilename: './src/routes/uploads/google.config.json',
       projectId: environment.google.project_id,
     });
   }
 
   private readonly logger = new Logger(UploadsService.name);
 
-  private async assignImagesToEntity(id: string, image_urls: string[], type: TypesEnum) {
-    const collectionString: DatabaseTables = this.returnValidTableString(type);
+  private async assignImagesToEntity(attach_to: BaseInterface, image_urls: string[]) {
+    const collectionString: DatabaseTables = this.returnValidTableString(attach_to.type);
     if (collectionString) {
-      this.databaseService.updateSingleItem(collectionString, id, { images: image_urls });
+      this.databaseService.updateImagesArray(collectionString, attach_to._id, image_urls);
     } else {
       throw new ForbiddenException('You may not upload those images here.');
     }
@@ -52,7 +57,7 @@ export class UploadsService {
       promise.status == 'fulfilled' ? result.push(promise.value) : '';
     });
 
-    this.assignImagesToEntity(attach_to._id, result, attach_to.type);
+    this.assignImagesToEntity(attach_to, result);
     return result;
   }
 

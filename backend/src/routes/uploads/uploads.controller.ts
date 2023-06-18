@@ -10,9 +10,9 @@ import {
   Delete,
 } from '@nestjs/common';
 import { FilesInterceptor, FileInterceptor } from '@nestjs/platform-express';
-import { TokenData, Permission } from '../utility/decorators';
-import { PermissionEnum } from '../../../shared/enums';
-import { DocumentInterface, SuccessMessageInterface, TokenInterface } from '../../../shared/interfaces';
+import { TokenData, Permission } from '../../utility/decorators';
+import { PermissionEnum } from '../../../../shared/enums';
+import { DocumentInterface, SuccessMessageInterface, TokenInterface } from '../../../../shared/interfaces';
 import { UploadsService } from './uploads.service';
 import { GetDocUrlDto } from './document.dto';
 
