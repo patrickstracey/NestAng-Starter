@@ -43,21 +43,20 @@ you with:
       implementation stored on a users table which has suited my starting needs_
 - The ability to initialize, connect to, and seed a Mongo database
     - _Adding a SQL option would be slated for future_
+- Signup, Invite, and Password Reset emails via Sendgrid
+- Image and PDF uploads via Google Cloud Storage
 - JWT tokens and Cookies (including refesh endpoint and auto login functionality)
 - Auth guards, route decorators, and interceptors
 - Account & Dashboard page
 - ACL management.
 
-### What Is Not Yet Implemented (as of 6/7/23)
+### What Is Not Yet Implemented (as of 6/17/23)
 
 I have used these services and built these features in multiple projects before and so my hope is that I will be able to
 get to adding these fairly quickly, but at the moment the project still needs the following items added:
 
-- Uploads functionality for both images and pdfs to be stored on Google Cloud Storage
 - Deployment scripts and configs, I use Render but these should be usable with any comparable hosting provider
 - An Admin Portal
-- More extensive README documentation, currently there are meaningfully written READMEs in the `backend`, `frontend`,
-  and `mock_data/mongo_seeds` directories.
 
 ### Database
 
