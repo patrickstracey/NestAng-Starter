@@ -133,4 +133,21 @@ export class MongoService {
       throw new InternalServerErrorException(`Update of item was not successful`);
     }
   }
+
+  async updateImagesArray(collection: DatabaseTables, id: string, newItems: string[]): Promise<BaseInterface> {
+    try {
+      const options = { upsert: false, returnDocument: 'after' };
+      const result = await this._db
+        .collection(collection)
+        .findOneAndUpdate({ _id: this.idConvert(id) }, { $push: { images: { $each: newItems } } }, options);
+      if (result.value._id) {
+        return result.value;
+      } else {
+        new InternalServerErrorException(`Unable to update item. No result returned.`);
+      }
+    } catch (err) {
+      Logger.error(`DB Service: Unable to update array on item with id: [${id}]`);
+      throw new InternalServerErrorException(`Update of item was not successful`);
+    }
+  }
 }
