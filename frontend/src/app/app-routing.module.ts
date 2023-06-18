@@ -19,6 +19,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'organization/account',
+    loadChildren: () =>
+      import('./pages/organization-page/organization-page.module').then(
+        (m) => m.OrganizationPageModule
+      ),
+  },
+  {
     path: '',
     component: HomePageComponent,
     canActivate: [AuthGuardFn],

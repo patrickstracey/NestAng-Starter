@@ -1,0 +1,29 @@
+<h1>Organization Information</h1>
+<ui-page>
+  <ui-card class="holder" *ngIf="organization && !loading">
+    <div class="organization-item row">
+      <div class="info-item">
+        <h3>Name</h3>
+        <span *ngIf="!nameEdit">{{ organization.name }}</span>
+        <input type="text" *ngIf="nameEdit" [formControl]="name"/>
+      </div>
+      <button class="btn primary" (click)="editName()">
+        {{ nameEdit ? "Save Name" : "Update" }}
+      </button>
+    </div>
+    <div class="organization-item row">
+      <div class="info-item">
+        <h3>Created On</h3>
+        <span>{{ organization.date_created | date: 'longDate'}}</span>
+      </div>
+    </div>
+  </ui-card>
+  <div *ngIf="!organization && !loading"><p>Failed to Load Organization Information</p></div>
+  <div sideboard>
+    <ui-card><p>Maybe put some organization specific tips here?</p></ui-card>
+  </div>
+</ui-page>
+<ui-loader
+  *ngIf="loading"
+  [message]="'Loading Your Organization Information'"
+></ui-loader>

@@ -6,9 +6,10 @@ import { UserModule } from './routes/user';
 import { AuthModule } from './routes/auth';
 import { AclsModule } from './routes/acls';
 import { UploadsModule } from './routes/uploads';
+import { OrganizationModule } from './routes/organization';
 
 @Module({
-  imports: [DatabaseModule, AuthModule, UserModule, AclsModule, UploadsModule],
+  imports: [DatabaseModule, AuthModule, UserModule, AclsModule, UploadsModule, OrganizationModule],
   controllers: [],
   providers: [
     { provide: APP_GUARD, useClass: JwtAuthGuard },

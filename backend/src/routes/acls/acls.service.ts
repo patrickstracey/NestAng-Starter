@@ -22,9 +22,9 @@ export class AclsService {
     return this.dbService.database.collection(this.aclCollection);
   }
 
-  async create(id_organization: string, createAclDto: AclDto): Promise<AclInterface> {
+  async create(id_organization: string, createAclDto: AclDto, user?: UserInterface): Promise<AclInterface> {
     const newAcl: BaseAclInterface = {
-      id_user: null,
+      id_user: user ? this.dbService.idConvert(user._id) : null,
       id_organization: this.dbService.idConvert(id_organization),
       permission: createAclDto.permission,
       type: TypesEnum.ACL,
@@ -33,7 +33,10 @@ export class AclsService {
     };
 
     const result = (await this.dbService.insertSingleItem(this.aclCollection, newAcl)) as AclInterface;
-    this.mailService.sendInviteEmail(result._id, createAclDto.email);
+    if (!user) {
+      this.mailService.sendInviteEmail(result._id, createAclDto.email);
+    }
+
     return result;
   }
 
@@ -85,6 +88,14 @@ export class AclsService {
     } catch (err) {
       Logger.error(`DB Service: Unable to assign acl with id: [${id_acl}] to user with id [${user._id}]`);
       throw new InternalServerErrorException(`Update of item was not successful. No result returned.`);
+    }
+  }
+
+  async updateOrgName(org_id: ObjectId, new_name: string) {
+    try {
+      this.db.updateMany({ id_organization: org_id }, { $set: { name_organization: new_name } });
+    } catch {
+      Logger.error(`ACL Service: Failed to rename org ${org_id} on acls dor this org.`);
     }
   }
 }

@@ -5,7 +5,7 @@ import { Permission, TokenData } from '../../utility/decorators';
 import { AclInterface, TokenInterface } from '../../../../shared/interfaces';
 import { PermissionEnum } from '../../../../shared/enums';
 
-@Controller('organization/acls')
+@Controller('acls')
 export class AclsController {
   constructor(private readonly aclsService: AclsService) {}
 

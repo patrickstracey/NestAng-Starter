@@ -10,7 +10,7 @@ import {
   providedIn: 'root',
 })
 export class AclService {
-  private baseUrl = 'api/organization/acls';
+  private baseUrl = 'api/acls';
   private acls: AclInterface[] = [];
 
   constructor(private http: HttpClient) {}

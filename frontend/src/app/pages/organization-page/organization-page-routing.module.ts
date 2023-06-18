@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { OrganizationPageComponent } from './organization-page.component';
 import { AdminGuardFn, AuthGuardFn } from '../../utility/guards';
-import { UsersPageComponent } from './users-page.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: UsersPageComponent,
+    component: OrganizationPageComponent,
     canActivate: [AuthGuardFn, AdminGuardFn],
   },
 ];
@@ -15,4 +15,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class UsersPageRoutingModule {}
+export class OrganizationPageRoutingModule {}
