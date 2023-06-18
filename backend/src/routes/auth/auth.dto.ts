@@ -1,4 +1,4 @@
-import { IsDefined, IsEmail, IsString } from 'class-validator';
+import { IsDefined, IsEmail, IsOptional, IsString } from 'class-validator';
 import { LoginInterface, SignupInterface } from '../../../../shared/interfaces';
 
 export class LoginDto implements LoginInterface {
@@ -23,6 +23,9 @@ export class SignupDto implements SignupInterface {
   @IsString()
   @IsDefined()
   passwordConfirm: string;
+  @IsString()
+  @IsOptional()
+  organization_name: string;
 }
 
 export class EmailOnlyDto {

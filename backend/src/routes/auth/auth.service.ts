@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import {
   AclInviteInterface,
+  OrganizationInterface,
   SessionInterface,
   SuccessMessageInterface,
   TokenInterface,
@@ -16,8 +17,9 @@ import { JwtService } from '@nestjs/jwt';
 import { PermissionEnum } from '../../../../shared/enums';
 import { UserService } from '../user';
 import { DatabaseService } from '../../database';
-import { AclsService } from '../acls';
+import { AclsService, AclDto } from '../acls';
 import { PasswordService, PasswordResetDto } from '../../password';
+import { OrganizationService } from '../organization';
 
 @Injectable()
 export class AuthService {
@@ -26,7 +28,8 @@ export class AuthService {
     private userService: UserService,
     private aclService: AclsService,
     private passwordService: PasswordService,
-    private JWT_SERVICE: JwtService,
+    private organizationService: OrganizationService,
+    private jwtService: JwtService,
   ) {}
 
   async attemptLogin(attempt: LoginDto): Promise<SessionInterface> {
@@ -43,11 +46,15 @@ export class AuthService {
     }
   }
 
-  async signupUser(signupAttempt: SignupDto, invite_id?: string): Promise<SessionInterface> {
+  async signupUser(signupAttempt: SignupDto, inviteId?: string): Promise<SessionInterface> {
     const createdUser = await this.generateUser(signupAttempt);
     try {
-      if (invite_id) {
-        await this.aclService.assignUserToAcl(invite_id, createdUser);
+      if (inviteId) {
+        //if invited assign new user to correct acl
+        await this.aclService.assignUserToAcl(inviteId, createdUser);
+      } else if (signupAttempt.organization_name) {
+        //if entirely brand new create new org and initial admin ACL for this user
+        await this.createNewOrganizationAccount(signupAttempt, createdUser);
       }
       return await this.generateJwtSession(createdUser);
     } catch (err) {
@@ -75,10 +82,7 @@ export class AuthService {
   }
 
   private async generateJwtSession(user: UserInterface): Promise<SessionInterface> {
-    if (user.password) {
-      delete user.password;
-    }
-    const session: SessionInterface = await this.buildSession(user);
+    const session: SessionInterface = await this.buildSession(this.userService.cleanUser(user));
     const token: string = await this.buildAccessToken(session);
     return { ...session, access_token: token };
   }
@@ -102,7 +106,7 @@ export class AuthService {
       oid: session.acl_active.id_organization,
       acc: session.permission,
     };
-    return this.JWT_SERVICE.sign(payload);
+    return this.jwtService.sign(payload);
   }
 
   async refreshToken(token: TokenInterface): Promise<SessionInterface> {
@@ -131,20 +135,34 @@ export class AuthService {
     return !!(await this.passwordService.getResetToken(id));
   }
 
-  async resetUserPassword(reset_id: string, resetReq: PasswordResetDto): Promise<boolean> {
+  async resetUserPassword(resetId: string, resetReq: PasswordResetDto): Promise<boolean> {
     try {
-      const resetInfo = await this.passwordService.getResetToken(reset_id);
+      const resetInfo = await this.passwordService.getResetToken(resetId);
       if (resetReq.email == resetInfo?.email) {
         const newPassword = await this.passwordService.encryptPassword({
           password: resetReq.password,
           passwordConfirm: resetReq.passwordConfirm,
         });
         const result = await this.userService.updatePassword(resetInfo.id_account, newPassword);
-        this.passwordService.deletePasswordReset(reset_id);
+        this.passwordService.deletePasswordReset(resetId);
         return result;
       }
     } catch {
       throw new UnprocessableEntityException('Not a valid Password Reset Request');
     }
+  }
+
+  async createNewOrganizationAccount(signupAttempt: SignupDto, user: UserInterface) {
+    const newOrg: OrganizationInterface = await this.organizationService.create({
+      name: signupAttempt.organization_name,
+    });
+
+    const aclGenerate: AclDto = {
+      email: user.email,
+      name_organization: newOrg.name,
+      name_user: user.name,
+      permission: PermissionEnum.ADMIN,
+    };
+    await this.aclService.create(newOrg._id, aclGenerate, user);
   }
 }

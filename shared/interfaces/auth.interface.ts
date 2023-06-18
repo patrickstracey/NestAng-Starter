@@ -8,6 +8,7 @@ export interface LoginInterface {
 }
 
 export interface SignupInterface extends LoginInterface {
+  organization_name?: string;
   passwordConfirm: string;
 }
 
