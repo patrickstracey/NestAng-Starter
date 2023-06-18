@@ -37,7 +37,9 @@ export class OrganizationPageComponent implements OnInit {
     if (this.nameEdit) {
       this.nameEdit = false;
       if (this.name.value && this.name.value != this.organization?.name) {
-        this._org.patchOrganization({ name: this.name.value! });
+        this._org
+          .patchOrganization({ name: this.name.value! })
+          .subscribe((res) => (this.organization = res));
       }
     } else {
       this.nameEdit = true;
