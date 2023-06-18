@@ -45,7 +45,7 @@ export class UploadsService {
   }
 
   getAuthedDocumentUrl(fileName: string): Observable<{ url: string }> {
-    return this.http.post<{ url: string }>('${this.baseUrl}/document/url', {
+    return this.http.post<{ url: string }>(`${this.baseUrl}/document/url`, {
       fileName: fileName,
     });
   }
