@@ -1,7 +1,9 @@
 import { BaseInterface } from "./base.interface";
 import { TypesEnum } from "../enums";
 
-export interface OrganizationInterface extends BaseInterface {
+export interface OrganizationInterface
+  extends BaseInterface,
+    BaseOrganizationInterface {
   type: TypesEnum.ORGANIZATION;
 }
 
