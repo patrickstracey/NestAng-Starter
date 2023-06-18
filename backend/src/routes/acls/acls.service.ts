@@ -87,4 +87,12 @@ export class AclsService {
       throw new InternalServerErrorException(`Update of item was not successful. No result returned.`);
     }
   }
+
+  async updateOrgName(org_id: ObjectId, new_name: string) {
+    try {
+      this.db.updateMany({ id_organization: org_id }, { $set: { name_organization: new_name } });
+    } catch {
+      Logger.error(`ACL Service: Failed to rename org ${org_id} on acls dor this org.`);
+    }
+  }
 }
