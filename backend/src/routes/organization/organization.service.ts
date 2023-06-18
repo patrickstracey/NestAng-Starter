@@ -1,14 +1,13 @@
-import {Injectable, InternalServerErrorException} from '@nestjs/common';
-import {OrganizationDto} from './organization.dto';
-import {DatabaseTables, TypesEnum} from '../../../../shared/enums';
-import {DatabaseService} from '../../database';
-import {BaseOrganizationInterface, OrganizationInterface, TokenInterface} from '../../../../shared/interfaces';
-import {AclsService} from "../acls";
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { OrganizationDto } from './organization.dto';
+import { DatabaseTables, TypesEnum } from '../../../../shared/enums';
+import { DatabaseService } from '../../database';
+import { BaseOrganizationInterface, OrganizationInterface, TokenInterface } from '../../../../shared/interfaces';
+import { AclsService } from '../acls';
 
 @Injectable()
 export class OrganizationService {
-  constructor(private dbService: DatabaseService, private aclService: AclsService) {
-  }
+  constructor(private dbService: DatabaseService, private aclService: AclsService) {}
 
   private orgCollection = DatabaseTables.ORGANIZATIONS;
 
@@ -31,13 +30,16 @@ export class OrganizationService {
   }
 
   async update(token: TokenInterface, organizationDto: OrganizationDto): Promise<OrganizationInterface> {
-    const update = {name: organizationDto.name};
-    const result = await this.dbService.updateSingleItem(this.orgCollection, token.oid, update) as OrganizationInterface;
+    const update = { name: organizationDto.name };
+    const result = (await this.dbService.updateSingleItem(
+      this.orgCollection,
+      token.oid,
+      update,
+    )) as OrganizationInterface;
     if (result) {
       this.aclService.updateOrgName(result._id, result.name);
       return result;
     }
-    throw new InternalServerErrorException("failed to update organization name. Please try again")
-
+    throw new InternalServerErrorException('failed to update organization name. Please try again');
   }
 }

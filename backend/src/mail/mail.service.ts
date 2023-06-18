@@ -1,6 +1,6 @@
-import {Injectable} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import * as sendgrid from '@sendgrid/mail';
-import {environment} from '../../environments/environment';
+import { environment } from '../../environments/environment';
 
 interface BasicEmailTemplate {
   to: string;
@@ -24,28 +24,26 @@ const TEMPLATE_IDS = {
 
 @Injectable()
 export class MailService {
-
   serviceActive: boolean = environment.production;
 
   constructor() {
     if (this.serviceActive) {
       sendgrid.setApiKey(environment.sendgrid.api_key);
     }
-
   }
 
   private sendEmail(emailData: BasicEmailTemplate | IntegratedEmailTemplate) {
     if (this.serviceActive) {
       sendgrid.send(emailData).then(
-          () => {
-            return;
-          },
-          (error) => {
-            console.error(error);
-            if (error.response) {
-              console.error(error.response.body);
-            }
-          },
+        () => {
+          return;
+        },
+        (error) => {
+          console.error(error);
+          if (error.response) {
+            console.error(error.response.body);
+          }
+        },
       );
     }
   }
