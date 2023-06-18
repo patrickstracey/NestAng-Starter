@@ -13,28 +13,30 @@
 }
 
 .file {
-  margin-right: 24px;
-  font-style: italic;
+  flex-grow: 1;
+
+  span {
+    font-style: italic;
+  }
 }
 
 .preview-file {
-  width: 120px;
-  height: 120px;
+  width: 80px;
+  height: 80px;
   margin: 0 auto 4px;
   border-radius: 8px;
   object-fit: contain;
 }
 
-#upload {
-  max-width: 275px;
-  margin-top: 8px;
-  margin-bottom: 4px;
+.btn-bar {
+  margin-top: 16px;
+}
+
+.btn {
   text-transform: capitalize;
 }
 
-#remove {
-  max-height: 148px;
-  width: 150px;
-  border-radius: 8px;
-  text-transform: capitalize;
+.input-group {
+  flex-grow: 1;
 }
+
