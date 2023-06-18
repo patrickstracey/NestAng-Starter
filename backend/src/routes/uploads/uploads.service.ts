@@ -22,6 +22,7 @@ export class UploadsService {
   storage: Storage;
 
   constructor(private databaseService: DatabaseService) {
+    //https://developers.google.com/workspace/guides/create-credentials
     this.storage = new Storage({
       keyFilename: './src/routes/uploads/google.config.json',
       projectId: environment.google.project_id,
