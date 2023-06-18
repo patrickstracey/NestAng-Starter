@@ -8,4 +8,5 @@ export interface OrganizationInterface extends BaseInterface {
 export interface BaseOrganizationInterface {
   name: string;
   date_created: Date;
+  type: TypesEnum.ORGANIZATION;
 }
