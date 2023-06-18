@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ImageViewerComponent } from './image-viewer/image-viewer.component';
 import { UploaderComponent } from './uploader/uploader.component';
 import { DocumentViewerComponent } from './document-viewer/document-viewer.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -10,7 +11,7 @@ import { DocumentViewerComponent } from './document-viewer/document-viewer.compo
     UploaderComponent,
     DocumentViewerComponent,
   ],
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   exports: [ImageViewerComponent, DocumentViewerComponent, UploaderComponent],
 })
 export class UploadsModule {}
