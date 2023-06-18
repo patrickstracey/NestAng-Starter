@@ -5,9 +5,10 @@ import { DatabaseModule } from './database';
 import { UserModule } from './routes/user';
 import { AuthModule } from './routes/auth';
 import { AclsModule } from './routes/acls';
+import { UploadsModule } from './routes/uploads';
 
 @Module({
-  imports: [DatabaseModule, AuthModule, UserModule, AclsModule],
+  imports: [DatabaseModule, AuthModule, UserModule, AclsModule, UploadsModule],
   controllers: [],
   providers: [
     { provide: APP_GUARD, useClass: JwtAuthGuard },
