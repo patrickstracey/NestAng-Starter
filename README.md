@@ -20,11 +20,11 @@ and `mock_data/mongo_seeds` directories.
 
 ### The Stack
 
-| Front-end  | Back-end  | Database | Email  | Upload Storage | Deployment |
-| ----------------- | -------------- | ------------------- | ------------- | ---------------------- | ---------- |
-| [Angular 15](https://angular.io/)  | [NestJs 9](https://nestjs.com/)  | [MongoDB](https://www.mongodb.com/)                        | [Sendgrid](https://sendgrid.com/) | [Google Cloud Storage](https://cloud.google.com/) | [Render](https://render.com/) |
-| [Docs](https://angular.io/guide/developer-guide-overview) | [Docs](https://docs.nestjs.com/) | [Docs](https://www.mongodb.com/docs/drivers/node/current/) | [Docs](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/authentication) | [Docs](https://cloud.google.com/storage)   | [Docs](https://render.com/docs/#node) |
-| Implemented   | Implemented  | Implemented    | Implemented      | Not Yet Implemented    | Not Yet Implemented   |     |
+| Front-end                                                          | Back-end                                  | Database                                                            | Email                                                                                                  | Upload Storage                                      | Deployment                                     |
+|--------------------------------------------------------------------|-------------------------------------------|---------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|-----------------------------------------------------|------------------------------------------------|
+| [Angular 15](https://angular.io/)                                  | [NestJs 9](https://nestjs.com/)           | [MongoDB](https://www.mongodb.com/)                                 | [Sendgrid](https://sendgrid.com/)                                                                      | [Google Cloud Storage](https://cloud.google.com/)   | [Render](https://render.com/)                  |
+| [Official Docs](https://angular.io/guide/developer-guide-overview) | [Official Docs](https://docs.nestjs.com/) | [Official Docs](https://www.mongodb.com/docs/drivers/node/current/) | [Official Docs](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/authentication) | [Official Docs](https://cloud.google.com/storage)   | [Official Docs](https://render.com/docs/#node) |
+| [Implemented](frontend/README.md)                                  | [Implemented](backend/README.md)          | [Implemented](backend/src/database/README.md)                       | [Implemented](backend/src/mail/README.md)                                                              | [Implemented](backend/src/routes/uploads/README.md) | Not Yet Implemented                            |     |
 
 ## Context
 

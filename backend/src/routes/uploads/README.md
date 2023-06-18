@@ -28,5 +28,5 @@ decision conciously during development.
 In order to intilialize your bucket connection, you need to pass a config json on connection. The `UploadsService`
 handles this in the `constructor()` using the `google.config.json` file in the `Uploads` directory.
 
-In order for this to work though you will need to ensue that you add your project specific variables to this file and
+In order for this to work though you will need to ensure that you add your project specific variables to this file and
 your environment file. Otherwise the `UploadsService` will fail to create a connection to your Google Cloud Storage.
