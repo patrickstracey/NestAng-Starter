@@ -1,10 +1,10 @@
 <div class="page">
-  <div class="sign-in-card row fade-in">
-    <div class="card-content">
+  <div class="sign-in-card row">
+    <div class="card-content fade-in">
       <div class="header">
         <h1>{{ invite ? "Join" : "Create" }} Your Organization</h1>
       </div>
-      <div *ngIf="invite" class="fade-in org-display">
+      <div *ngIf="invite" class="org-display">
         <p>You have been invited to {{ invite.name_organization }}</p>
       </div>
 
@@ -16,6 +16,7 @@
             type="text"
             id="organization_name"
             formControlName="organization_name"
+            placeholder="Acme Inc."
             [ngClass]="{ error: orgError }"
           />
         </div>
@@ -27,6 +28,7 @@
             id="name"
             formControlName="name"
             autocomplete="name"
+            placeholder="Wiley Coyote"
             required
           />
         </div>
@@ -37,6 +39,7 @@
             id="email"
             formControlName="email"
             autocomplete="email"
+            placeholder="yourName@NestAng.com"
             required
             [ngClass]="{ error: emailError }"
           />
@@ -76,12 +79,13 @@
         <a routerLink="/login">Already Have an Account? Log In.</a>
       </div>
     </div>
-    <div class="welcome-image signup">
-      <img
-        class="img-hero"
-        alt="car on forest road"
-        src="https://images.unsplash.com/photo-1685268586501-ae3c3ca67efe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=927&q=80"
-      />
-    </div>
+
+  </div>
+  <div class="welcome-image fade-in">
+    <img
+      class="img-hero"
+      alt="car on forest road"
+      src="https://images.unsplash.com/photo-1685268586501-ae3c3ca67efe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=927&q=80"
+    />
   </div>
 </div>
