@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { AclInterface } from '../../../../../shared/interfaces';
-import { UserService, AclService } from '../../services';
+import {
+  AclInterface,
+  OrganizationInterface,
+} from '../../../../../shared/interfaces';
+import { UserService, AclService, OrganizationService } from '../../services';
 import { PermissionEnum } from '../../../../../shared/enums';
 
 @Component({
@@ -22,10 +25,12 @@ export class UsersPageComponent implements OnInit {
   inviteOpen: boolean = false;
   userId: string | null = null;
   permissions = PermissionEnum;
+  org: OrganizationInterface | null = null;
 
   constructor(
     private _acls: AclService,
     private _userAccount: UserService,
+    private _org: OrganizationService,
     private fb: FormBuilder
   ) {}
 
@@ -39,6 +44,8 @@ export class UsersPageComponent implements OnInit {
     this._acls.getAcls().subscribe((users) => {
       this.users = users;
     });
+
+    this._org.getOrganization().subscribe((res) => (this.org = res));
   }
 
   initForm() {
@@ -71,18 +78,20 @@ export class UsersPageComponent implements OnInit {
   inviteNewUser() {
     if (this.newAclForm.valid) {
       this.saving = true;
-      this._acls.addAcl(this.newAclForm.value).subscribe({
-        next: () => {
-          this.usersEdit = false;
-          this.saving = false;
-          this.newAclForm.reset();
-          this.inviteOpen = false;
-        },
-        error: () => {
-          this.saving = false;
-          this.adminErrorMessage = `Something went wrong trying to invite ${this.newAclForm.controls['email'].value}. Please try again.`;
-        },
-      });
+      this._acls
+        .addAcl({ ...this.newAclForm.value, name_organization: this.org!.name })
+        .subscribe({
+          next: () => {
+            this.usersEdit = false;
+            this.saving = false;
+            this.newAclForm.reset();
+            this.inviteOpen = false;
+          },
+          error: () => {
+            this.saving = false;
+            this.adminErrorMessage = `Something went wrong trying to invite ${this.newAclForm.controls['email'].value}. Please try again.`;
+          },
+        });
     } else {
       this.adminErrorMessage = 'Please enter a valid email.';
     }
