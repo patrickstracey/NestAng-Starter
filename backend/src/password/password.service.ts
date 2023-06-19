@@ -29,14 +29,14 @@ export class PasswordService {
     }
   }
 
-  async createAndSendReset(account_id: string, email: string): Promise<boolean> {
+  async createAndSendReset(accountId: string, email: string): Promise<boolean> {
     const today = new Date();
     const expires = new Date();
     expires.setMinutes(today.getMinutes() + 25);
 
     const resetToken: PasswordResetInterface = {
       type: TypesEnum.PASSWORD_RESET,
-      id_account: this.dbService.idConvert(account_id),
+      id_account: this.dbService.idConvert(accountId),
       email: email,
       created: today,
       expires: expires,
@@ -50,17 +50,17 @@ export class PasswordService {
     throw new InternalServerErrorException('Could not generate a password reset');
   }
 
-  async getResetToken(reset_id: string): Promise<PasswordResetInterface> {
-    const result = (await this.dbService.getSingleItem(this.resetsCollection, reset_id)) as PasswordResetInterface;
+  async getResetToken(resetId: string): Promise<PasswordResetInterface> {
+    const result = (await this.dbService.getSingleItem(this.resetsCollection, resetId)) as PasswordResetInterface;
     if (new Date() < result?.expires) {
       return result;
     } else {
-      this.deletePasswordReset(reset_id);
+      this.deletePasswordReset(resetId);
       throw new NotFoundException('Not a valid password reset link');
     }
   }
 
-  deletePasswordReset(reset_id) {
-    this.dbService.deleteSingleItem(this.resetsCollection, reset_id);
+  deletePasswordReset(resetId) {
+    this.dbService.deleteSingleItem(this.resetsCollection, resetId);
   }
 }
