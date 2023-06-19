@@ -16,7 +16,7 @@ Angular. One of the most notable being:
   whichever one works best for you when it is needed!
 
 - Components that are used routes are kept in the `pages` directory. If there are subcomponents only used in that
-  component then they will live side-by-side with that component's directory. If the coponent is shared it will be
+  component then they will live side-by-side with that component's directory. If the component is shared it will be
   placed in a module within the `modules`. An example of this would be the `card` and `page` components that are stored
   in the `UiModule` within `modules/ui`.
 - Anything that provides "utility" to your application like guards, pipes, and interceptors are stored in the `utility`

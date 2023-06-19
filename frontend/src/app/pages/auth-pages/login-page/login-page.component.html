@@ -1,5 +1,5 @@
 <div class="page">
-  <div class="sign-in-card row fade-in">
+  <div class="sign-in-card row ">
     <div class="card-content">
       <div class="header">
         <h1>Welcome to NestAng</h1>
@@ -12,6 +12,7 @@
             id="email"
             formControlName="email"
             autocomplete="email"
+            placeholder="yourName@NestAng.com"
             required
             [ngClass]="{ error: loginError }"
           />
@@ -38,12 +39,13 @@
         <a routerLink="/request-reset">Oh no! I forgot my password.</a>
       </div>
     </div>
-    <div class="welcome-image login">
-      <img
-        class="img-hero"
-        alt="a lightbulb held by a person"
-        src="{{ imageUrl }}"
-      />
-    </div>
+  </div>
+  <div class="welcome-image fade-in">
+    <img
+      class="img-hero"
+      alt="a lightbulb held by a person"
+      src="{{ imageUrl }}"
+    />
   </div>
 </div>
+

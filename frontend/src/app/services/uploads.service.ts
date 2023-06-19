@@ -16,12 +16,12 @@ export class UploadsService {
   baseUrl = 'api/uploads';
 
   uploadImages(
-    attached_to: BaseInterface,
+    attachedTo: BaseInterface,
     images: FormData
   ): Observable<string[]> {
     if (images.get('image')) {
       return this.http.post<string[]>(
-        `${this.baseUrl}/${attached_to.type}/${attached_to._id}/images`,
+        `${this.baseUrl}/${attachedTo.type}/${attachedTo._id}/images`,
         images
       );
     } else {
@@ -32,12 +32,12 @@ export class UploadsService {
   }
 
   uploadDocument(
-    attached_to: BaseInterface,
+    attachedTo: BaseInterface,
     form: FormData
   ): Observable<DocumentInterface> {
     if (form.get('file') && form.get('displayName')) {
       return this.http.post<DocumentInterface>(
-        `${this.baseUrl}/${attached_to.type}/${attached_to._id}/document`,
+        `${this.baseUrl}/${attachedTo.type}/${attachedTo._id}/document`,
         form
       );
     }

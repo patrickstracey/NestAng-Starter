@@ -61,11 +61,12 @@ export class AclService {
     email: string;
     permission: number;
     name_user: string;
+    name_organization: string;
   }): Observable<AclInterface> {
     const acl = {
       email: newAcl.email.trim(),
       permission: Number(newAcl.permission),
-      name_organization: 'test',
+      name_organization: newAcl.name_organization,
       name_user: newAcl.name_user,
     };
 

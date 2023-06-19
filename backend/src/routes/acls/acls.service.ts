@@ -40,12 +40,12 @@ export class AclsService {
     return result;
   }
 
-  async findAllByOrg(id_organization: string): Promise<AclInterface[]> {
-    return (await this.dbService.getAllOrgItems(this.aclCollection, id_organization)) as AclInterface[];
+  async findAllByOrg(idOrganization: string): Promise<AclInterface[]> {
+    return (await this.dbService.getAllOrgItems(this.aclCollection, idOrganization)) as AclInterface[];
   }
 
-  async findAllByUser(id_user: string | ObjectId): Promise<AclInterface[]> {
-    return (await this.dbService.getAllUserItems(this.aclCollection, id_user)) as AclInterface[];
+  async findAllByUser(idUser: string | ObjectId): Promise<AclInterface[]> {
+    return (await this.dbService.getAllUserItems(this.aclCollection, idUser)) as AclInterface[];
   }
 
   async update(id: string, updateAclDto: AclDto): Promise<AclInterface> {
@@ -57,8 +57,8 @@ export class AclsService {
     return await this.dbService.deleteSingleItem(this.aclCollection, id);
   }
 
-  async getAclInvite(id_acl: string): Promise<AclInviteInterface> {
-    const acl = (await this.dbService.getSingleItem(this.aclCollection, id_acl)) as AclInterface;
+  async getAclInvite(idAcl: string): Promise<AclInviteInterface> {
+    const acl = (await this.dbService.getSingleItem(this.aclCollection, idAcl)) as AclInterface;
 
     if (acl.id_user == null) {
       const result: AclInviteInterface = {
@@ -71,12 +71,12 @@ export class AclsService {
     throw new NotFoundException('Invite Not Found.');
   }
 
-  async assignUserToAcl(id_acl: string, user: UserInterface): Promise<AclInterface> {
+  async assignUserToAcl(idAcl: string, user: UserInterface): Promise<AclInterface> {
     try {
       const options = { upsert: false, returnDocument: 'after' };
       const update = { id_user: this.dbService.idConvert(user._id), name_user: user.name };
       const result = await this.db.findOneAndUpdate(
-        { _id: this.dbService.idConvert(id_acl) },
+        { _id: this.dbService.idConvert(idAcl) },
         { $set: update },
         options,
       );
@@ -86,16 +86,16 @@ export class AclsService {
         throw new InternalServerErrorException(`Unable to update item. No result returned.`);
       }
     } catch (err) {
-      Logger.error(`DB Service: Unable to assign acl with id: [${id_acl}] to user with id [${user._id}]`);
+      Logger.error(`DB Service: Unable to assign acl with id: [${idAcl}] to user with id [${user._id}]`);
       throw new InternalServerErrorException(`Update of item was not successful. No result returned.`);
     }
   }
 
-  async updateOrgName(org_id: ObjectId, new_name: string) {
+  async updateOrgName(orgId: ObjectId, newName: string) {
     try {
-      this.db.updateMany({ id_organization: org_id }, { $set: { name_organization: new_name } });
+      this.db.updateMany({ id_organization: orgId }, { $set: { name_organization: newName } });
     } catch {
-      Logger.error(`ACL Service: Failed to rename org ${org_id} on acls dor this org.`);
+      Logger.error(`ACL Service: Failed to rename org ${orgId} on acls dor this org.`);
     }
   }
 }
