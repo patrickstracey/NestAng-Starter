@@ -57,11 +57,11 @@ export class MongoService {
     }
   }
 
-  async getAllOrgItems(collection: DatabaseTables, id_organization: string): Promise<BaseInterface[]> {
+  async getAllOrgItems(collection: DatabaseTables, idOrganization: string): Promise<BaseInterface[]> {
     try {
       const result = await this._db
         .collection(collection)
-        .find({ id_organization: this.idConvert(id_organization) })
+        .find({ id_organization: this.idConvert(idOrganization) })
         .toArray();
       if (result) {
         return result;
@@ -69,16 +69,16 @@ export class MongoService {
         new NotFoundException();
       }
     } catch (err) {
-      Logger.error(`DB Service: Failed to find items from [${collection}] with org id: [${id_organization}]`);
+      Logger.error(`DB Service: Failed to find items from [${collection}] with org id: [${idOrganization}]`);
       throw new NotFoundException();
     }
   }
 
-  async getAllUserItems(collection: DatabaseTables, id_user: string | ObjectId): Promise<BaseInterface[]> {
+  async getAllUserItems(collection: DatabaseTables, idUser: string | ObjectId): Promise<BaseInterface[]> {
     try {
       const result = await this._db
         .collection(collection)
-        .find({ id_user: this.idConvert(id_user) })
+        .find({ id_user: this.idConvert(idUser) })
         .toArray();
       if (result) {
         return result;
@@ -86,7 +86,7 @@ export class MongoService {
         new NotFoundException();
       }
     } catch (err) {
-      Logger.error(`DB Service: Failed to find items from [${collection}] with user id: [${id_user}]`);
+      Logger.error(`DB Service: Failed to find items from [${collection}] with user id: [${idUser}]`);
       throw new NotFoundException();
     }
   }
