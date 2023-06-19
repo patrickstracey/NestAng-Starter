@@ -5,7 +5,7 @@ I have followed the documentation and tried to stick to best practices for file 
 - Services live in the directory with their related controller, module, and needed DTOs
 - Any API route is stored within the top level `routes` directory so that other directories that are not controllers do
   not get lost in a long file tree list
-- the `database` directory contains everything needed to get mongo intialized, but keep in mind the initialization is
+- the `database` directory contains everything needed to get mongo initialized, but keep in mind the initialization is
   called in the top level `main.ts` file.
 - Utility items like route decorators and route guards are stored within the top level `utility` directory.
 - Future items like a mail or upload service are likely to be stored in a top-level directory called `mail`
