@@ -4,7 +4,7 @@
 
 label {
   font-family: var(--body-font);
-  margin-bottom: 4px;
+  margin-bottom: 0;
   font-size: 1.1rem;
   font-weight: 600;
 }
@@ -13,7 +13,9 @@ input,
 textarea {
   font-family: var(--body-font);
   font-size: 1.1rem;
-  padding: 4px 6px;
+  padding: 6px 4px 0px 1px;
+  border: unset;
+  border-bottom: 1px solid #707070;
 }
 
 input[type="checkbox"] {
@@ -43,8 +45,8 @@ select {
   &.error {
     border-color: var(--warn-color);
     border-style: dashed;
-    border-radius: 6px;
-    border-width: 2px;
+    border-radius: 4px;
+    border-width: 1px;
     color: black;
   }
 }
