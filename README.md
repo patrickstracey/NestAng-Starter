@@ -1,9 +1,10 @@
 # NestAng Starter
 
-_A Simple Template for full-stack Typescript projects utilizing Angular & NestJs_
+_A Starter Template for full-stack Typescript projects utilizing Angular & NestJs_
 
-**Note:** This project was only just started in May 2023 and so some desired core functionality (noted below) is still
-very much in progress.
+**Note:** This project was only just started in May 2023 and so some functionality is still in progress but has been noted below in this `README`.
+
+<img src="https://github.com/patrickstracey/NestAng-Starter/assets/8172098/c585bf4f-3512-4975-9564-0a38f25f6331"  width="600">
 
 ## About
 
@@ -61,7 +62,7 @@ get to adding these fairly quickly, but at the moment the project still needs th
 ### Database
 
 I tend to start projects with MongoDB since I think their Atlas and Compass offerings are great and the nature of NoSQL
-gives you some quick flexibility while prototyping. With strict typing I have found myself not using popular ORM
+gives you some quick flexibility while prototyping. With Typescript's strict typing option I have found myself not using popular ORM
 frameworks like [Mongoose](https://mongoosejs.com/docs/) but I know they have become standard for many, my hope is that
 Mongoose would be easy for you to add to this scaffold.
 
