@@ -2,7 +2,8 @@
 
 _A Starter Template for full-stack Typescript projects utilizing Angular & NestJs_
 
-**Note:** This project was only just started in May 2023 and so some functionality is still in progress but has been noted below in this `README`.
+**Note:** This project was only started in May 2023 and some functionality is still in progress, but that has been
+noted below in this `README`.
 
 <img src="https://github.com/patrickstracey/NestAng-Starter/assets/8172098/c585bf4f-3512-4975-9564-0a38f25f6331"  width="600">
 
@@ -34,7 +35,8 @@ stemmed from the desire to have a starting point that cut out some of that share
 you with:
 
 - Login, Signup, and Reset Password Functionality with the needed email support
-    - _The email pieces will be implemented with a standard Sendgrid setup I have come to use soon_
+    - _The email pieces have been implemented with a standard Sendgrid setup I have come to use, but you will want to
+      build you own project specific email templates._
 - Some basic styling and UI components
     - _I tried to make the styles too overbearing so that you are able to remove them in favor of a css library like
       Tailwind is you would prefer._
@@ -62,7 +64,8 @@ get to adding these fairly quickly, but at the moment the project still needs th
 ### Database
 
 I tend to start projects with MongoDB since I think their Atlas and Compass offerings are great and the nature of NoSQL
-gives you some quick flexibility while prototyping. With Typescript's strict typing option I have found myself not using popular ORM
+gives you some quick flexibility while prototyping. With Typescript's strict typing option I have found myself not using
+popular ORM
 frameworks like [Mongoose](https://mongoosejs.com/docs/) but I know they have become standard for many, my hope is that
 Mongoose would be easy for you to add to this scaffold.
 
@@ -82,7 +85,7 @@ to build quickly as a solo dev.
 
 Additionally, I often prefer readability over the small gains in performance or formatting that more advanced methods
 might give you. I find that clearly stating a result variable even when you can simply return the result of a function
-is often easier for newer and developers to understand and quick onboarding time is important to me.
+is often easier for newer developers to understand and quick onboarding time is important to me.
 
 **This is using Mongo but I prefer SQL.**
 
