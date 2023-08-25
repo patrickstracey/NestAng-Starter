@@ -28,9 +28,9 @@ export class UsersPageComponent implements OnInit {
   org: OrganizationInterface | null = null;
 
   constructor(
-    private _acls: AclService,
-    private _userAccount: UserService,
-    private _org: OrganizationService,
+    private aclService: AclService,
+    private userService: UserService,
+    private orgService: OrganizationService,
     private fb: FormBuilder
   ) {}
 
@@ -41,11 +41,11 @@ export class UsersPageComponent implements OnInit {
   }
 
   loadUsers() {
-    this._acls.getAcls().subscribe((users) => {
+    this.aclService.getAcls().subscribe((users) => {
       this.users = users;
     });
 
-    this._org.getOrganization().subscribe((res) => (this.org = res));
+    this.orgService.getOrganization().subscribe((res) => (this.org = res));
   }
 
   initForm() {
@@ -57,14 +57,14 @@ export class UsersPageComponent implements OnInit {
   }
 
   setupUserChecks() {
-    this._userAccount.getUser().subscribe((user) => {
+    this.userService.getUser().subscribe((user) => {
       this.userId = user._id;
-      this.isAdmin = this._userAccount.isAdmin;
+      this.isAdmin = this.userService.isAdmin;
     });
   }
 
   deleteUser(user: AclInterface) {
-    this._acls.removeAcl(user._id).subscribe({
+    this.aclService.removeAcl(user._id).subscribe({
       next: () => {
         this.users = this.users.filter((keep) => keep._id != user._id);
         this.adminErrorMessage = null;
@@ -78,7 +78,7 @@ export class UsersPageComponent implements OnInit {
   inviteNewUser() {
     if (this.newAclForm.valid) {
       this.saving = true;
-      this._acls
+      this.aclService
         .addAcl({ ...this.newAclForm.value, name_organization: this.org!.name })
         .subscribe({
           next: () => {

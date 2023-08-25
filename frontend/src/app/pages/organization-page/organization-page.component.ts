@@ -14,14 +14,14 @@ export class OrganizationPageComponent implements OnInit {
   organization: OrganizationInterface | null = null;
   loading: boolean = true;
 
-  constructor(private _org: OrganizationService) {}
+  constructor(private orgService: OrganizationService) {}
 
   ngOnInit() {
     this.loadOrganization();
   }
 
   async loadOrganization() {
-    this._org.getOrganization().subscribe({
+    this.orgService.getOrganization().subscribe({
       next: (res) => {
         this.organization = res;
         this.name.patchValue(res.name);
@@ -37,7 +37,7 @@ export class OrganizationPageComponent implements OnInit {
     if (this.nameEdit) {
       this.nameEdit = false;
       if (this.name.value && this.name.value != this.organization?.name) {
-        this._org
+        this.orgService
           .patchOrganization({ name: this.name.value! })
           .subscribe((res) => (this.organization = res));
       }

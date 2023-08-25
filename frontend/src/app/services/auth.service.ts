@@ -28,9 +28,9 @@ export class AuthService {
   });
 
   constructor(
-    private _router: Router,
+    private router: Router,
     private http: HttpClient,
-    private _user: UserService
+    private userService: UserService
   ) {}
 
   get session() {
@@ -63,11 +63,11 @@ export class AuthService {
   logout(navigate: boolean = true) {
     if (navigate) {
       this.setCookie();
-      this._router.navigate(['/login']);
+      this.router.navigate(['/login']);
     }
     this.userSession = null;
     this.accessToken = null;
-    this._user.resetService();
+    this.userService.resetService();
     this.authenticated$.next({
       auth: false,
       admin: false,
@@ -102,12 +102,12 @@ export class AuthService {
     this.userSession = newSession;
     this.accessToken = newSession.access_token;
     this.setCookie(newSession.access_token);
-    this._user.setupUser(newSession.user);
-    this._user.setPermission(newSession.permission);
+    this.userService.setupUser(newSession.user);
+    this.userService.setPermission(newSession.permission);
 
     this.authenticated$.next({
       auth: true,
-      admin: this._user.isAdmin,
+      admin: this.userService.isAdmin,
     });
   }
 
