@@ -1,22 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { AuthService, UserService } from '../../../services';
-import { Router } from '@angular/router';
+import { AuthService } from '../../../services';
 
 @Component({
   selector: 'nav-bar',
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.scss'],
 })
-export class NavBarComponent implements OnInit {
+export class NavBarComponent implements OnInit, OnDestroy {
   authSub!: Subscription;
   isAdmin: boolean = false;
 
-  constructor(
-    private _auth: AuthService,
-    private _user: UserService,
-    private _router: Router
-  ) {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit() {
     this.subscribeToAuth();
@@ -28,11 +23,11 @@ export class NavBarComponent implements OnInit {
   }
 
   logout() {
-    this._auth.logout();
+    this.authService.logout();
   }
 
   subscribeToAuth() {
-    this.authSub = this._auth.authenticated$.subscribe((authValue) => {
+    this.authSub = this.authService.authenticated$.subscribe((authValue) => {
       this.isAdmin = authValue.admin;
     });
   }

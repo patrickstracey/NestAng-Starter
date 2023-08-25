@@ -22,9 +22,9 @@ export class SignupPageComponent implements OnInit {
 
   constructor(
     private fb: UntypedFormBuilder,
-    private _auth: AuthService,
-    private route: ActivatedRoute,
-    private _router: Router
+    private authService: AuthService,
+    private activeRoute: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -46,9 +46,9 @@ export class SignupPageComponent implements OnInit {
     this.resetErrors();
 
     if (this.signup.valid && this.passwordsMatch()) {
-      this._auth.signup(this.signup.value, this.invite).subscribe({
+      this.authService.signup(this.signup.value, this.invite).subscribe({
         next: () => {
-          this._router.navigate(['/']);
+          this.router.navigate(['/']);
         },
         error: (err) => {
           this.emailError = err.error.message;
@@ -83,13 +83,13 @@ export class SignupPageComponent implements OnInit {
   }
 
   getInvite() {
-    const id = this.route.firstChild?.snapshot.paramMap.get('inviteId');
+    const id = this.activeRoute.firstChild?.snapshot.paramMap.get('inviteId');
     if (id) {
-      this._auth.findInvite(id).subscribe({
+      this.authService.findInvite(id).subscribe({
         next: (res) => (this.invite = res),
         error: () => {
           this.invite = null;
-          this._router.navigate(['signup']);
+          this.router.navigate(['signup']);
         },
       });
     } else {

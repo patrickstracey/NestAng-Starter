@@ -12,7 +12,7 @@ export class DocumentViewerComponent implements OnInit {
   documents: [string, DocumentInterface][] = [];
   saving: boolean = false;
 
-  constructor(private _uploads: UploadsService) {}
+  constructor(private uploadsService: UploadsService) {}
 
   ngOnInit() {
     this.setupDocuments();
@@ -26,7 +26,7 @@ export class DocumentViewerComponent implements OnInit {
 
   deleteDocument(displayName: string, fileName: string) {
     this.saving = true;
-    this._uploads.deleteUpload(fileName, 'document').subscribe({
+    this.uploadsService.deleteUpload(fileName, 'document').subscribe({
       next: () => {
         this.documents = this.documents.filter((doc) => doc[0] != displayName);
         this.saving = false;
@@ -38,7 +38,7 @@ export class DocumentViewerComponent implements OnInit {
   }
 
   navigateToDocument(fileName: string) {
-    this._uploads.getAuthedDocumentUrl(fileName).subscribe((res) => {
+    this.uploadsService.getAuthedDocumentUrl(fileName).subscribe((res) => {
       window.open(res.url, '_blank');
     });
   }

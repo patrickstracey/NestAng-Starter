@@ -1,23 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { AuthService, UserService } from '../../../services';
+import { AuthService } from '../../../services';
 
 @Component({
   selector: 'nav-bar-mobile',
   templateUrl: './nav-bar-mobile.component.html',
   styleUrls: ['./nav-bar-mobile.component.scss'],
 })
-export class NavBarMobileComponent {
+export class NavBarMobileComponent implements OnInit, OnDestroy {
   authSub!: Subscription;
   isAdmin: boolean = false;
   menuOpen: boolean = false;
 
-  constructor(
-    private _auth: AuthService,
-    private _account: UserService,
-    private _router: Router
-  ) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
     this.subscribeToAuth();
@@ -29,11 +25,11 @@ export class NavBarMobileComponent {
   }
 
   logout() {
-    this._auth.logout();
+    this.authService.logout();
   }
 
   subscribeToAuth() {
-    this.authSub = this._auth.authenticated$.subscribe((authValue) => {
+    this.authSub = this.authService.authenticated$.subscribe((authValue) => {
       this.isAdmin = authValue.admin;
     });
   }
@@ -43,7 +39,7 @@ export class NavBarMobileComponent {
   }
 
   navigate(route: string) {
-    this._router.navigate([route]);
+    this.router.navigate([route]);
     this.menuOpen = false;
   }
 }

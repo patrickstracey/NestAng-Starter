@@ -18,14 +18,14 @@ export class AccountPageComponent implements OnInit {
   user: UserInterface | null = null;
   loading: boolean = true;
 
-  constructor(private _user: UserService) {}
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {
     this.loadAccount();
   }
 
   async loadAccount() {
-    this._user.getUser().subscribe({
+    this.userService.getUser().subscribe({
       next: (res) => {
         this.user = res;
         this.name.patchValue(res.name);
@@ -75,7 +75,7 @@ export class AccountPageComponent implements OnInit {
   updateAccount(
     update: { email: string } | { phone: string } | { name: string }
   ) {
-    this._user
+    this.userService
       .patchUser({
         ...this.user!,
         ...update,

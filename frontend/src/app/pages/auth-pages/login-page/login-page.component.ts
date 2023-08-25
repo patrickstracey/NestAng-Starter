@@ -20,14 +20,14 @@ export class LoginPageComponent implements OnInit {
 
   constructor(
     private fb: UntypedFormBuilder,
-    private _auth: AuthService,
-    private _router: Router
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.initLoginForm();
-    if (this._auth.authenticated$.value.auth) {
-      this._router.navigate(['/']);
+    if (this.authService.authenticated$.value.auth) {
+      this.router.navigate(['/']);
     }
   }
 
@@ -40,8 +40,8 @@ export class LoginPageComponent implements OnInit {
 
   attemptLogin() {
     if (this.login.valid) {
-      this._auth.login(this.login.value).subscribe({
-        next: () => this._router.navigate(['/']),
+      this.authService.login(this.login.value).subscribe({
+        next: () => this.router.navigate(['/']),
         error: (err) => (this.loginError = err.error.message),
       });
     }
