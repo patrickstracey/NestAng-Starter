@@ -12,8 +12,6 @@ export class ImageViewerComponent {
   currentImage: string | null = null;
   imageIndex: number = 0;
 
-  constructor() {}
-
   viewImage(index: number) {
     this.imageIndex = index;
     this.currentImage = this.images[index];
