@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { AuthGuardFn } from './utility/guards';
+import { environment } from '../environments/environment';
 
 const routes: Routes = [
   {
@@ -27,6 +28,7 @@ const routes: Routes = [
   },
   {
     path: '',
+    title: `Dashboard | ${environment.application_name}`,
     component: HomePageComponent,
     canActivate: [AuthGuardFn],
   },

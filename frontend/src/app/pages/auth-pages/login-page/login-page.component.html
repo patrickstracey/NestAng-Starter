@@ -2,7 +2,7 @@
   <div class="sign-in-card row ">
     <div class="card-content">
       <div class="header">
-        <h1>Welcome to NestAng</h1>
+        <h1>Welcome to {{appName}}</h1>
       </div>
       <form [formGroup]="login">
         <div class="input-group column">
@@ -12,7 +12,6 @@
             id="email"
             formControlName="email"
             autocomplete="email"
-            placeholder="yourName@NestAng.com"
             required
             [ngClass]="{ error: loginError }"
           />

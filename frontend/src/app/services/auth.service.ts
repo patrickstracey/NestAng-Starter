@@ -10,35 +10,31 @@ import {
   SignupInterface,
 } from '../../../../shared/interfaces';
 import { UserService } from './index';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private authApi = 'api/auth';
-  private userSession: SessionInterface | null = null;
-  private accessToken: string | null = null;
+  private cookieName: string = `${environment.application_name.replace(
+    ' ',
+    ''
+  )}Session`;
 
-  authenticated$ = new BehaviorSubject<{
-    auth: boolean;
-    admin: boolean;
-  }>({
-    auth: false,
-    admin: false,
-  });
+  authenticated$ = new BehaviorSubject<SessionInterface | undefined>(undefined);
 
   constructor(
     private router: Router,
     private http: HttpClient,
     private userService: UserService
-  ) {}
-
-  get session() {
-    return this.userSession;
-  }
-
-  get access_token() {
-    return this.accessToken;
+  ) {
+    // When local storage changes in another tab check to see if session cookie was updated elsewhere and react accordingly
+    window.onstorage = () => {
+      if (localStorage.getItem(this.cookieName) == null) {
+        this.logout();
+      }
+    };
   }
 
   login(loginAttempt: LoginInterface): Observable<SessionInterface> {
@@ -61,17 +57,13 @@ export class AuthService {
   }
 
   logout(navigate: boolean = true) {
+    this.clearCookie();
+
     if (navigate) {
-      this.setCookie();
       this.router.navigate(['/login']);
     }
-    this.userSession = null;
-    this.accessToken = null;
     this.userService.resetService();
-    this.authenticated$.next({
-      auth: false,
-      admin: false,
-    });
+    this.authenticated$.next(undefined);
   }
 
   refreshSession(): Observable<SessionInterface> {
@@ -80,35 +72,25 @@ export class AuthService {
       .pipe(tap((result) => this.setupSession(result)));
   }
 
-  getSessionFromCookie(): CookieInterface | undefined {
-    const sesCookie = localStorage.getItem('nestAngSession');
-    if (sesCookie) {
-      return JSON.parse(sesCookie);
-    }
-    return undefined;
-  }
-
   attemptAutoLogin() {
-    const sesCookie = localStorage.getItem('nestAngSession');
+    const sesCookie = localStorage.getItem(this.cookieName);
     if (sesCookie && JSON.parse(sesCookie).access_token) {
-      this.accessToken = JSON.parse(sesCookie).access_token;
-      this.refreshSession().subscribe();
+      try {
+        this.setupSession(JSON.parse(sesCookie));
+        this.refreshSession().subscribe();
+      } catch {
+        this.logout(false);
+      }
     } else {
       this.logout(false);
     }
   }
 
   private setupSession(newSession: SessionInterface) {
-    this.userSession = newSession;
-    this.accessToken = newSession.access_token;
     this.setCookie(newSession.access_token);
     this.userService.setupUser(newSession.user);
     this.userService.setPermission(newSession.permission);
-
-    this.authenticated$.next({
-      auth: true,
-      admin: this.userService.isAdmin,
-    });
+    this.authenticated$.next(newSession);
   }
 
   findInvite(inviteId: string): Observable<AclInviteInterface> {
@@ -141,11 +123,18 @@ export class AuthService {
     );
   }
 
-  private setCookie(access_token?: string) {
+  private setCookie(access_token: string) {
     const cookie: CookieInterface = {
-      access_token: access_token ? access_token : undefined,
+      access_token: access_token,
     };
+    localStorage.setItem(this.cookieName, JSON.stringify(cookie));
+  }
 
-    localStorage.setItem('nestAngSession', JSON.stringify(cookie));
+  private clearCookie() {
+    try {
+      localStorage.removeItem(this.cookieName);
+    } catch {
+      return;
+    }
   }
 }

@@ -14,32 +14,32 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    const token = this.authService.access_token;
-    if (token) {
-      const standardHeaders = new HttpHeaders({
-        Authorization: `Bearer ${token}`,
+    let reqHeader: HttpHeaders;
+    if (this.authService.authenticated$.value?.access_token) {
+      reqHeader = new HttpHeaders({
+        Authorization: `Bearer ${this.authService.authenticated$.value?.access_token}`,
       });
-
-      const modifiedRequest = req.clone({
-        headers: standardHeaders,
-      });
-
-      return next.handle(modifiedRequest).pipe(
-        tap({
-          next: () => {},
-          error: (err) => {
-            if (err instanceof HttpErrorResponse) {
-              if (err.status == 401) {
-                this.authService.logout();
-              } else if (err.status == 403) {
-                //TO DO: forbidden error handling
-              }
-            }
-          },
-        })
-      );
+    } else {
+      reqHeader = new HttpHeaders();
     }
 
-    return next.handle(req);
+    const modifiedRequest = req.clone({
+      headers: reqHeader,
+    });
+
+    return next.handle(modifiedRequest).pipe(
+      tap({
+        next: () => {},
+        error: (err) => {
+          if (err instanceof HttpErrorResponse) {
+            if (err.status == 401) {
+              this.authService.logout();
+            } else if (err.status == 403) {
+              //TO DO: forbidden error handling
+            }
+          }
+        },
+      })
+    );
   }
 }

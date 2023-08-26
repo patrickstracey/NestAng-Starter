@@ -1,38 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../services';
+import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 @Component({
   selector: 'nav-bar-mobile',
   templateUrl: './nav-bar-mobile.component.html',
   styleUrls: ['./nav-bar-mobile.component.scss'],
 })
-export class NavBarMobileComponent implements OnInit, OnDestroy {
-  authSub!: Subscription;
-  isAdmin: boolean = false;
+export class NavBarMobileComponent extends NavBarComponent {
+  private router = inject(Router);
   menuOpen: boolean = false;
-
-  constructor(private authService: AuthService, private router: Router) {}
-
-  ngOnInit() {
-    this.subscribeToAuth();
-  }
-
-  ngOnDestroy() {
-    this.isAdmin = false;
-    this.authSub.unsubscribe();
-  }
-
-  logout() {
-    this.authService.logout();
-  }
-
-  subscribeToAuth() {
-    this.authSub = this.authService.authenticated$.subscribe((authValue) => {
-      this.isAdmin = authValue.admin;
-    });
-  }
 
   openMenu() {
     this.menuOpen = !this.menuOpen;
