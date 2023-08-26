@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import {
   AclInviteInterface,
+  AuthenticatedInterface,
   CookieInterface,
   LoginInterface,
   SessionInterface,
@@ -19,10 +20,7 @@ export class AuthService {
   private userSession: SessionInterface | null = null;
   private accessToken: string | null = null;
 
-  authenticated$ = new BehaviorSubject<{
-    auth: boolean;
-    admin: boolean;
-  }>({
+  authenticated$ = new BehaviorSubject<AuthenticatedInterface>({
     auth: false,
     admin: false,
   });
