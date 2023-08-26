@@ -14,7 +14,7 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    const token = this.authService.access_token;
+    const token = this.authService.authenticated$.value?.access_token;
     if (token) {
       const standardHeaders = new HttpHeaders({
         Authorization: `Bearer ${token}`,
