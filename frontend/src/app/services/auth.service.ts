@@ -59,14 +59,6 @@ export class AuthService {
       .pipe(tap((result) => this.setupSession(result)));
   }
 
-  getSessionFromCookie(): CookieInterface | undefined {
-    const sesCookie = localStorage.getItem('nestAngSession');
-    if (sesCookie) {
-      return JSON.parse(sesCookie);
-    }
-    return undefined;
-  }
-
   attemptAutoLogin() {
     const sesCookie = localStorage.getItem('nestAngSession');
     if (sesCookie && JSON.parse(sesCookie).access_token) {
