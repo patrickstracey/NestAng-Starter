@@ -23,7 +23,14 @@ export class AuthService {
     private router: Router,
     private http: HttpClient,
     private userService: UserService
-  ) {}
+  ) {
+    // When local storage changes in another tab check to see if session cookie was updated elsewhere and react accordingly
+    window.onstorage = () => {
+      if (localStorage.getItem('nestAngSession') == null) {
+        this.logout();
+      }
+    };
+  }
 
   login(loginAttempt: LoginInterface): Observable<SessionInterface> {
     return this.http
@@ -45,8 +52,9 @@ export class AuthService {
   }
 
   logout(navigate: boolean = true) {
+    this.clearCookie();
+
     if (navigate) {
-      this.setCookie();
       this.router.navigate(['/login']);
     }
     this.userService.resetService();
@@ -69,7 +77,6 @@ export class AuthService {
         this.logout(false);
       }
     } else {
-      console.log('yo');
       this.logout(false);
     }
   }
@@ -111,11 +118,18 @@ export class AuthService {
     );
   }
 
-  private setCookie(access_token?: string) {
+  private setCookie(access_token: string) {
     const cookie: CookieInterface = {
-      access_token: access_token ? access_token : undefined,
+      access_token: access_token,
     };
-
     localStorage.setItem('nestAngSession', JSON.stringify(cookie));
+  }
+
+  private clearCookie() {
+    try {
+      localStorage.removeItem('nestAngSession');
+    } catch {
+      return;
+    }
   }
 }

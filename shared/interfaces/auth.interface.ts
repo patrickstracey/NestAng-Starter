@@ -21,7 +21,7 @@ export interface SessionInterface {
 }
 
 export interface CookieInterface {
-  access_token?: string;
+  access_token: string;
 }
 
 export interface TokenInterface {
