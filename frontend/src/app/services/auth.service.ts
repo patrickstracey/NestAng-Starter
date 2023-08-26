@@ -10,12 +10,17 @@ import {
   SignupInterface,
 } from '../../../../shared/interfaces';
 import { UserService } from './index';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private authApi = 'api/auth';
+  private cookieName: string = `${environment.application_name.replace(
+    ' ',
+    ''
+  )}Session`;
 
   authenticated$ = new BehaviorSubject<SessionInterface | undefined>(undefined);
 
@@ -26,7 +31,7 @@ export class AuthService {
   ) {
     // When local storage changes in another tab check to see if session cookie was updated elsewhere and react accordingly
     window.onstorage = () => {
-      if (localStorage.getItem('nestAngSession') == null) {
+      if (localStorage.getItem(this.cookieName) == null) {
         this.logout();
       }
     };
@@ -68,7 +73,7 @@ export class AuthService {
   }
 
   attemptAutoLogin() {
-    const sesCookie = localStorage.getItem('nestAngSession');
+    const sesCookie = localStorage.getItem(this.cookieName);
     if (sesCookie && JSON.parse(sesCookie).access_token) {
       try {
         this.setupSession(JSON.parse(sesCookie));
@@ -122,12 +127,12 @@ export class AuthService {
     const cookie: CookieInterface = {
       access_token: access_token,
     };
-    localStorage.setItem('nestAngSession', JSON.stringify(cookie));
+    localStorage.setItem(this.cookieName, JSON.stringify(cookie));
   }
 
   private clearCookie() {
     try {
-      localStorage.removeItem('nestAngSession');
+      localStorage.removeItem(this.cookieName);
     } catch {
       return;
     }
