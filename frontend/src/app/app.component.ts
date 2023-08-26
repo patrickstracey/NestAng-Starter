@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from './services';
-import { AuthenticatedInterface } from '../../../shared/interfaces';
+import { SessionInterface } from '../../../shared/interfaces';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +9,7 @@ import { AuthenticatedInterface } from '../../../shared/interfaces';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  public authenticated$: BehaviorSubject<AuthenticatedInterface> =
+  public authenticated$: BehaviorSubject<SessionInterface | undefined> =
     this.authService.authenticated$;
 
   constructor(private authService: AuthService) {}

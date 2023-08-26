@@ -1,18 +1,19 @@
-<ng-container *ngIf="authenticated$ | async as authInfo">
-  <div *ngIf="authInfo.auth" class="row default" style="min-height: 100%">
+<ng-container *ngIf="authenticated$ | async; else login">
+  <div class="row default" style="min-height: 100%">
     <nav-bar></nav-bar>
-
     <div class="app">
       <ng-template *ngTemplateOutlet="outlet"></ng-template>
     </div>
   </div>
-
-  <div class="row default" id="login" *ngIf="!authInfo.auth">
+</ng-container>
+<ng-template #login>
+  <div class="row default" id="login">
     <div>
       <ng-template *ngTemplateOutlet="outlet"></ng-template>
     </div>
   </div>
-</ng-container>
+</ng-template>
+
 
 <ng-template #outlet>
   <router-outlet></router-outlet>
