@@ -14,10 +14,9 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    const token = this.authService.authenticated$.value?.access_token;
-    if (token) {
+    try {
       const standardHeaders = new HttpHeaders({
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${this.authService.authenticated$.value?.access_token}`,
       });
 
       const modifiedRequest = req.clone({
@@ -38,8 +37,12 @@ export class AuthInterceptor implements HttpInterceptor {
           },
         })
       );
+    } catch (e) {
+      this.authService.logout();
+      throw new HttpErrorResponse({
+        status: 401,
+        error: 'You must be logged in to do that',
+      });
     }
-
-    return next.handle(req);
   }
 }
