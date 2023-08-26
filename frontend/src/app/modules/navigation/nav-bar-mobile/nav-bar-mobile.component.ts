@@ -9,7 +9,6 @@ import { NavBarComponent } from '../nav-bar/nav-bar.component';
 })
 export class NavBarMobileComponent extends NavBarComponent {
   private router = inject(Router);
-
   menuOpen: boolean = false;
 
   openMenu() {
