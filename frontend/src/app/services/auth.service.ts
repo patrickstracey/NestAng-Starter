@@ -4,7 +4,6 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import {
   AclInviteInterface,
-  AuthenticatedInterface,
   CookieInterface,
   LoginInterface,
   SessionInterface,
@@ -17,27 +16,14 @@ import { UserService } from './index';
 })
 export class AuthService {
   private authApi = 'api/auth';
-  private userSession: SessionInterface | null = null;
-  private accessToken: string | null = null;
 
-  authenticated$ = new BehaviorSubject<AuthenticatedInterface>({
-    auth: false,
-    admin: false,
-  });
+  authenticated$ = new BehaviorSubject<SessionInterface | undefined>(undefined);
 
   constructor(
     private router: Router,
     private http: HttpClient,
     private userService: UserService
   ) {}
-
-  get session() {
-    return this.userSession;
-  }
-
-  get access_token() {
-    return this.accessToken;
-  }
 
   login(loginAttempt: LoginInterface): Observable<SessionInterface> {
     return this.http
@@ -63,13 +49,8 @@ export class AuthService {
       this.setCookie();
       this.router.navigate(['/login']);
     }
-    this.userSession = null;
-    this.accessToken = null;
     this.userService.resetService();
-    this.authenticated$.next({
-      auth: false,
-      admin: false,
-    });
+    this.authenticated$.next(undefined);
   }
 
   refreshSession(): Observable<SessionInterface> {
@@ -89,24 +70,23 @@ export class AuthService {
   attemptAutoLogin() {
     const sesCookie = localStorage.getItem('nestAngSession');
     if (sesCookie && JSON.parse(sesCookie).access_token) {
-      this.accessToken = JSON.parse(sesCookie).access_token;
-      this.refreshSession().subscribe();
+      try {
+        this.setupSession(JSON.parse(sesCookie));
+        this.refreshSession().subscribe();
+      } catch {
+        this.logout(false);
+      }
     } else {
+      console.log('yo');
       this.logout(false);
     }
   }
 
   private setupSession(newSession: SessionInterface) {
-    this.userSession = newSession;
-    this.accessToken = newSession.access_token;
     this.setCookie(newSession.access_token);
     this.userService.setupUser(newSession.user);
     this.userService.setPermission(newSession.permission);
-
-    this.authenticated$.next({
-      auth: true,
-      admin: this.userService.isAdmin,
-    });
+    this.authenticated$.next(newSession);
   }
 
   findInvite(inviteId: string): Observable<AclInviteInterface> {

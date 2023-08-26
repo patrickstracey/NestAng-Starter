@@ -29,8 +29,3 @@ export interface TokenInterface {
   oid: string | undefined;
   acc: PermissionEnum.USER | PermissionEnum.ADMIN;
 }
-
-export interface AuthenticatedInterface {
-  auth: boolean;
-  admin: boolean;
-}
