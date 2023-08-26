@@ -15,8 +15,8 @@ import { AuthService } from '../../../services';
 export class ResetPasswordPageComponent implements OnInit {
   constructor(
     private fb: UntypedFormBuilder,
-    private _auth: AuthService,
-    private route: ActivatedRoute
+    private authService: AuthService,
+    private activeRoute: ActivatedRoute
   ) {}
 
   resetId: string | null | undefined = undefined;
@@ -32,7 +32,7 @@ export class ResetPasswordPageComponent implements OnInit {
   resetPassword() {
     this.passwordError = !this.passwordsMatch();
     if (this.resetId && this.resetForm.valid && this.passwordsMatch()) {
-      this._auth
+      this.authService
         .submitPasswordReset(this.resetId, this.resetForm.value)
         .subscribe((res) =>
           res ? (this.status = 'success') : (this.status = 'error')
@@ -61,9 +61,9 @@ export class ResetPasswordPageComponent implements OnInit {
   }
 
   getInvite() {
-    this.resetId = this.route.snapshot.paramMap.get('resetId');
+    this.resetId = this.activeRoute.snapshot.paramMap.get('resetId');
     if (this.resetId) {
-      this._auth.findPasswordReset(this.resetId).subscribe({
+      this.authService.findPasswordReset(this.resetId).subscribe({
         next: (res) => (!res ? (this.status = 'error') : ''),
         error: () => (this.status = 'error'),
       });

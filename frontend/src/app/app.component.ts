@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { AuthService, UserService } from './services';
+import { AuthService } from './services';
 
 @Component({
   selector: 'app-root',
@@ -12,11 +12,11 @@ export class AppComponent implements OnInit, OnDestroy {
   authSub!: Subscription;
   isAuthenticated: boolean = false;
 
-  constructor(private _auth: AuthService, private _user: UserService) {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit() {
     this.subscribeToAuth();
-    this._auth.attemptAutoLogin();
+    this.authService.attemptAutoLogin();
   }
 
   ngOnDestroy() {
@@ -25,7 +25,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   subscribeToAuth() {
-    this.authSub = this._auth.authenticated$.subscribe((authValue) => {
+    this.authSub = this.authService.authenticated$.subscribe((authValue) => {
       this.isAuthenticated = authValue.auth;
     });
   }

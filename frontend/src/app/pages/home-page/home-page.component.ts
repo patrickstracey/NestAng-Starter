@@ -1,23 +1,19 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'page-home',
   templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.scss']
+  styleUrls: ['./home-page.component.scss'],
 })
-export class HomePageComponent implements OnInit{
+export class HomePageComponent implements OnInit {
   loading: boolean = true;
-
-  constructor() {
-  }
 
   ngOnInit() {
     this.setupHomePage();
   }
 
-  setupHomePage(){
+  setupHomePage() {
     //api calls for the data you want to fetch
     this.loading = false;
   }
-
 }

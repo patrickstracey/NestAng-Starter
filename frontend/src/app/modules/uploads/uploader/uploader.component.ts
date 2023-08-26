@@ -51,12 +51,11 @@ export class UploaderComponent implements OnInit {
   );
 
   @Input() limit: number = 15;
-
   @Input() uploaderType: 'file' | 'image' = 'image';
   @Input() attached_to?: BaseInterface;
   @Output() uploadItemsUpdated = new EventEmitter<FormData>();
 
-  constructor(private _uploads: UploadsService) {}
+  constructor(private uploadsService: UploadsService) {}
 
   ngOnInit(): void {
     if (this.uploaderType == 'file') {
@@ -116,7 +115,7 @@ export class UploaderComponent implements OnInit {
     if (this.attached_to && this.selectedFiles) {
       this.saving = true;
       if (this.uploaderType === 'image') {
-        this._uploads
+        this.uploadsService
           .uploadImages(this.attached_to, this.uploadedItems)
           .subscribe({
             next: () => {
@@ -135,7 +134,7 @@ export class UploaderComponent implements OnInit {
           'displayName',
           this.documentDisplayName.value!
         );
-        this._uploads
+        this.uploadsService
           .uploadDocument(this.attached_to, this.uploadedItems)
           .subscribe({
             next: () => {

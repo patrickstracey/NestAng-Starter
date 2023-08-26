@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../../../services';
 
@@ -7,8 +7,8 @@ import { AuthService } from '../../../services';
   templateUrl: './reset-request-page.component.html',
   styleUrls: ['../auth.shared.scss'],
 })
-export class ResetRequestPageComponent implements OnInit {
-  constructor(private _auth: AuthService) {}
+export class ResetRequestPageComponent {
+  constructor(private authService: AuthService) {}
 
   status: 'pending' | 'submitted' = 'pending';
   imageUrl: string =
@@ -19,11 +19,9 @@ export class ResetRequestPageComponent implements OnInit {
     Validators.email,
   ]);
 
-  ngOnInit(): void {}
-
   generateReset() {
     if (this.email.valid) {
-      this._auth.requestPasswordReset(this.email.value).subscribe({
+      this.authService.requestPasswordReset(this.email.value).subscribe({
         next: () => (this.status = 'submitted'),
       });
     }

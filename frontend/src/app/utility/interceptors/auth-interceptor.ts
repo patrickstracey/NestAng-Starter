@@ -11,10 +11,10 @@ import { AuthService } from '../../services';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private _authService: AuthService) {}
+  constructor(private authService: AuthService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    const token = this._authService.access_token;
+    const token = this.authService.access_token;
     if (token) {
       const standardHeaders = new HttpHeaders({
         Authorization: `Bearer ${token}`,
@@ -30,7 +30,7 @@ export class AuthInterceptor implements HttpInterceptor {
           error: (err) => {
             if (err instanceof HttpErrorResponse) {
               if (err.status == 401) {
-                this._authService.logout();
+                this.authService.logout();
               } else if (err.status == 403) {
                 //TO DO: forbidden error handling
               }
