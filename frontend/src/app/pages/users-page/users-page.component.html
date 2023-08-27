@@ -93,7 +93,7 @@
       <button
         class="btn warn mini"
         *ngIf="isAdmin"
-        [disabled]="user.id_user == userId || usersEdit"
+        [disabled]="user.id_user == userId"
         (click)="deleteUser(user)"
       >
         Delete User

@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import {
-  AclInterface,
-  OrganizationInterface,
-} from '../../../../../shared/interfaces';
+import { AclInterface } from '../../../../../shared/interfaces';
 import { UserService, AclService, OrganizationService } from '../../services';
 import { PermissionEnum } from '../../../../../shared/enums';
-import { Observable, tap } from 'rxjs';
+import { first, Observable, tap } from 'rxjs';
 
 @Component({
   selector: 'page-users',
@@ -27,26 +24,30 @@ export class UsersPageComponent implements OnInit {
   users$: Observable<AclInterface[]> = this.aclService.getAcls().pipe(
     tap(() => {
       this.saving = false;
+      this.inviteOpen = false;
+      this.newAclForm.reset();
     })
   );
+
+  orgName: string | undefined;
   newAclForm!: FormGroup;
   adminErrorMessage: string | null = null;
   isAdmin: boolean = false;
-  usersEdit: boolean = false;
   saving: boolean = false;
   inviteOpen: boolean = false;
   userId: string | null = null;
   permissions = PermissionEnum;
-  org: OrganizationInterface | null = null;
 
   ngOnInit() {
     this.initForm();
-    this.loadOrg();
     this.setupUserChecks();
-  }
 
-  loadOrg() {
-    this.orgService.getOrganization().subscribe((res) => (this.org = res));
+    this.orgService
+      .getOrganization()
+      .pipe(first((org) => org != null))
+      .subscribe((org) => {
+        this.orgName = org!.name;
+      });
   }
 
   initForm() {
@@ -71,9 +72,10 @@ export class UsersPageComponent implements OnInit {
   inviteNewUser() {
     if (this.newAclForm.valid) {
       this.saving = true;
+
       this.aclService.addAcl({
         ...this.newAclForm.value,
-        name_organization: this.org!.name,
+        name_organization: this.orgName ? this.orgName : '',
       });
     } else {
       this.adminErrorMessage = 'Please enter a valid email.';
