@@ -7,7 +7,7 @@
 
 <div *ngIf="inviteOpen">
   <ui-card [border]="true">
-    <ng-container *ngIf="!saving">
+    <ng-container>
       <h2>Invite a new User via Email</h2>
       <p>
         Enter the email of the person you would like to invite to your
@@ -64,15 +64,13 @@
         </button>
         <button
           class="btn secondary mini admin-add"
-          (click)="goBack()"
+          (click)="openInvite()"
           [disabled]="saving"
         >
           Cancel
         </button>
       </div>
     </ng-container>
-
-    <ui-loader message="Inviting New User" *ngIf="saving"></ui-loader>
   </ui-card>
 </div>
 
@@ -80,7 +78,7 @@
   <p class="warn" *ngIf="adminErrorMessage">{{ adminErrorMessage }}</p>
 
   <div>
-    <div class="user-item row" *ngFor="let user of users">
+    <div class="user-item row" *ngFor="let user of users$ | async">
       <div class="info-item fade-in">
         <h3>
           {{ user.name_user }}

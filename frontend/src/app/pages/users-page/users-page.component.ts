@@ -6,6 +6,7 @@ import {
 } from '../../../../../shared/interfaces';
 import { UserService, AclService, OrganizationService } from '../../services';
 import { PermissionEnum } from '../../../../../shared/enums';
+import { Observable, tap } from 'rxjs';
 
 @Component({
   selector: 'page-users',
@@ -16,17 +17,6 @@ import { PermissionEnum } from '../../../../../shared/enums';
   ],
 })
 export class UsersPageComponent implements OnInit {
-  newAclForm!: FormGroup;
-  adminErrorMessage: string | null = null;
-  isAdmin: boolean = false;
-  users: AclInterface[] = [];
-  usersEdit: boolean = false;
-  saving: boolean = false;
-  inviteOpen: boolean = false;
-  userId: string | null = null;
-  permissions = PermissionEnum;
-  org: OrganizationInterface | null = null;
-
   constructor(
     private aclService: AclService,
     private userService: UserService,
@@ -34,17 +24,28 @@ export class UsersPageComponent implements OnInit {
     private fb: FormBuilder
   ) {}
 
+  users$: Observable<AclInterface[]> = this.aclService.getAcls().pipe(
+    tap(() => {
+      this.saving = false;
+    })
+  );
+  newAclForm!: FormGroup;
+  adminErrorMessage: string | null = null;
+  isAdmin: boolean = false;
+  usersEdit: boolean = false;
+  saving: boolean = false;
+  inviteOpen: boolean = false;
+  userId: string | null = null;
+  permissions = PermissionEnum;
+  org: OrganizationInterface | null = null;
+
   ngOnInit() {
     this.initForm();
-    this.loadUsers();
+    this.loadOrg();
     this.setupUserChecks();
   }
 
-  loadUsers() {
-    this.aclService.getAcls().subscribe((users) => {
-      this.users = users;
-    });
-
+  loadOrg() {
     this.orgService.getOrganization().subscribe((res) => (this.org = res));
   }
 
@@ -64,34 +65,16 @@ export class UsersPageComponent implements OnInit {
   }
 
   deleteUser(user: AclInterface) {
-    this.aclService.removeAcl(user._id).subscribe({
-      next: () => {
-        this.users = this.users.filter((keep) => keep._id != user._id);
-        this.adminErrorMessage = null;
-      },
-      error: (err) => {
-        this.adminErrorMessage = err.error.message;
-      },
-    });
+    this.aclService.removeAcl(user._id);
   }
 
   inviteNewUser() {
     if (this.newAclForm.valid) {
       this.saving = true;
-      this.aclService
-        .addAcl({ ...this.newAclForm.value, name_organization: this.org!.name })
-        .subscribe({
-          next: () => {
-            this.usersEdit = false;
-            this.saving = false;
-            this.newAclForm.reset();
-            this.inviteOpen = false;
-          },
-          error: () => {
-            this.saving = false;
-            this.adminErrorMessage = `Something went wrong trying to invite ${this.newAclForm.controls['email'].value}. Please try again.`;
-          },
-        });
+      this.aclService.addAcl({
+        ...this.newAclForm.value,
+        name_organization: this.org!.name,
+      });
     } else {
       this.adminErrorMessage = 'Please enter a valid email.';
     }
@@ -99,9 +82,5 @@ export class UsersPageComponent implements OnInit {
 
   openInvite() {
     this.inviteOpen = !this.inviteOpen;
-  }
-
-  goBack() {
-    this.inviteOpen = false;
   }
 }
