@@ -13,7 +13,7 @@ export class OrganizationPageComponent {
   name = new FormControl<string | null>(null, Validators.required);
   organization$ = this.orgService
     .getOrganization()
-    .pipe(tap((res) => this.name.patchValue(res!.name)));
+    .pipe(tap((res) => (res ? this.name.patchValue(res.name) : '')));
 
   constructor(private orgService: OrganizationService) {}
 
