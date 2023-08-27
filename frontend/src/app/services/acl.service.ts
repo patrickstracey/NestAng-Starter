@@ -11,7 +11,7 @@ import {
 })
 export class AclService {
   private baseUrl = 'api/acls';
-  aclsSubject = new BehaviorSubject<AclInterface[]>([]);
+  private aclsSubject = new BehaviorSubject<AclInterface[]>([]);
 
   constructor(private http: HttpClient) {}
 
