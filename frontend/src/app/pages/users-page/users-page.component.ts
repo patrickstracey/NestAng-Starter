@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { AclInterface } from '../../../../../shared/interfaces';
-import { UserService, AclService, OrganizationService } from '../../services';
+import { AclInterface, UserInterface } from '../../../../../shared/interfaces';
+import {
+  UserService,
+  AclService,
+  OrganizationService,
+  AuthService,
+} from '../../services';
 import { PermissionEnum } from '../../../../../shared/enums';
 import { first, Observable, tap } from 'rxjs';
 
@@ -18,10 +23,11 @@ export class UsersPageComponent implements OnInit {
     private aclService: AclService,
     private userService: UserService,
     private orgService: OrganizationService,
+    private authService: AuthService,
     private fb: FormBuilder
   ) {}
 
-  users$: Observable<AclInterface[]> = this.aclService.getAcls().pipe(
+  acl$: Observable<AclInterface[]> = this.aclService.getAcls().pipe(
     tap(() => {
       this.saving = false;
       this.inviteOpen = false;
@@ -29,18 +35,18 @@ export class UsersPageComponent implements OnInit {
     })
   );
 
+  user$: Observable<UserInterface | null> = this.userService.getUser();
+
   orgName: string | undefined;
   newAclForm!: FormGroup;
   adminErrorMessage: string | null = null;
   isAdmin: boolean = false;
   saving: boolean = false;
   inviteOpen: boolean = false;
-  userId: string | null = null;
   permissions = PermissionEnum;
 
   ngOnInit() {
     this.initForm();
-    this.setupUserChecks();
 
     this.orgService
       .getOrganization()
@@ -48,6 +54,8 @@ export class UsersPageComponent implements OnInit {
       .subscribe((org) => {
         this.orgName = org!.name;
       });
+
+    this.isAdmin = this.authService.isAdmin;
   }
 
   initForm() {
@@ -55,13 +63,6 @@ export class UsersPageComponent implements OnInit {
       email: [null, [Validators.email]],
       permission: PermissionEnum.USER,
       name_user: null,
-    });
-  }
-
-  setupUserChecks() {
-    this.userService.getUser().subscribe((user) => {
-      this.userId = user._id;
-      this.isAdmin = this.userService.isAdmin;
     });
   }
 

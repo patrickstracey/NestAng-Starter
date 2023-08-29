@@ -78,14 +78,14 @@
   <p class="warn" *ngIf="adminErrorMessage">{{ adminErrorMessage }}</p>
 
   <div>
-    <div class="user-item row" *ngFor="let user of users$ | async">
+    <div class="user-item row" *ngFor="let acl of acl$ | async">
       <div class="info-item fade-in">
         <h3>
-          {{ user.name_user }}
+          {{ acl.name_user }}
         </h3>
         <p class="user-info">
-          {{ permissions[user.permission].toLowerCase() }}
-          <span class="pending" *ngIf="user.id_user == null">
+          {{ permissions[acl.permission].toLowerCase() }}
+          <span class="pending" *ngIf="acl.id_user == null">
             - Invite Sent</span
           >
         </p>
@@ -93,8 +93,8 @@
       <button
         class="btn warn mini"
         *ngIf="isAdmin"
-        [disabled]="user.id_user == userId"
-        (click)="deleteUser(user)"
+        [disabled]="acl.id_user == (user$ | async)?._id"
+        (click)="deleteUser(acl)"
       >
         Delete User
       </button>
