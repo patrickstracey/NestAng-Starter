@@ -68,12 +68,6 @@ export class AuthService {
     this.authenticated$.next(undefined);
   }
 
-  refreshSession(): Observable<SessionInterface> {
-    return this.http
-      .post<SessionInterface>(`${this.authApi}/refresh`, undefined)
-      .pipe(tap((result) => this.setupSession(result)));
-  }
-
   attemptAutoLogin() {
     const sesCookie = localStorage.getItem(this.cookieName);
     if (sesCookie && JSON.parse(sesCookie).access_token) {
@@ -93,34 +87,10 @@ export class AuthService {
     this.authenticated$.next(newSession);
   }
 
-  findInvite(inviteId: string): Observable<AclInviteInterface> {
-    return this.http.get<AclInviteInterface>(
-      `${this.authApi}/signup/${inviteId}`
-    );
-  }
-
-  findPasswordReset(resetId: string): Observable<boolean> {
-    return this.http.get<boolean>(`${this.authApi}/password-reset/${resetId}`);
-  }
-
-  requestPasswordReset(email: string): Observable<boolean> {
-    return this.http.post<boolean>(`${this.authApi}/request-reset`, {
-      email: email,
-    });
-  }
-
-  submitPasswordReset(
-    resetId: string,
-    resetReq: {
-      email: string;
-      password: string;
-      passwordConfirm: string;
-    }
-  ): Observable<boolean> {
-    return this.http.post<boolean>(
-      `${this.authApi}/password-reset/${resetId}`,
-      resetReq
-    );
+  private refreshSession(): Observable<SessionInterface> {
+    return this.http
+      .post<SessionInterface>(`${this.authApi}/refresh`, undefined)
+      .pipe(tap((result) => this.setupSession(result)));
   }
 
   private setCookie(access_token: string) {
