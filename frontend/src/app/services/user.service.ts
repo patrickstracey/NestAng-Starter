@@ -1,55 +1,50 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { first, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { UserInterface } from '../../../../shared/interfaces';
-import { PermissionEnum } from '../../../../shared/enums';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
   private baseUrl = 'api/user';
-  private user: UserInterface | null = null;
-  private permission: PermissionEnum = PermissionEnum.USER;
+  private userSubject: BehaviorSubject<UserInterface | null> =
+    new BehaviorSubject<UserInterface | null>(null);
 
-  constructor(private http: HttpClient) {}
-
-  private fetchUser(): Observable<UserInterface> {
-    return this.http.get<UserInterface>(this.baseUrl).pipe(
-      tap((user) => {
-        this.setupUser(user);
-      })
-    );
+  constructor(private http: HttpClient, private authService: AuthService) {
+    this.authService.authenticated$.subscribe((session) => {
+      if (session == undefined) {
+        this.resetService();
+      } else {
+        this.userSubject.next(session.user);
+      }
+    });
   }
 
-  setupUser(acc: UserInterface) {
-    this.user = acc;
+  private fetchUser() {
+    this.http
+      .get<UserInterface>(this.baseUrl)
+      .subscribe((user) => this.userSubject.next(user));
   }
 
-  setPermission(permission: PermissionEnum) {
-    this.permission = permission;
-  }
-
-  getUser(): Observable<UserInterface> {
-    if (this.user) {
-      return of(this.user).pipe(first());
+  getUser(): Observable<UserInterface | null> {
+    if (this.userSubject.value == null) {
+      this.fetchUser();
     }
-    return this.fetchUser();
+    return this.userSubject;
   }
 
-  patchUser(userChanges: UserInterface): Observable<UserInterface> {
-    return this.http.patch<UserInterface>(this.baseUrl, userChanges).pipe(
-      tap((user) => {
-        this.setupUser(user);
-      })
-    );
-  }
-
-  get isAdmin(): boolean {
-    return this.permission === PermissionEnum.ADMIN;
+  patchUser(
+    userChanges: { email: string } | { phone: string } | { name: string }
+  ) {
+    const updates = { ...this.userSubject.getValue(), ...userChanges };
+    this.http
+      .patch<UserInterface>(this.baseUrl, updates)
+      .subscribe((result) => this.userSubject.next(result));
   }
 
   resetService() {
-    this.user = null;
+    this.userSubject.next(null);
   }
 }
