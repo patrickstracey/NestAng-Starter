@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { OrganizationInterface } from '../../../../shared/interfaces';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,13 @@ export class OrganizationService {
   private baseUrl = 'api/organization';
   private orgSubject = new BehaviorSubject<OrganizationInterface | null>(null);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {
+    this.authService.authenticated$.subscribe((session) => {
+      if (session == undefined) {
+        this.resetService();
+      }
+    });
+  }
 
   private fetchOrganization() {
     this.http
@@ -31,5 +38,9 @@ export class OrganizationService {
         .patch<OrganizationInterface>(this.baseUrl, orgChanges)
         .subscribe((update) => this.orgSubject.next(update));
     }
+  }
+
+  resetService() {
+    this.orgSubject.next(null);
   }
 }

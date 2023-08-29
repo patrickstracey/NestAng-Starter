@@ -5,6 +5,7 @@ import {
   SuccessMessageInterface,
   AclInterface,
 } from '../../../../shared/interfaces';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,13 @@ export class AclService {
   private baseUrl = 'api/acls';
   private aclsSubject = new BehaviorSubject<AclInterface[]>([]);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {
+    this.authService.authenticated$.subscribe((session) => {
+      if (session == undefined) {
+        this.resetService();
+      }
+    });
+  }
 
   private fetchAcls() {
     this.http
@@ -73,5 +80,9 @@ export class AclService {
     this.http.post<AclInterface>(this.baseUrl, acl).subscribe((user) => {
       this.aclsSubject.next([...this.aclsSubject.value, user]);
     });
+  }
+
+  resetService() {
+    this.aclsSubject.next([]);
   }
 }
