@@ -5,7 +5,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { AuthService } from '../../../services';
+import { PasswordResetService } from '../../../services';
 
 @Component({
   selector: 'page-reset-password',
@@ -15,7 +15,7 @@ import { AuthService } from '../../../services';
 export class ResetPasswordPageComponent implements OnInit {
   constructor(
     private fb: UntypedFormBuilder,
-    private authService: AuthService,
+    private passwordReset: PasswordResetService,
     private activeRoute: ActivatedRoute
   ) {}
 
@@ -32,7 +32,7 @@ export class ResetPasswordPageComponent implements OnInit {
   resetPassword() {
     this.passwordError = !this.passwordsMatch();
     if (this.resetId && this.resetForm.valid && this.passwordsMatch()) {
-      this.authService
+      this.passwordReset
         .submitPasswordReset(this.resetId, this.resetForm.value)
         .subscribe((res) =>
           res ? (this.status = 'success') : (this.status = 'error')
@@ -63,7 +63,7 @@ export class ResetPasswordPageComponent implements OnInit {
   getInvite() {
     this.resetId = this.activeRoute.snapshot.paramMap.get('resetId');
     if (this.resetId) {
-      this.authService.findPasswordReset(this.resetId).subscribe({
+      this.passwordReset.findPasswordReset(this.resetId).subscribe({
         next: (res) => (!res ? (this.status = 'error') : ''),
         error: () => (this.status = 'error'),
       });
