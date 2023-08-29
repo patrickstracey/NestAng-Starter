@@ -9,8 +9,8 @@ import {
   SessionInterface,
   SignupInterface,
 } from '../../../../shared/interfaces';
-import { UserService } from './index';
 import { environment } from '../../environments/environment';
+import { PermissionEnum } from '../../../../shared/enums';
 
 @Injectable({
   providedIn: 'root',
@@ -24,17 +24,17 @@ export class AuthService {
 
   authenticated$ = new BehaviorSubject<SessionInterface | undefined>(undefined);
 
-  constructor(
-    private router: Router,
-    private http: HttpClient,
-    private userService: UserService
-  ) {
+  constructor(private router: Router, private http: HttpClient) {
     // When local storage changes in another tab check to see if session cookie was updated elsewhere and react accordingly
     window.onstorage = () => {
       if (localStorage.getItem(this.cookieName) == null) {
         this.logout();
       }
     };
+  }
+
+  get isAdmin(): boolean {
+    return this.authenticated$.getValue()?.permission === PermissionEnum.ADMIN;
   }
 
   login(loginAttempt: LoginInterface): Observable<SessionInterface> {
@@ -62,7 +62,6 @@ export class AuthService {
     if (navigate) {
       this.router.navigate(['/login']);
     }
-    this.userService.resetService();
     this.authenticated$.next(undefined);
   }
 
@@ -88,8 +87,6 @@ export class AuthService {
 
   private setupSession(newSession: SessionInterface) {
     this.setCookie(newSession.access_token);
-    this.userService.setupUser(newSession.user);
-    this.userService.setPermission(newSession.permission);
     this.authenticated$.next(newSession);
   }
 
