@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { UserInterface } from '../../../../../shared/interfaces';
 import { UserService } from '../../services';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 @Component({
   selector: 'page-account',
@@ -16,14 +16,22 @@ export class AccountPageComponent {
   name = new FormControl<string | null>(null, Validators.required);
   phone = new FormControl<string | null>(null, Validators.required);
   email = new FormControl<string | null>(null, Validators.required);
-  user$: Observable<UserInterface | null> = this.userService.getUser();
+  user$: Observable<UserInterface | null> = this.userService.getUser().pipe(
+    tap((user) => {
+      if (user) {
+        this.name.setValue(user.name);
+        this.phone.setValue(user.phone);
+        this.email.setValue(user.email);
+      }
+    })
+  );
 
   constructor(private userService: UserService) {}
 
-  editName() {
+  editName(originalName: string) {
     if (this.nameEdit) {
       this.nameEdit = false;
-      if (this.name.value) {
+      if (this.name.value && this.name.value != originalName) {
         this.updateAccount({ name: this.name.value });
       }
     } else {
@@ -31,10 +39,10 @@ export class AccountPageComponent {
     }
   }
 
-  editEmail() {
+  editEmail(originalEmail: string) {
     if (this.emailEdit) {
       this.emailEdit = false;
-      if (this.email.value) {
+      if (this.email.value && this.email.value != originalEmail) {
         this.updateAccount({ email: this.email.value });
       }
     } else {
@@ -42,10 +50,10 @@ export class AccountPageComponent {
     }
   }
 
-  editPhone() {
+  editPhone(originalPhone: string) {
     if (this.phoneEdit) {
       this.phoneEdit = false;
-      if (this.phone.value) {
+      if (this.phone.value && this.phone.value != originalPhone) {
         this.updateAccount({ phone: this.phone.value });
       }
     } else {

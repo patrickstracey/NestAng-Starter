@@ -7,7 +7,7 @@
         <span *ngIf="!nameEdit">{{ user.name }}</span>
         <input type="text" *ngIf="nameEdit" [formControl]="name"/>
       </div>
-      <button class="btn primary" (click)="editName()">
+      <button class="btn primary" (click)="editName(user.name)">
         {{ nameEdit ? "Save Name" : "Update" }}
       </button>
     </div>
@@ -17,7 +17,7 @@
         <span *ngIf="!emailEdit">{{ user.email }}</span>
         <input type="email" *ngIf="emailEdit" [formControl]="email"/>
       </div>
-      <button class="btn primary" (click)="editEmail()">
+      <button class="btn primary" (click)="editEmail(user.email)">
         {{ emailEdit ? "Save Email" : "Update" }}
       </button>
     </div>
@@ -29,7 +29,7 @@
           }}</span>
         <input type="tel" *ngIf="phoneEdit" [formControl]="phone"/>
       </div>
-      <button class="btn primary" (click)="editPhone()">
+      <button class="btn primary" (click)="editPhone(user.phone)">
         {{ phoneEdit ? "Save Phone" : "Update" }}
       </button>
     </div>

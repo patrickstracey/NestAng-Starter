@@ -38,7 +38,7 @@ export class UserService {
   patchUser(
     userChanges: { email: string } | { phone: string } | { name: string }
   ) {
-    const updates = { ...this.userSubject.getValue(), ...userChanges };
+    const updates = { ...this.userSubject.value, ...userChanges };
     this.http
       .patch<UserInterface>(this.baseUrl, updates)
       .subscribe((result) => this.userSubject.next(result));
