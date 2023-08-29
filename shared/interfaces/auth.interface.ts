@@ -15,7 +15,6 @@ export interface SignupInterface extends LoginInterface {
 export interface SessionInterface {
   access_token: string;
   user: UserInterface;
-  permission: PermissionEnum;
   acl_active: AclInterface | null;
   acl_list: AclInterface[];
 }

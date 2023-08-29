@@ -93,7 +93,6 @@ export class AuthService {
     const session: SessionInterface = {
       user: user,
       access_token: null,
-      permission: starting_acl ? starting_acl.permission : PermissionEnum.USER,
       acl_active: starting_acl,
       acl_list: acls,
     };
@@ -104,7 +103,7 @@ export class AuthService {
     const payload = {
       uid: session.user._id,
       oid: session.acl_active.id_organization,
-      acc: session.permission,
+      acc: session.acl_active.permission,
     };
     return this.jwtService.sign(payload);
   }

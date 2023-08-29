@@ -34,7 +34,10 @@ export class AuthService {
   }
 
   get isAdmin(): boolean {
-    return this.authenticated$.getValue()?.permission === PermissionEnum.ADMIN;
+    return (
+      this.authenticated$.getValue()?.acl_active?.permission ===
+      PermissionEnum.ADMIN
+    );
   }
 
   login(loginAttempt: LoginInterface): Observable<SessionInterface> {
