@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { AuthService } from '../../../services';
+import { PasswordResetService } from '../../../services';
 
 @Component({
   selector: 'app-reset-request',
@@ -8,7 +8,7 @@ import { AuthService } from '../../../services';
   styleUrls: ['../auth.shared.scss'],
 })
 export class ResetRequestPageComponent {
-  constructor(private authService: AuthService) {}
+  constructor(private passwordReset: PasswordResetService) {}
 
   status: 'pending' | 'submitted' = 'pending';
   imageUrl: string =
@@ -21,7 +21,7 @@ export class ResetRequestPageComponent {
 
   generateReset() {
     if (this.email.valid) {
-      this.authService.requestPasswordReset(this.email.value).subscribe({
+      this.passwordReset.requestPasswordReset(this.email.value).subscribe({
         next: () => (this.status = 'submitted'),
       });
     }

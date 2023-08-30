@@ -1,49 +1,46 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { first, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { OrganizationInterface } from '../../../../shared/interfaces';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrganizationService {
   private baseUrl = 'api/organization';
-  private organization: OrganizationInterface | null = null;
+  private orgSubject = new BehaviorSubject<OrganizationInterface | null>(null);
 
-  constructor(private http: HttpClient) {}
-
-  private fetchOrganization(): Observable<OrganizationInterface> {
-    return this.http.get<OrganizationInterface>(this.baseUrl).pipe(
-      tap((org) => {
-        this.setupOrganization(org);
-      })
-    );
+  constructor(private http: HttpClient, private authService: AuthService) {
+    this.authService.authenticated$.subscribe((session) => {
+      if (session == undefined) {
+        this.resetService();
+      }
+    });
   }
 
-  setupOrganization(org: OrganizationInterface) {
-    this.organization = org;
+  private fetchOrganization() {
+    this.http
+      .get<OrganizationInterface>(this.baseUrl)
+      .subscribe((org) => this.orgSubject.next(org));
   }
 
-  getOrganization(): Observable<OrganizationInterface> {
-    if (this.organization) {
-      return of(this.organization).pipe(first());
+  getOrganization(): Observable<OrganizationInterface | null> {
+    if (this.orgSubject.value == null) {
+      this.fetchOrganization();
     }
-    return this.fetchOrganization();
+    return this.orgSubject;
   }
 
-  patchOrganization(orgChanges: {
-    name: string;
-  }): Observable<OrganizationInterface> {
-    return this.http
-      .patch<OrganizationInterface>(this.baseUrl, orgChanges)
-      .pipe(
-        tap((res) => {
-          this.setupOrganization(res);
-        })
-      );
+  patchOrganization(orgChanges: { name: string }) {
+    if (orgChanges.name != this.orgSubject.value?.name) {
+      this.http
+        .patch<OrganizationInterface>(this.baseUrl, orgChanges)
+        .subscribe((update) => this.orgSubject.next(update));
+    }
   }
 
   resetService() {
-    this.organization = null;
+    this.orgSubject.next(null);
   }
 }

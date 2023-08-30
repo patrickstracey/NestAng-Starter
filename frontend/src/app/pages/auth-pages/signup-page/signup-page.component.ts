@@ -7,6 +7,7 @@ import {
 import { AuthService } from '../../../services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AclInviteInterface } from '../../../../../../shared/interfaces';
+import { InviteService } from '../../../services';
 
 @Component({
   selector: 'page-signup',
@@ -23,6 +24,7 @@ export class SignupPageComponent implements OnInit {
   constructor(
     private fb: UntypedFormBuilder,
     private authService: AuthService,
+    private inviteService: InviteService,
     private activeRoute: ActivatedRoute,
     private router: Router
   ) {}
@@ -85,7 +87,7 @@ export class SignupPageComponent implements OnInit {
   getInvite() {
     const id = this.activeRoute.firstChild?.snapshot.paramMap.get('inviteId');
     if (id) {
-      this.authService.findInvite(id).subscribe({
+      this.inviteService.findInvite(id).subscribe({
         next: (res) => (this.invite = res),
         error: () => {
           this.invite = null;

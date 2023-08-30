@@ -1,48 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { UserInterface } from '../../../../../shared/interfaces';
 import { UserService } from '../../services';
+import { Observable, tap } from 'rxjs';
 
 @Component({
   selector: 'page-account',
   templateUrl: './account-page.component.html',
   styleUrls: ['./account-page.component.scss'],
 })
-export class AccountPageComponent implements OnInit {
+export class AccountPageComponent {
   nameEdit: boolean = false;
   phoneEdit: boolean = false;
   emailEdit: boolean = false;
   name = new FormControl<string | null>(null, Validators.required);
   phone = new FormControl<string | null>(null, Validators.required);
   email = new FormControl<string | null>(null, Validators.required);
-  user: UserInterface | null = null;
-  loading: boolean = true;
+  user$: Observable<UserInterface | null> = this.userService.getUser().pipe(
+    tap((user) => {
+      if (user) {
+        this.name.setValue(user.name);
+        this.phone.setValue(user.phone);
+        this.email.setValue(user.email);
+      }
+    })
+  );
 
   constructor(private userService: UserService) {}
 
-  ngOnInit(): void {
-    this.loadAccount();
-  }
-
-  async loadAccount() {
-    this.userService.getUser().subscribe({
-      next: (res) => {
-        this.user = res;
-        this.name.patchValue(res.name);
-        this.phone.patchValue(res.phone);
-        this.email.patchValue(res.email);
-        this.loading = false;
-      },
-      error: () => {
-        this.loading = false;
-      },
-    });
-  }
-
-  editName() {
+  editName(originalName: string) {
     if (this.nameEdit) {
       this.nameEdit = false;
-      if (this.name.value && this.name.value != this.user?.name) {
+      if (this.name.value && this.name.value != originalName) {
         this.updateAccount({ name: this.name.value });
       }
     } else {
@@ -50,10 +39,10 @@ export class AccountPageComponent implements OnInit {
     }
   }
 
-  editEmail() {
+  editEmail(originalEmail: string) {
     if (this.emailEdit) {
       this.emailEdit = false;
-      if (this.email.value && this.email.value != this.user?.email) {
+      if (this.email.value && this.email.value != originalEmail) {
         this.updateAccount({ email: this.email.value });
       }
     } else {
@@ -61,10 +50,10 @@ export class AccountPageComponent implements OnInit {
     }
   }
 
-  editPhone() {
+  editPhone(originalPhone: string) {
     if (this.phoneEdit) {
       this.phoneEdit = false;
-      if (this.phone.value && this.phone.value != this.user?.phone) {
+      if (this.phone.value && this.phone.value != originalPhone) {
         this.updateAccount({ phone: this.phone.value });
       }
     } else {
@@ -75,11 +64,8 @@ export class AccountPageComponent implements OnInit {
   updateAccount(
     update: { email: string } | { phone: string } | { name: string }
   ) {
-    this.userService
-      .patchUser({
-        ...this.user!,
-        ...update,
-      })
-      .subscribe((user) => (this.user = user));
+    this.userService.patchUser({
+      ...update,
+    });
   }
 }

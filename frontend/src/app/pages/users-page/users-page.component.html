@@ -7,7 +7,7 @@
 
 <div *ngIf="inviteOpen">
   <ui-card [border]="true">
-    <ng-container *ngIf="!saving">
+    <ng-container>
       <h2>Invite a new User via Email</h2>
       <p>
         Enter the email of the person you would like to invite to your
@@ -18,7 +18,7 @@
           <div class="selector input-group">
             <label>Name</label>
             <input
-              type="string"
+              type="text"
               id="nameInput"
               formControlName="name_user"
               required
@@ -64,15 +64,13 @@
         </button>
         <button
           class="btn secondary mini admin-add"
-          (click)="goBack()"
+          (click)="openInvite()"
           [disabled]="saving"
         >
           Cancel
         </button>
       </div>
     </ng-container>
-
-    <ui-loader message="Inviting New User" *ngIf="saving"></ui-loader>
   </ui-card>
 </div>
 
@@ -80,14 +78,14 @@
   <p class="warn" *ngIf="adminErrorMessage">{{ adminErrorMessage }}</p>
 
   <div>
-    <div class="user-item row" *ngFor="let user of users">
+    <div class="user-item row" *ngFor="let acl of acl$ | async">
       <div class="info-item fade-in">
         <h3>
-          {{ user.name_user }}
+          {{ acl.name_user }}
         </h3>
         <p class="user-info">
-          {{ permissions[user.permission].toLowerCase() }}
-          <span class="pending" *ngIf="user.id_user == null">
+          {{ permissions[acl.permission].toLowerCase() }}
+          <span class="pending" *ngIf="acl.id_user == null">
             - Invite Sent</span
           >
         </p>
@@ -95,8 +93,8 @@
       <button
         class="btn warn mini"
         *ngIf="isAdmin"
-        [disabled]="user.id_user == userId || usersEdit"
-        (click)="deleteUser(user)"
+        [disabled]="acl.id_user == (user$ | async)?._id"
+        (click)="deleteUser(acl)"
       >
         Delete User
       </button>
