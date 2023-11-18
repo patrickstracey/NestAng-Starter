@@ -11,3 +11,14 @@
   padding: 0 16px;
   background-color: var(--background);
 }
+
+
+@media screen and (max-width: 860px) {
+  #desktop-nav {
+    display: none;
+  }
+
+  #mobile-nav {
+    display: unset;
+  }
+}

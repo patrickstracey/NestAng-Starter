@@ -3,11 +3,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavigationModule } from './modules/navigation/navigation.module';
+import { NavBarMobileComponent } from './modules/navigation/nav-bar-mobile/nav-bar-mobile.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { UiModule } from './modules/ui/ui.module';
 import { AuthPagesModule } from './pages/auth-pages/auth-pages.module';
 import { AuthInterceptor } from './utility/interceptors';
+import { NavBarComponent } from './modules/navigation/nav-bar/nav-bar.component';
 
 @NgModule({
   declarations: [AppComponent, HomePageComponent],
@@ -15,9 +16,10 @@ import { AuthInterceptor } from './utility/interceptors';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    NavigationModule,
     UiModule,
     AuthPagesModule,
+    NavBarComponent,
+    NavBarMobileComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

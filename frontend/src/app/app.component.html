@@ -1,6 +1,7 @@
 <ng-container *ngIf="authenticated$ | async; else login">
   <div class="row default" style="min-height: 100%">
-    <nav-bar></nav-bar>
+    <nav-bar id="desktop-nav"></nav-bar>
+    <nav-bar-mobile id="mobile-nav"></nav-bar-mobile>
     <div class="app">
       <ng-template *ngTemplateOutlet="outlet"></ng-template>
     </div>
