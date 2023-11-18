@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { DocumentInterface } from '../../../../../../shared/interfaces';
 import { UploadsService } from '../../../services';
 
@@ -6,6 +7,8 @@ import { UploadsService } from '../../../services';
   selector: 'document-viewer',
   templateUrl: './document-viewer.component.html',
   styleUrls: ['./document-viewer.component.scss'],
+  standalone: true,
+  imports: [CommonModule],
 })
 export class DocumentViewerComponent implements OnInit {
   @Input() documentObject: object = {};

@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 
@@ -5,6 +6,8 @@ import { environment } from '../../../../environments/environment';
   selector: 'image-viewer',
   templateUrl: './image-viewer.component.html',
   styleUrls: ['./image-viewer.component.scss'],
+  standalone: true,
+  imports: [CommonModule],
 })
 export class ImageViewerComponent {
   imageUrl = environment.IMAGE_URL;
