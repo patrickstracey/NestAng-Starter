@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { map, Observable } from 'rxjs';
 import { AuthService } from '../../../services';
 import { PermissionEnum } from '../../../../../../shared/enums';
-import { NavBarMobileComponent } from '../nav-bar-mobile/nav-bar-mobile.component';
 import { environment } from '../../../../environments/environment';
 
 @Component({
