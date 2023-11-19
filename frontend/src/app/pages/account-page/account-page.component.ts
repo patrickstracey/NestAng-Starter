@@ -1,6 +1,8 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserInterface } from '../../../../../shared/interfaces';
+import { UiModule } from '../../modules/ui/ui.module';
 import { UserService } from '../../services';
 import { Observable, tap } from 'rxjs';
 
@@ -8,6 +10,8 @@ import { Observable, tap } from 'rxjs';
   selector: 'page-account',
   templateUrl: './account-page.component.html',
   styleUrls: ['./account-page.component.scss'],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, UiModule],
 })
 export class AccountPageComponent {
   nameEdit: boolean = false;

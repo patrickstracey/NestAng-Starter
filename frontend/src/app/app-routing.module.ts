@@ -7,10 +7,7 @@ import { environment } from '../environments/environment';
 const routes: Routes = [
   {
     path: 'account',
-    loadChildren: () =>
-      import('./pages/account-page/account-page.module').then(
-        (m) => m.AccountPageModule
-      ),
+    loadChildren: () => import('@pages/account').then((m) => m.ACCOUNT_ROUTES),
   },
   {
     path: 'organization/users',
