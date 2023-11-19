@@ -1,18 +1,22 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { AuthService } from '../../../services';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { UiModule } from '@ui';
 import { AclInviteInterface } from '../../../../../../shared/interfaces';
-import { InviteService } from '../../../services';
+import { AuthService, InviteService } from '@services';
 
 @Component({
   selector: 'page-signup',
   templateUrl: './signup-page.component.html',
   styleUrls: ['../auth.shared.scss'],
+  standalone: true,
+  imports: [CommonModule, UiModule, ReactiveFormsModule, RouterModule],
 })
 export class SignupPageComponent implements OnInit {
   signup!: UntypedFormGroup;

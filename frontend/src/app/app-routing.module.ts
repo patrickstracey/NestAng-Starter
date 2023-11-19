@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { AuthGuardFn } from './utility/guards';
-import { environment } from '../environments/environment';
+import { environment } from '@environment';
 
 const routes: Routes = [
   {
@@ -22,6 +22,10 @@ const routes: Routes = [
       import('./pages/organization-page/organization-page.module').then(
         (m) => m.OrganizationPageModule
       ),
+  },
+  {
+    path: 'welcome',
+    loadChildren: () => import('@pages/auth').then((m) => m.AUTH_ROUTES),
   },
   {
     path: '',

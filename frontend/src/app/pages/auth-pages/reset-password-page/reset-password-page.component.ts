@@ -1,16 +1,21 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { PasswordResetService } from '../../../services';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { PasswordResetService } from '@services';
+import { UiModule } from '@ui';
 
 @Component({
   selector: 'page-reset-password',
   templateUrl: './reset-password-page.component.html',
   styleUrls: ['../auth.shared.scss'],
+  standalone: true,
+  imports: [CommonModule, UiModule, ReactiveFormsModule, RouterModule],
 })
 export class ResetPasswordPageComponent implements OnInit {
   constructor(
