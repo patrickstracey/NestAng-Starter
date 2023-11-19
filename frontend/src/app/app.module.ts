@@ -5,8 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavBarMobileComponent } from './modules/navigation/nav-bar-mobile/nav-bar-mobile.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
-import { UiModule } from './modules/ui/ui.module';
-import { AuthPagesModule } from './pages/auth-pages/auth-pages.module';
+import { UiModule } from '@ui';
 import { AuthInterceptor } from './utility/interceptors';
 import { NavBarComponent } from './modules/navigation/nav-bar/nav-bar.component';
 
@@ -17,7 +16,6 @@ import { NavBarComponent } from './modules/navigation/nav-bar/nav-bar.component'
     HttpClientModule,
     AppRoutingModule,
     UiModule,
-    AuthPagesModule,
     NavBarComponent,
     NavBarMobileComponent,
   ],

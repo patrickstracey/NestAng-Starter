@@ -21,7 +21,11 @@
     "useDefineForClassFields": false,
     "lib": ["ES2022", "dom"],
     "paths": {
-      "@pages/account": ["src/app/pages/account-page/index.ts"]
+      "@environment": ["src/environments/environment.ts"],
+      "@pages/account": ["src/app/pages/account-page/index.ts"],
+      "@pages/auth": ["src/app/pages/auth-pages/index.ts"],
+      "@services": ["src/app/services/index.ts"],
+      "@ui": ["src/app/modules/ui/index.ts"]
     }
   },
   "angularCompilerOptions": {
