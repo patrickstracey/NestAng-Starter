@@ -1,9 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { UiModule } from '@ui';
 
 @Component({
   selector: 'page-home',
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.scss'],
+  standalone: true,
+  imports: [CommonModule, UiModule],
 })
 export class HomePageComponent implements OnInit {
   loading: boolean = true;
