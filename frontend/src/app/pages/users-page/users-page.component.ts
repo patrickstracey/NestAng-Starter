@@ -1,14 +1,21 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { AclInterface, UserInterface } from '../../../../../shared/interfaces';
+import {
+  FormBuilder,
+  Validators,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { first, Observable, tap } from 'rxjs';
+import { AclInterface, UserInterface } from '@shared/interfaces';
 import {
   UserService,
   AclService,
   OrganizationService,
   AuthService,
-} from '../../services';
-import { PermissionEnum } from '../../../../../shared/enums';
-import { first, Observable, tap } from 'rxjs';
+} from '@services';
+import { PermissionEnum } from '@shared/enums';
+import { UiModule } from '@ui';
 
 @Component({
   selector: 'page-users',
@@ -17,6 +24,8 @@ import { first, Observable, tap } from 'rxjs';
     './users-page.component.scss',
     '../account-page/account-page.component.scss',
   ],
+  standalone: true,
+  imports: [CommonModule, UiModule, ReactiveFormsModule],
 })
 export class UsersPageComponent implements OnInit {
   constructor(

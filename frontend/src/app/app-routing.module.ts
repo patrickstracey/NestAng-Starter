@@ -11,10 +11,7 @@ const routes: Routes = [
   },
   {
     path: 'organization/users',
-    loadChildren: () =>
-      import('./pages/users-page/users-page.module').then(
-        (m) => m.UsersPageModule
-      ),
+    loadChildren: () => import('@pages/users').then((m) => m.USERS_ROUTES),
   },
   {
     path: 'organization/account',

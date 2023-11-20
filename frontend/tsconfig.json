@@ -25,6 +25,7 @@
       "@pages/account": ["src/app/pages/account-page/index.ts"],
       "@pages/auth": ["src/app/pages/auth-pages/index.ts"],
       "@pages/organization": ["src/app/pages/organization-page/index.ts"],
+      "@pages/users": ["src/app/pages/users-page/index.ts"],
       "@services": ["src/app/services/index.ts"],
       "@shared/enums": ["../shared/enums/index.ts"],
       "@shared/interfaces": ["../shared/interfaces/index.ts"],
