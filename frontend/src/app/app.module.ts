@@ -3,10 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavBarMobileComponent } from './modules/navigation/nav-bar-mobile/nav-bar-mobile.component';
+import { NavBarComponent, NavBarMobileComponent } from '@navigation';
 import { UiModule } from '@ui';
-import { AuthInterceptor } from './utility/interceptors';
-import { NavBarComponent } from './modules/navigation/nav-bar/nav-bar.component';
+import { AuthInterceptor } from '@utility/interceptors';
 
 @NgModule({
   declarations: [AppComponent],
