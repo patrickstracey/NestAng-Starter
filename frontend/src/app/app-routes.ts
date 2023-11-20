@@ -1,10 +1,9 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { AuthGuardFn } from '@utility/guards';
 import { environment } from '@environment';
 
-const routes: Routes = [
+export const APP_ROUTES: Routes = [
   {
     path: 'account',
     loadChildren: () => import('@pages/account').then((m) => m.ACCOUNT_ROUTES),
@@ -29,9 +28,3 @@ const routes: Routes = [
     canActivate: [AuthGuardFn],
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
-})
-export class AppRoutingModule {}

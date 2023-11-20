@@ -52,8 +52,8 @@ export class AuthService {
   ): Observable<SessionInterface> {
     const url =
       invite != null && invite?._id
-        ? `${this.authApi}/signup/${invite._id}`
-        : `${this.authApi}/signup`;
+        ? `${this.authApi}/welcome/signup/${invite._id}`
+        : `${this.authApi}/welcome/signup`;
     return this.http
       .post<SessionInterface>(url, signupAttempt)
       .pipe(tap((result) => this.setupSession(result)));
@@ -63,7 +63,7 @@ export class AuthService {
     this.clearCookie();
 
     if (navigate) {
-      this.router.navigate(['/login']);
+      this.router.navigate(['welcome/login']);
     }
     this.authenticated$.next(undefined);
   }
