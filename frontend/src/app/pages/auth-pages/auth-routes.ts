@@ -1,12 +1,11 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { SignupPageComponent } from './signup-page/signup-page.component';
 import { ResetRequestPageComponent } from './reset-request-page/reset-request-page.component';
 import { ResetPasswordPageComponent } from './reset-password-page/reset-password-page.component';
-import { environment } from '../../../environments/environment';
+import { environment } from '@environment';
 
-const routes: Routes = [
+export const AUTH_ROUTES: Routes = [
   {
     path: 'login',
     title: `Login | ${environment.application_name}`,
@@ -28,10 +27,9 @@ const routes: Routes = [
     title: `Reset Your Password | ${environment.application_name}`,
     component: ResetPasswordPageComponent,
   },
+  {
+    path: '**',
+    title: `Login | ${environment.application_name}`,
+    component: LoginPageComponent,
+  },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-})
-export class AuthRoutingModule {}

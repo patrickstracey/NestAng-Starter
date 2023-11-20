@@ -1,17 +1,22 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { AuthService } from '../../../services';
-import { Router } from '@angular/router';
-import { environment } from '../../../../environments/environment';
+import { Router, RouterModule } from '@angular/router';
+import { UiModule } from '@ui';
+import { AuthService } from '@services';
+import { environment } from '@environment';
 
 @Component({
   selector: 'page-login',
   templateUrl: './login-page.component.html',
   styleUrls: ['../auth.shared.scss'],
+  standalone: true,
+  imports: [CommonModule, UiModule, ReactiveFormsModule, RouterModule],
 })
 export class LoginPageComponent implements OnInit {
   login!: UntypedFormGroup;

@@ -1,12 +1,16 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { OrganizationService } from '../../services';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { tap } from 'rxjs';
+import { UiModule } from '@ui';
+import { OrganizationService } from '@services';
 
 @Component({
   selector: 'page-organization',
   templateUrl: './organization-page.component.html',
   styleUrls: ['./organization-page.component.scss'],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, UiModule],
 })
 export class OrganizationPageComponent {
   nameEdit: boolean = false;

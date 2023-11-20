@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
@@ -6,6 +7,8 @@ import { NavBarComponent } from '../nav-bar/nav-bar.component';
   selector: 'nav-bar-mobile',
   templateUrl: './nav-bar-mobile.component.html',
   styleUrls: ['./nav-bar-mobile.component.scss'],
+  standalone: true,
+  imports: [CommonModule],
 })
 export class NavBarMobileComponent extends NavBarComponent {
   private router = inject(Router);

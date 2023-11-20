@@ -1,7 +1,8 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { BaseInterface } from '../../../../../../shared/interfaces';
 import { UploadsService } from '../../../services';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 interface UploaderConfigInterface {
   string: 'image' | 'file';
@@ -35,6 +36,8 @@ const fileConfigs: UploaderConfigInterface = {
   selector: 'uploader',
   templateUrl: './uploader.component.html',
   styleUrls: ['./uploader.component.scss'],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
 })
 export class UploaderComponent implements OnInit {
   selectedFiles?: FileList;

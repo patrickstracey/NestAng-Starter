@@ -5,7 +5,7 @@ import {
   BaseInterface,
   DocumentInterface,
   SuccessMessageInterface,
-} from '../../../../shared/interfaces';
+} from '@shared/interfaces';
 
 @Injectable({
   providedIn: 'root',
