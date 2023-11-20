@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AclInviteInterface } from '../../../../shared/interfaces';
 import { HttpClient } from '@angular/common/http';
+import { AclInviteInterface } from '@shared/interfaces';
 
 @Injectable({
   providedIn: 'root',

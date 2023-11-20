@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { UserInterface } from '../../../../../shared/interfaces';
-import { UiModule } from '../../modules/ui/ui.module';
-import { UserService } from '../../services';
+import { UserInterface } from '@shared/interfaces';
+import { UiModule } from '@ui';
+import { UserService } from '@services';
 import { Observable, tap } from 'rxjs';
 
 @Component({

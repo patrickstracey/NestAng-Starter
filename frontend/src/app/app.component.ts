@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { AuthService } from './services';
-import { SessionInterface } from '../../../shared/interfaces';
+import { AuthService } from '@services';
+import { SessionInterface } from '@shared/interfaces';
 
 @Component({
   selector: 'app-root',

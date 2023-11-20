@@ -8,9 +8,9 @@ import {
   LoginInterface,
   SessionInterface,
   SignupInterface,
-} from '../../../../shared/interfaces';
-import { environment } from '../../environments/environment';
-import { PermissionEnum } from '../../../../shared/enums';
+} from '@shared/interfaces';
+import { environment } from '@environment';
+import { PermissionEnum } from '@shared/enums';
 
 @Injectable({
   providedIn: 'root',

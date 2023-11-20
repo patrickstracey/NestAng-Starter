@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
+  FormBuilder,
+  FormGroup,
   ReactiveFormsModule,
-  UntypedFormBuilder,
-  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { UiModule } from '@ui';
-import { AclInviteInterface } from '../../../../../../shared/interfaces';
+import { AclInviteInterface } from '@shared/interfaces';
 import { AuthService, InviteService } from '@services';
 
 @Component({
@@ -19,14 +19,14 @@ import { AuthService, InviteService } from '@services';
   imports: [CommonModule, UiModule, ReactiveFormsModule, RouterModule],
 })
 export class SignupPageComponent implements OnInit {
-  signup!: UntypedFormGroup;
+  signup!: FormGroup;
   emailError: string | null = null;
   orgError: string | null = null;
   passwordError: boolean = false;
   invite: AclInviteInterface | null = null;
 
   constructor(
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private authService: AuthService,
     private inviteService: InviteService,
     private activeRoute: ActivatedRoute,

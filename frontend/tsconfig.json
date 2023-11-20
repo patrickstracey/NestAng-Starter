@@ -25,7 +25,12 @@
       "@pages/account": ["src/app/pages/account-page/index.ts"],
       "@pages/auth": ["src/app/pages/auth-pages/index.ts"],
       "@services": ["src/app/services/index.ts"],
-      "@ui": ["src/app/modules/ui/index.ts"]
+      "@shared/enums": ["../shared/enums/index.ts"],
+      "@shared/interfaces": ["../shared/interfaces/index.ts"],
+      "@shared/types": ["../shared/types/index.ts"],
+      "@ui": ["src/app/modules/ui/index.ts"],
+      "@utility/guards": ["src/app/utility/guards/index.ts"],
+      "@utility/interceptors": ["src/app/utility/interceptors/index.ts"]
     }
   },
   "angularCompilerOptions": {

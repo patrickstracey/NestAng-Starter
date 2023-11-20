@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomePageComponent } from './pages/home-page/home-page.component';
-import { AuthGuardFn } from './utility/guards';
+import { AuthGuardFn } from '@utility/guards';
 import { environment } from '@environment';
 
 const routes: Routes = [
