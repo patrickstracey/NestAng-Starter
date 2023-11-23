@@ -24,7 +24,7 @@ and `mock_data/mongo_seeds` directories.
 
 | Front-end                                                          | Back-end                                  | Database                                                            | Email                                                                                                  | Upload Storage                                      | Deployment                                     |
 |--------------------------------------------------------------------|-------------------------------------------|---------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|-----------------------------------------------------|------------------------------------------------|
-| [Angular 16](https://angular.io/)                                  | [NestJs 9](https://nestjs.com/)           | [MongoDB](https://www.mongodb.com/)                                 | [Sendgrid](https://sendgrid.com/)                                                                      | [Google Cloud Storage](https://cloud.google.com/)   | [Render](https://render.com/)                  |
+| [Angular 16](https://angular.io/)                                  | [NestJs 10](https://nestjs.com/)          | [MongoDB](https://www.mongodb.com/)                                 | [Sendgrid](https://sendgrid.com/)                                                                      | [Google Cloud Storage](https://cloud.google.com/)   | [Render](https://render.com/)                  |
 | [Official Docs](https://angular.io/guide/developer-guide-overview) | [Official Docs](https://docs.nestjs.com/) | [Official Docs](https://www.mongodb.com/docs/drivers/node/current/) | [Official Docs](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/authentication) | [Official Docs](https://cloud.google.com/storage)   | [Official Docs](https://render.com/docs/#node) |
 | [Implemented](frontend/README.md)                                  | [Implemented](backend/README.md)          | [Implemented](backend/src/database/README.md)                       | [Implemented](backend/src/mail/README.md)                                                              | [Implemented](backend/src/routes/uploads/README.md) | Not Yet Implemented                            |     |
 
@@ -38,14 +38,14 @@ you with:
     - _The email pieces have been implemented with a standard Sendgrid setup I have come to use, but you will want to
       build you own project specific email templates._
 - Some basic styling and UI components
-    - _I tried to make the styles too overbearing so that you are able to remove them in favor of a css library like
+    - _I tried to avoid making the styles too overbearing so that you are able to remove them in favor of a css library
+      like
       Tailwind is you would prefer._
 - Simple Authentication implementation
     - _Again you are encouraged to another authentication provider or library that you like, this is a password and
       email
       implementation stored on a users table which has suited my starting needs_
 - The ability to initialize, connect to, and seed a Mongo database
-    - _Adding a SQL option would be slated for future_
 - Signup, Invite, and Password Reset emails via Sendgrid
 - Image and PDF uploads via Google Cloud Storage
 - JWT tokens and Cookies (including refesh endpoint and auto login functionality)
@@ -53,7 +53,7 @@ you with:
 - Account & Dashboard page
 - ACL management.
 
-### What Is Not Yet Implemented (as of 6/17/23)
+### What Is Not Yet Implemented (as of 11/23/23)
 
 I have used these services and built these features in multiple projects before and so my hope is that I will be able to
 get to adding these fairly quickly, but at the moment the project still needs the following items added:
@@ -101,7 +101,7 @@ onboard into. If you have your own preferences I hope the scaffolded services in
 to your chosen provider. For deployment I have found services like AWS, Azure, and Google Cloud to be great, but they
 are quite intimidating and probably overkill for MVP deployments if you don't already know them super well.
 
-## Closing Statement
+## Sharing & Making Changes
 
 Please feel free to copy or fork this repo for your own use if you would like to hack away at it to create your own
 starter Angular/NestJs template with different providers. I have just put this up because I found myself recreating the
