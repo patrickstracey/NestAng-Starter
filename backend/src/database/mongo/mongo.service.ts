@@ -123,8 +123,8 @@ export class MongoService {
       const result = await this._db
         .collection(collection)
         .findOneAndUpdate({ _id: this.idConvert(id) }, { $set: item }, options);
-      if (result.value._id) {
-        return result.value;
+      if (result._id) {
+        return result;
       } else {
         new InternalServerErrorException(`Unable to update item. No result returned.`);
       }
@@ -140,8 +140,8 @@ export class MongoService {
       const result = await this._db
         .collection(collection)
         .findOneAndUpdate({ _id: this.idConvert(id) }, { $push: { images: { $each: newItems } } }, options);
-      if (result.value._id) {
-        return result.value;
+      if (result._id) {
+        return result;
       } else {
         new InternalServerErrorException(`Unable to update item. No result returned.`);
       }

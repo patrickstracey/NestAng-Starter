@@ -80,8 +80,8 @@ export class AclsService {
         { $set: update },
         options,
       );
-      if (result.value._id) {
-        return result.value;
+      if (result._id) {
+        return result;
       } else {
         throw new InternalServerErrorException(`Unable to update item. No result returned.`);
       }
