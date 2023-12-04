@@ -7,20 +7,36 @@ import {
   IsString,
 } from 'class-validator';
 import { SignupInterface } from '../../../../shared/interfaces';
+import { UserTypesEnum } from '../../../../shared/enums';
 
-export class UserEditDto {
-  @IsMongoId()
-  _id: string;
+export class SignupMemberDto{
   @IsString()
-  @IsOptional()
-  name?: string;
-  @IsEmail()
-  email: string;
-  @IsPhoneNumber('US')
-  @IsOptional()
-  phone?: string;
+  @IsDefined()
+  name: string;
+  @IsString()
+  @IsDefined()
+  password: string;
+  @IsString()
+  @IsDefined()
+  passwordConfirm: string;
+  @IsDefined()
+  type: UserTypesEnum;
 }
 
+export class UserEditDto {
+  @IsString()
+  @IsDefined()
+  name: string;
+  @IsDefined()
+  stations:Array<string>;
+  @IsString()
+  @IsDefined()
+  finalGuess:string;
+  @IsDefined()
+  logedIn:boolean; 
+}
+
+//old code, needs refactor
 export class SignupDto implements SignupInterface {
   @IsEmail()
   @IsDefined()
