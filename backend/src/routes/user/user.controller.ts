@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Param } from '@nestjs/common';
 import { TokenInterface, LodgeUserInterface } from '../../../../shared/interfaces';
 import { UserService } from './user.service';
 import { UserEditDto } from './user.dto';
@@ -8,8 +8,8 @@ import { TokenData } from '../../utility/decorators';
 export class UserController {
   constructor(private _user: UserService) {}
 
-  @Get()
-  getUserInfo(@TokenData() user:string): Promise<LodgeUserInterface> {
+  @Get(":'name'")
+  getUserInfo(@Param('name') user:string): Promise<LodgeUserInterface> {
     return this._user.getMember(user, false);
   }
 
@@ -19,5 +19,10 @@ export class UserController {
     @Body() updates: UserEditDto,
   ): Promise<LodgeUserInterface> {
     return this._user.updateMember(token, updates);
+  }
+
+  @Get('members')
+  getAllUsers(): Promise<LodgeUserInterface[]>{
+    return this._user.getAllMembers()
   }
 }
