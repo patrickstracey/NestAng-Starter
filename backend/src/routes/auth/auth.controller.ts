@@ -1,14 +1,12 @@
 import { Body, Controller, Param, Post, Get } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import {
-  AclInviteInterface,
   SessionInterface,
   TokenInterface,
-  SuccessMessageInterface,
 } from '../../../../shared/interfaces';
-import { EmailOnlyDto, LoginDto, SignupDto } from './auth.dto';
-import { PasswordResetDto } from '../../password';
+import { LoginDto } from './auth.dto';
 import { Public, TokenData } from '../../utility/decorators';
+import { SignupMemberDto } from '../user/user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -17,46 +15,13 @@ export class AuthController {
   @Public()
   @Post('/login')
   loginUser(@Body() loginReq: LoginDto): Promise<SessionInterface> {
-    return this.authService.attemptLogin(loginReq);
-  }
-
-  @Public()
-  @Get('/signup/:id')
-  checkForInvite(@Param('id') id: string): Promise<AclInviteInterface> {
-    return this.authService.getInvite(id);
-  }
-
-  @Public()
-  @Post('/signup/:id')
-  createNewAttachedResidentUser(
-    @Param('id') invite_id: string,
-    @Body() signupReq: SignupDto,
-  ): Promise<SessionInterface> {
-    return this.authService.signupUser(signupReq, invite_id);
+    return this.authService.loginMember(loginReq);
   }
 
   @Public()
   @Post('/signup')
-  createNewUser(@Body() signupReq: SignupDto): Promise<SessionInterface> {
+  createNewUser(@Body() signupReq: SignupMemberDto): Promise<SessionInterface> {
     return this.authService.signupUser(signupReq);
-  }
-
-  @Public()
-  @Post('/request-reset')
-  resetPasswordRequest(@Body() signupReq: EmailOnlyDto): Promise<SuccessMessageInterface> {
-    return this.authService.generateResetPasswordEmail(signupReq);
-  }
-
-  @Public()
-  @Get('/password-reset/:id')
-  getResetValidity(@Param('id') reset_id: string): Promise<boolean> {
-    return this.authService.checkValidityOfResetLink(reset_id);
-  }
-
-  @Public()
-  @Post('/password-reset/:id')
-  ResetPassword(@Param('id') reset_id: string, @Body() signupReq: PasswordResetDto): Promise<boolean> {
-    return this.authService.resetUserPassword(reset_id, signupReq);
   }
 
   @Post('/refresh')
