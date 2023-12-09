@@ -1,7 +1,6 @@
 import { Body, Controller, Get, Patch, Param } from '@nestjs/common';
 import { TokenInterface, LodgeUserInterface } from '../../../../shared/interfaces';
 import { UserService } from './user.service';
-import { UserEditDto } from './user.dto';
 import { TokenData } from '../../utility/decorators';
 
 @Controller('user')

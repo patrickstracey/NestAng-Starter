@@ -4,10 +4,10 @@ import { JwtAuthGuard, PermissionGuard } from './utility/guards';
 import { DatabaseModule } from './database';
 import { UserModule } from './routes/user';
 import { AuthModule } from './routes/auth';
-import { UploadsModule } from './routes/uploads';
+import {RiddleModule} from './routes/riddle'
 
 @Module({
-  imports: [DatabaseModule, AuthModule, UserModule, UploadsModule],
+  imports: [DatabaseModule, AuthModule, UserModule, RiddleModule],
   controllers: [],
   providers: [
     { provide: APP_GUARD, useClass: JwtAuthGuard },

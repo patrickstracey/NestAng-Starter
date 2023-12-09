@@ -35,6 +35,10 @@ export class AuthService {
     try{
       const member = await this.userService.getMember(attempt.name, true) as LodgeUserInterface
       if (member && (await this.passwordService.checkPassword(attempt.password, member.password))) {
+        if(!member.logedIn){
+          member.logedIn = true;
+          this.userService.updateMember(member)
+        }
         return await this.generateJwtSession(this.userService.cleanMember(member));
       }else {
         throw new ForbiddenException('Not a valid user or password combination');

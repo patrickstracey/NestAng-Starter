@@ -21,7 +21,6 @@ export class UserService {
 
   async getAllMembers():Promise<LodgeUserInterface[]>{
       const allUsers = (await this.db.find({userType:1}).toArray())
-      console.log(allUsers)
        allUsers.forEach(element => {
         element.password = "";
         element.finalGuess = ""
@@ -45,8 +44,6 @@ export class UserService {
     try{
       const member = (await this.db.findOne({ userName: userName })) as LodgeUserInterface;
       if (withPassword) {
-        console.log("returning member")
-        console.log(member)
         return member;
       } else {
         return this.cleanMember(member)
@@ -63,7 +60,7 @@ export class UserService {
         password:encryptedPassword,
         logedIn:false,
         finalGuess:"",
-        stations: new Array<string>(8),
+        stations: new Array<string>,
         userType: signupAttempt.type,
         type: TypesEnum.USER,
         _id: signupAttempt.name
@@ -80,13 +77,12 @@ export class UserService {
     return clean;
   }
 
-  async updateMember(token: TokenInterface, updates: LodgeUserInterface): Promise<LodgeUserInterface> {
-    const id = token.uid;
-    const user = (await this.db.findOne({ userName: id })) as LodgeUserInterface;
-    if (id == user._id) {
+  async updateMember(updates: LodgeUserInterface): Promise<LodgeUserInterface> {
+    const user = (await this.db.findOne({ userName: updates._id })) as LodgeUserInterface;
+    if (updates.userName == user._id) {
       const result = (await this.dbService.updateSingleItem(
         this.usersCollection,
-        id,
+        updates.userName,
         updates,
       )) as LodgeUserInterface;
 
