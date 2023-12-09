@@ -35,7 +35,7 @@ export class UserService {
   async getMemberWithToken(token: TokenInterface): Promise<LodgeUserInterface> {
     try {
       const account = (await this.db.findOne({
-        _id: this.dbService.idConvert(token.uid),
+        _id: token.uid
       })) as LodgeUserInterface;
       return this.cleanMember(account);
     } catch (err) {
