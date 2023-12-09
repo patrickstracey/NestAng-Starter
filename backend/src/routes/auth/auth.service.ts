@@ -37,13 +37,14 @@ export class AuthService {
 
   async loginMember(attempt: LoginDto): Promise<SessionInterface>{
     try{
-      const member = await this.userService.getMember(attempt.name)
+      const member = await this.userService.getMember(attempt.name, true) as LodgeUserInterface
       if (member && (await this.passwordService.checkPassword(attempt.password, member.password))) {
         return await this.generateJwtSession(this.userService.cleanMember(member));
       }else {
         throw new ForbiddenException('Not a valid user or password combination');
       }
     }catch (err) {
+      console.log(err)
       throw new ForbiddenException('Not a valid user or password combination');
     }
   }
@@ -55,41 +56,29 @@ export class AuthService {
   }
 
   private async buildSession(user: LodgeUserInterface): Promise<SessionInterface> {
-    const acls = await this.aclService.findAllByUser(user._id);
-    const starting_acl = acls.length > 0 ? acls[0] : null;
     const session: SessionInterface = {
       user: user,
-      access_token: null,
-      acl_active: starting_acl,
-      acl_list: acls,
+      access_token: null
     };
     return session;
   }
 
   private async buildAccessToken(session: SessionInterface): Promise<string> {
     const payload = {
-      uid: session.user._id,
-      oid: session.acl_active.id_organization,
-      acc: session.acl_active.permission,
+      uid: session.user.userName,
+      oid: session.user.userType,
+      acc: session.user.type,
     };
     return this.jwtService.sign(payload);
   }
 
   async refreshToken(token: TokenInterface): Promise<SessionInterface> {
-    //TODO have to look at this
-    const account = await this.userService.getMember("token");
+    const account = await this.userService.getMemberWithToken(token);
     return this.generateJwtSession(account);
   }
 
-  async signupUser(signupAttempt: SignupMemberDto): Promise<SessionInterface> {
+  async signupUser(signupAttempt: SignupMemberDto){
     const createdUser = await this.generateUser(signupAttempt);
-    try {
-      return await this.generateJwtSession(createdUser);
-    } catch (err) {
-      throw new InternalServerErrorException(
-        'Your user has been created but we failed to log you in successfully. Please reach out to your community administrator.',
-      );
-    }
   }
 
   private async generateUser(signup: SignupMemberDto): Promise<LodgeUserInterface> {

@@ -20,8 +20,8 @@ export class AuthController {
 
   @Public()
   @Post('/signup')
-  createNewUser(@Body() signupReq: SignupMemberDto): Promise<SessionInterface> {
-    return this.authService.signupUser(signupReq);
+  createNewUser(@Body() signupReq: SignupMemberDto){
+     this.authService.signupUser(signupReq);
   }
 
   @Post('/refresh')

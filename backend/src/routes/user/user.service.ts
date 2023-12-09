@@ -22,50 +22,39 @@ export class UserService {
   }
 
   async getAllMembers():Promise<LodgeUserInterface[]>{
-      const allUsers = (await this.db.find().toArray())
-       allUsers.array.forEach(element => {
-        this.cleanMember(element)//Needs to be done otherwise we would return pws here
+      const allUsers = (await this.db.find({userType:1}).toArray())
+      console.log(allUsers)
+       allUsers.forEach(element => {
+        element.password = "";
+        element.finalGuess = ""
        });
       return allUsers;
+  }
+
+  
+  async getMemberWithToken(token: TokenInterface): Promise<LodgeUserInterface> {
+    try {
+      const account = (await this.db.findOne({
+        _id: this.dbService.idConvert(token.uid),
+      })) as LodgeUserInterface;
+      return this.cleanMember(account);
+    } catch (err) {
+      throw new NotFoundException('');
+    }
   }
 
   async getMember(userName: string, withPassword = false):Promise<LodgeUserInterface>{
     try{
       const member = (await this.db.findOne({ userName: userName })) as LodgeUserInterface;
       if (withPassword) {
+        console.log("returning member")
+        console.log(member)
         return member;
       } else {
         return this.cleanMember(member)
       }
     }catch (err){
       throw new NotFoundException('');
-    }
-  }
-
-  async updateMember(token: TokenInterface, updates: UserEditDto): Promise<LodgeUserInterface> {
-    const id = updates.name;
-    const user = (await this.db.findOne({ userName: id })) as LodgeUserInterface;
-    if (id == token.uid) {
-      const newMember: LodgeUserInterface = {
-        userName: user.userName,
-        logedIn: updates.logedIn,
-        finalGuess:updates.finalGuess,
-        stations: updates.stations,
-        password: user.password,
-        userType: user.userType,
-        type: TypesEnum.USER,
-        _id: user._id
-
-      };
-      const result = (await this.dbService.updateSingleItem(
-        this.usersCollection,
-        id,
-        newMember,
-      )) as LodgeUserInterface;
-
-      return this.cleanMember(result)
-    } else {
-      throw new ForbiddenException('You cannot update this user account.');
     }
   }
 
@@ -91,5 +80,21 @@ export class UserService {
   cleanMember(account: LodgeUserInterface): LodgeUserInterface {
     const { password, ...clean } = account;
     return clean;
+  }
+
+  async updateMember(token: TokenInterface, updates: LodgeUserInterface): Promise<LodgeUserInterface> {
+    const id = token.uid;
+    const user = (await this.db.findOne({ userName: id })) as LodgeUserInterface;
+    if (id == user._id) {
+      const result = (await this.dbService.updateSingleItem(
+        this.usersCollection,
+        id,
+        updates,
+      )) as LodgeUserInterface;
+
+      return this.cleanMember(result)
+    } else {
+      throw new ForbiddenException('You cannot update this user account.');
+    }
   }
 }

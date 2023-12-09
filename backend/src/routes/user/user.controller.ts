@@ -8,17 +8,9 @@ import { TokenData } from '../../utility/decorators';
 export class UserController {
   constructor(private _user: UserService) {}
 
-  @Get(":'name'")
-  getUserInfo(@Param('name') user:string): Promise<LodgeUserInterface> {
-    return this._user.getMember(user, false);
-  }
-
-  @Patch()
-  updateUserInfo(
-    @TokenData() token: TokenInterface,
-    @Body() updates: UserEditDto,
-  ): Promise<LodgeUserInterface> {
-    return this._user.updateMember(token, updates);
+  @Get()
+  getUserInfo(@TokenData() token: TokenInterface): Promise<LodgeUserInterface> {
+    return this._user.getMemberWithToken(token);
   }
 
   @Get('members')
