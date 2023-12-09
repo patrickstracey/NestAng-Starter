@@ -19,18 +19,14 @@ import { JwtService } from '@nestjs/jwt';
 import { PermissionEnum } from '../../../../shared/enums';
 import { UserService } from '../user';
 import { DatabaseService } from '../../database';
-import { AclsService, AclDto } from '../acls';
 import { PasswordService, PasswordResetDto } from '../../password';
-import { OrganizationService } from '../organization';
 
 @Injectable()
 export class AuthService {
   constructor(
     private dbService: DatabaseService,
     private userService: UserService,
-    private aclService: AclsService,
     private passwordService: PasswordService,
-    private organizationService: OrganizationService,
     private jwtService: JwtService,
   ) {}
 

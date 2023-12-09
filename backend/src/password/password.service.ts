@@ -8,11 +8,10 @@ import * as bcrypt from 'bcrypt';
 import { PasswordResetInterface } from '../../../shared/interfaces';
 import { DatabaseTables, TypesEnum } from '../../../shared/enums';
 import { DatabaseService } from '../database';
-import { MailService } from '../mail';
 
 @Injectable()
 export class PasswordService {
-  constructor(private dbService: DatabaseService, private mailService: MailService) {}
+  constructor(private dbService: DatabaseService) {}
 
   private resetsCollection = DatabaseTables.RESETS;
 
@@ -44,7 +43,6 @@ export class PasswordService {
 
     const result = await this.dbService.insertSingleItem(this.resetsCollection, resetToken);
     if (result._id) {
-      this.mailService.sendPasswordResetEmail(email, result._id);
       return true;
     }
     throw new InternalServerErrorException('Could not generate a password reset');

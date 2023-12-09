@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
 import { PasswordService } from './password.service';
 import { DatabaseModule } from '../database';
-import { MailModule } from '../mail';
 
 @Module({
-  imports: [DatabaseModule, MailModule],
+  imports: [DatabaseModule],
   providers: [PasswordService],
   exports: [PasswordService],
 })

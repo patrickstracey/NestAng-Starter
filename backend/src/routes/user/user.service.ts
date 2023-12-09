@@ -9,11 +9,9 @@ import { TokenInterface, LodgeUserInterface} from '../../../../shared/interfaces
 import { UserEditDto, SignupMemberDto } from './user.dto';
 import { DatabaseTables, TypesEnum, UserTypesEnum } from '../../../../shared/enums';
 import { DatabaseService } from '../../database';
-import { MailService } from '../../mail';
-
 @Injectable()
 export class UserService {
-  constructor(private dbService: DatabaseService, private mailService: MailService) {}
+  constructor(private dbService: DatabaseService) {}
 
   private usersCollection = DatabaseTables.USERS;
 
