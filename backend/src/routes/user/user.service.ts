@@ -53,8 +53,12 @@ export class UserService {
     }
   }
 
-  async insertNewMember(signupAttempt: SignupMemberDto, encryptedPassword: string): Promise<LodgeUserInterface> {
+  async insertNewMember(token: TokenInterface, signupAttempt: SignupMemberDto, encryptedPassword: string): Promise<LodgeUserInterface> {
     try {
+      const user =(await this.getMemberWithToken(token)) as LodgeUserInterface;
+      if(user.userType != 1032){
+        throw new ForbiddenException('');
+      }
       const newMember: LodgeUserInterface = {
         userName: signupAttempt.name,
         password:encryptedPassword,

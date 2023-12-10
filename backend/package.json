@@ -27,6 +27,7 @@
     "@nestjs/passport": "^10.0.2",
     "@nestjs/platform-express": "^10.2.10",
     "@nestjs/serve-static": "^4.0.0",
+    "@saemhco/nestjs-html-pdf": "^0.1.0",
     "@sendgrid/mail": "^7.7.0",
     "bcrypt": "^5.1.0",
     "class-transformer": "^0.5.1",

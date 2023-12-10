@@ -77,18 +77,18 @@ export class AuthService {
     return this.generateJwtSession(account);
   }
 
-  async signupUser(signupAttempt: SignupMemberDto){
-    const createdUser = await this.generateUser(signupAttempt);
+  async signupUser(token: TokenInterface, signupAttempt: SignupMemberDto){
+    const createdUser = await this.generateUser(token, signupAttempt);
   }
 
-  private async generateUser(signup: SignupMemberDto): Promise<LodgeUserInterface> {
+  private async generateUser(token: TokenInterface, signup: SignupMemberDto): Promise<LodgeUserInterface> {
     try {
       const [password] = await Promise.all([
         await this.passwordService.encryptPassword(signup),
       ]);
 
       if (password) {
-        return await this.userService.insertNewMember(signup, password);
+        return await this.userService.insertNewMember(token, signup, password);
       } else {
         throw new UnprocessableEntityException('Email is not unique. Please try another one!');
       }

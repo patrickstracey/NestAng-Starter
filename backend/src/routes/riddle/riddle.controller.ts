@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post, Get } from '@nestjs/common';
+import { Body, Controller, Param, Post, Get, Res } from '@nestjs/common';
 import { RiddleService } from './riddle.service';
 import {
   TokenInterface,
@@ -26,5 +26,21 @@ export class RiddleController {
   @Get("/search/podcasts")
   getPodcasts(@TokenData() token:TokenInterface):Promise<PodcastDTO[]>{
       return this.riddleService.getPodcasts(token);
+  }
+
+  @Get("/download/certificate")
+  async downloadCert(@TokenData() token:TokenInterface, @Res() res){
+      const buffer = await this.riddleService.getPriceCert(token);
+      res.set({
+        // pdf
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `attachment; filename=pdf.pdf`,
+        'Content-Length': buffer.length,
+        // prevent cache
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        Pragma: 'no-cache',
+        Expires: 0,
+      });
+      res.end(buffer);
   }
 }

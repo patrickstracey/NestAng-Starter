@@ -3,12 +3,14 @@ import {
   Injectable,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import {TokenInterface } from '../../../../shared/interfaces';
+import {LodgeUserInterface, TokenInterface } from '../../../../shared/interfaces';
 import { PodcastDTO } from './riddle.dto';
 import { UserService } from '../user';
 import { DatabaseService } from '../../database';
 import { DatabaseTables } from '../../../../shared/enums';
-import { get } from 'http';
+import { createPdf } from '@saemhco/nestjs-html-pdf';
+import * as path from 'path';
+
 @Injectable()
 export class RiddleService {
   constructor(
@@ -69,5 +71,36 @@ killer = "PeterSchulze";
       throw new UnprocessableEntityException("");
     }
     return (await this.db.find({ _id : { $in : member.stations } }).toArray())
+  }
+
+  async getPriceCert(token:TokenInterface){
+    const member = (await this.userService.getMemberWithToken(token)) as LodgeUserInterface;
+    if(!member){
+      throw new ForbiddenException("No you can not do this!");
+    }
+    const options = {
+      format: 'A4',
+      displayHeaderFooter: true,
+      margin: {
+        left: '10mm',
+        top: '25mm',
+        right: '10mm',
+        bottom: '15mm',
+      },
+      headerTemplate: `<div style="width: 100%; text-align: center;"><span style="font-size: 20px;">Die Lodge Gratuliert</span><br><span class="date" style="font-size:15px"><span></div>`,
+      footerTemplate:
+        '<div style="width: 100%; text-align: center; font-size: 10px;">Page <span class="pageNumber"></span> of <span class="totalPages"></span></div>',
+      landscape: true,
+    };
+    if(member.stations.includes("wellYouTried")){
+      const filePath = path.join(process.cwd(), 'templates', 'pdf-failedCert.hbs');
+      return createPdf(filePath, options, member)
+    }
+    if(member.stations.includes("winner")){
+      const filePath = path.join(process.cwd(), 'templates', 'pdf-winnerCert.hbs');
+      return createPdf(filePath, options, member)
+    }
+    const filePath = path.join(process.cwd(), 'templates', 'pdf-wtf.hbs');
+    return createPdf(filePath, options, member)
   }
 }

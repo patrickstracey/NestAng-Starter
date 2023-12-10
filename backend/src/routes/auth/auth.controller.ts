@@ -20,8 +20,8 @@ export class AuthController {
 
   @Public()
   @Post('/signup')
-  createNewUser(@Body() signupReq: SignupMemberDto){
-     this.authService.signupUser(signupReq);
+  createNewUser(@TokenData() token: TokenInterface, @Body() signupReq: SignupMemberDto){
+     this.authService.signupUser(token, signupReq);
   }
 
   @Post('/refresh')
