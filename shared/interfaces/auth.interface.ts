@@ -1,9 +1,9 @@
-import { UserInterface } from "./user.interface";
+import { LodgeUserInterface } from "./user.interface";
 import { PermissionEnum } from "../enums";
 import { AclInterface } from "./acl.interface";
 
 export interface LoginInterface {
-  email: string;
+  name: string;
   password: string;
 }
 
@@ -14,9 +14,7 @@ export interface SignupInterface extends LoginInterface {
 
 export interface SessionInterface {
   access_token: string;
-  user: UserInterface;
-  acl_active: AclInterface | null;
-  acl_list: AclInterface[];
+  user: LodgeUserInterface;
 }
 
 export interface CookieInterface {

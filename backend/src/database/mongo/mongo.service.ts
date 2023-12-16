@@ -122,14 +122,14 @@ export class MongoService {
       const options = { upsert: false, returnDocument: 'after' };
       const result = await this._db
         .collection(collection)
-        .findOneAndUpdate({ _id: this.idConvert(id) }, { $set: item }, options);
+        .findOneAndUpdate({ _id: item._id }, { $set: item }, options);
       if (result._id) {
         return result;
       } else {
         new InternalServerErrorException(`Unable to update item. No result returned.`);
       }
     } catch (err) {
-      Logger.error(`DB Service: Unable to update item of type:[${item.type}] with id: [${item._id}]`);
+      Logger.error(err);
       throw new InternalServerErrorException(`Update of item was not successful`);
     }
   }

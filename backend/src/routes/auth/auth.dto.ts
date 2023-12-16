@@ -2,9 +2,9 @@ import { IsDefined, IsEmail, IsOptional, IsString } from 'class-validator';
 import { LoginInterface, SignupInterface } from '../../../../shared/interfaces';
 
 export class LoginDto implements LoginInterface {
-  @IsEmail()
+  @IsString()
   @IsDefined()
-  email: string;
+  name: string;
   @IsString()
   @IsDefined()
   password: string;

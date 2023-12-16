@@ -2,19 +2,16 @@ import {
   ForbiddenException,
   Injectable,
   InternalServerErrorException,
-  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { ObjectId } from 'mongodb';
-import { BaseUserInterface, TokenInterface, UserInterface } from '../../../../shared/interfaces';
-import { SignupDto, UserEditDto } from './user.dto';
-import { DatabaseTables, TypesEnum } from '../../../../shared/enums';
+import { TokenInterface, LodgeUserInterface} from '../../../../shared/interfaces';
+import { UserEditDto, SignupMemberDto } from './user.dto';
+import { DatabaseTables, TypesEnum, UserTypesEnum } from '../../../../shared/enums';
 import { DatabaseService } from '../../database';
-import { MailService } from '../../mail';
-
 @Injectable()
 export class UserService {
-  constructor(private dbService: DatabaseService, private mailService: MailService) {}
+  constructor(private dbService: DatabaseService) {}
 
   private usersCollection = DatabaseTables.USERS;
 
@@ -22,97 +19,80 @@ export class UserService {
     return this.dbService.database.collection(this.usersCollection);
   }
 
-  async getUser(token: TokenInterface): Promise<UserInterface> {
+  async getAllMembers():Promise<LodgeUserInterface[]>{
+      const allUsers = (await this.db.find({userType:1}).toArray())
+       allUsers.forEach(element => {
+        element.password = "";
+        element.finalGuess = ""
+       });
+      return allUsers;
+  }
+
+  
+  async getMemberWithToken(token: TokenInterface): Promise<LodgeUserInterface> {
     try {
       const account = (await this.db.findOne({
-        _id: this.dbService.idConvert(token.uid),
-      })) as UserInterface;
-      return this.cleanUser(account);
+        _id: token.uid
+      })) as LodgeUserInterface;
+      return this.cleanMember(account);
     } catch (err) {
       throw new NotFoundException('');
     }
   }
 
-  async getUserByEmail(email: string, withPassword = false): Promise<UserInterface> {
-    try {
-      const account = (await this.db.findOne({ email: email })) as UserInterface;
+  async getMember(userName: string, withPassword = false):Promise<LodgeUserInterface>{
+    try{
+      const member = (await this.db.findOne({ userName: userName })) as LodgeUserInterface;
       if (withPassword) {
-        //return object includes password, careful!
-        return account;
+        return member;
       } else {
-        return this.cleanUser(account);
+        return this.cleanMember(member)
       }
-    } catch (err) {
+    }catch (err){
       throw new NotFoundException('');
     }
   }
 
-  async updateUser(token: TokenInterface, updates: UserEditDto): Promise<UserInterface> {
-    const id = updates._id;
-    if (id == token.uid) {
-      delete updates['_id'];
-      const updatedUserAttempt = { type: TypesEnum.USER, ...updates };
-      const result = (await this.dbService.updateSingleItem(
-        this.usersCollection,
-        id,
-        updatedUserAttempt,
-      )) as UserInterface;
-
-      return this.cleanUser(result);
-    } else {
-      throw new ForbiddenException('You cannot update this user account.');
-    }
-  }
-
-  async insertNewUser(signupAttempt: SignupDto, encryptedPassword: string): Promise<UserInterface> {
+  async insertNewMember(token: TokenInterface, signupAttempt: SignupMemberDto, encryptedPassword: string): Promise<LodgeUserInterface> {
     try {
-      const newUser: BaseUserInterface = {
-        email: signupAttempt.email,
-        password: encryptedPassword,
+      const user =(await this.getMemberWithToken(token)) as LodgeUserInterface;
+      if(user.userType != 1032){
+        throw new ForbiddenException('');
+      }
+      const newMember: LodgeUserInterface = {
+        userName: signupAttempt.name,
+        password:encryptedPassword,
+        logedIn:false,
+        finalGuess:"",
+        stations: new Array<string>,
+        userType: signupAttempt.type,
         type: TypesEnum.USER,
-        phone: null,
-        name: signupAttempt.name,
-        date_created: new Date(),
+        _id: signupAttempt.name
       };
-      const insertResult = await this.db.insertOne(newUser);
-      const returnedUser: UserInterface = {
-        _id: insertResult['insertedId'],
-        ...newUser,
-      };
-      this.mailService.sendCreationWelcomeEmail(newUser.email);
-      return this.cleanUser(returnedUser);
+      const insertResult = await this.db.insertOne(newMember);
+      return this.cleanMember(newMember);
     } catch (err) {
       throw new InternalServerErrorException('Unable to insert new user.');
     }
   }
 
-  async ensureUniqueEmail(emailCheck: string): Promise<boolean> {
-    try {
-      const result = await this.db.findOne({ email: emailCheck });
-      return !result;
-    } catch (err) {
-      Logger.error(`Failed to lookup user by email on unique check: [${emailCheck}]`);
-      throw new NotFoundException();
-    }
-  }
-
-  async updatePassword(account_id: ObjectId, newPassword: string): Promise<boolean> {
-    try {
-      const update = { password: newPassword };
-      const options = { upsert: false, returnDocument: 'after' };
-      const result = await this.db.findOneAndUpdate(
-        { _id: this.dbService.idConvert(account_id) },
-        { $set: update },
-        options,
-      );
-      return !!result;
-    } catch (e) {
-      throw new InternalServerErrorException('Something went wrong during password update.');
-    }
-  }
-
-  cleanUser(account: UserInterface): UserInterface {
+  cleanMember(account: LodgeUserInterface): LodgeUserInterface {
     const { password, ...clean } = account;
     return clean;
+  }
+
+  async updateMember(updates: LodgeUserInterface): Promise<LodgeUserInterface> {
+    const user = (await this.db.findOne({ userName: updates._id })) as LodgeUserInterface;
+    if (updates.userName == user._id) {
+      const result = (await this.dbService.updateSingleItem(
+        this.usersCollection,
+        updates.userName,
+        updates,
+      )) as LodgeUserInterface;
+
+      return this.cleanMember(result)
+    } else {
+      throw new ForbiddenException('You cannot update this user account.');
+    }
   }
 }

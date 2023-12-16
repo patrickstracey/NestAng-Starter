@@ -1,6 +1,6 @@
 export enum DatabaseTables {
-  ACLS = "acls",
-  ORGANIZATIONS = "organizations",
-  RESETS = "resets",
+  ACLS = "users",
+  ORGANIZATIONS = "users",
+  PODCAST = "podcast",
   USERS = "users",
 }
