@@ -1,0 +1,1 @@
+mongoimport --db=mydb --collection=stuff --jsonArray --file=docker-entrypoint-initdb.d/data.json
