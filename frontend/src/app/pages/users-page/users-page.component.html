@@ -90,14 +90,6 @@
           >
         </p>
       </div>
-      <button
-        class="btn warn mini"
-        *ngIf="isAdmin"
-        [disabled]="acl.id_user == (user$ | async)?._id"
-        (click)="deleteUser(acl)"
-      >
-        Delete User
-      </button>
     </div>
   </div>
 </ui-card>

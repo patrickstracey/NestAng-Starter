@@ -1,1 +1,1 @@
-mongoimport --db=mydb --collection=stuff --jsonArray --file=docker-entrypoint-initdb.d/data.json
+mongoimport --file=docker-entrypoint-initdb.d/users.json --jsonArray -d nestAng -c users --drop

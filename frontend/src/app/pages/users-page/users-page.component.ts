@@ -7,12 +7,11 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { first, Observable, tap } from 'rxjs';
-import { AclInterface, UserInterface } from '@shared/interfaces';
+import { AclInterface, LodgeUserInterface, UserInterface } from '@shared/interfaces';
 import {
   UserService,
   AclService,
   OrganizationService,
-  AuthService,
 } from '@services';
 import { PermissionEnum } from '@shared/enums';
 import { UiModule } from '@ui';
@@ -32,7 +31,6 @@ export class UsersPageComponent implements OnInit {
     private aclService: AclService,
     private userService: UserService,
     private orgService: OrganizationService,
-    private authService: AuthService,
     private fb: FormBuilder
   ) {}
 
@@ -44,12 +42,11 @@ export class UsersPageComponent implements OnInit {
     })
   );
 
-  user$: Observable<UserInterface | null> = this.userService.getUser();
+  user$: Observable<LodgeUserInterface | null> = this.userService.getUser();
 
   orgName: string | undefined;
   newAclForm!: FormGroup;
   adminErrorMessage: string | null = null;
-  isAdmin: boolean = false;
   saving: boolean = false;
   inviteOpen: boolean = false;
   permissions = PermissionEnum;
@@ -63,8 +60,6 @@ export class UsersPageComponent implements OnInit {
       .subscribe((org) => {
         this.orgName = org!.name;
       });
-
-    this.isAdmin = this.authService.isAdmin;
   }
 
   initForm() {

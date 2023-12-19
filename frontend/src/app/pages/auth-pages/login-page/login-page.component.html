@@ -6,12 +6,12 @@
       </div>
       <form [formGroup]="login">
         <div class="input-group column">
-          <label for="email">Email</label>
+          <label for="name">UserName</label>
           <input
             type="text"
-            id="email"
-            formControlName="email"
-            autocomplete="email"
+            id="name"
+            formControlName="name"
+            autocomplete="name"
             required
             [ngClass]="{ error: loginError }"
           />
@@ -33,10 +33,6 @@
 
         <button class="btn primary" (click)="attemptLogin()">Log In</button>
       </form>
-      <div class="signup-link column">
-        <a routerLink="/welcome/signup">New User? Get Started Here.</a>
-        <a routerLink="/welcome/request-reset">Oh no! I forgot my password.</a>
-      </div>
     </div>
   </div>
   <div class="welcome-image fade-in">

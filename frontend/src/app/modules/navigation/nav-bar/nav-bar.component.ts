@@ -17,10 +17,6 @@ export class NavBarComponent {
   private authService = inject(AuthService);
   appName: string = environment.application_name;
 
-  isAdmin$: Observable<boolean> = this.authService.authenticated$?.pipe(
-    map((session) => session?.acl_active?.permission == PermissionEnum.ADMIN)
-  );
-
   logout() {
     this.authService.logout();
   }

@@ -32,14 +32,7 @@ export class AuthService {
       }
     };
   }
-
-  get isAdmin(): boolean {
-    return (
-      this.authenticated$.getValue()?.acl_active?.permission ===
-      PermissionEnum.ADMIN
-    );
-  }
-
+  
   login(loginAttempt: LoginInterface): Observable<SessionInterface> {
     return this.http
       .post<SessionInterface>(`${this.authApi}/login`, loginAttempt)
