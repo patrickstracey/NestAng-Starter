@@ -19,6 +19,11 @@ export const APP_ROUTES: Routes = [
     canActivate: [AuthGuardFn],
   },
   {
+    path: 'login',
+    title: `Login | ${environment.application_name}`,
+    component: LoginPageComponent,
+  },
+  {
     path: '**',
     title: `Login | ${environment.application_name}`,
     component: LoginPageComponent,
