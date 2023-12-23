@@ -3,7 +3,8 @@ import {
   Injectable,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import {LodgeUserInterface, TokenInterface } from '../../../../shared/interfaces';
+import {LodgeUserInterface, TokenInterface} from '../../../../shared/interfaces';
+import {CharacterInterface } from '../../../../shared/interfaces/character.interface';
 import { PodcastDTO } from './riddle.dto';
 import { UserService } from '../user';
 import { DatabaseService } from '../../database';
@@ -20,8 +21,13 @@ export class RiddleService {
 
   private usersCollection = DatabaseTables.PODCAST;
 
+  private charactersCollection = DatabaseTables.CHARACTERS;
+
   get db() {
     return this.dbService.database.collection(this.usersCollection);
+  }
+  get characterDB(){
+    return this.dbService.database.collection(this.charactersCollection);
   }
 
 stations = ["hof","statue", "bahn", "tower", "wohnmobil","schule", "kirche", "konzert"];
@@ -65,6 +71,22 @@ killer = "Peter Schulze";
   async getPodcast(id:string):Promise<PodcastDTO>{
      return (await this.db.findOne({_id:id})) as PodcastDTO
   }
+
+ async getCharacters(token:TokenInterface):Promise<CharacterInterface[]>{
+  const member = await this.userService.getMemberWithToken(token);
+  if(!member){
+    throw new UnprocessableEntityException("");
+  }
+  const cast = (await this.characterDB.find().toArray());
+  cast.forEach(element => {
+    if(member.stations.includes(element.station)){
+      element.enabled = true;
+  }else{
+    element.enabled = true;
+  }})
+  return cast.sort((a,b) => {return a._id - b._id;});;
+ } 
+
   async getPodcasts(token:TokenInterface):Promise<PodcastDTO[]>{
     const member = await this.userService.getMemberWithToken(token);
     if(!member){
@@ -72,7 +94,7 @@ killer = "Peter Schulze";
     }
     const podcasts = (await this.db.find({ _id : { $ne : "test" } }).toArray());
     podcasts.forEach(element => {
-      if(member.stations.includes(element._id)){
+      if(member.stations.includes(element._id) || element._id ==="intro"){
         element.enabled = true;
       }else{
         element.enabled = false;
