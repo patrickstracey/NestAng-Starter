@@ -82,9 +82,13 @@ killer = "Peter Schulze";
     if(member.stations.includes(element.station)){
       element.enabled = true;
   }else{
-    element.enabled = true;
+    element.enabled = false;
+    element.name = "Unbekannte Person"
+    element.imgUrl = ""
+    element.description = "Du kennst diese Person noch nicht"
+    element.station = "Häckermans Haus"
   }})
-  return cast.sort((a,b) => {return a._id - b._id;});;
+  return cast.sort((a,b) => {return a._id - b._id;});
  } 
 
   async getPodcasts(token:TokenInterface):Promise<PodcastDTO[]>{
@@ -100,6 +104,7 @@ killer = "Peter Schulze";
         element.enabled = false;
         element.name = "Noch nicht verfügbar";
         element.audioUrl = "";
+        element._id = "Häckermans Haus"
       }
     });
 
