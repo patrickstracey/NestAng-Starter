@@ -1,0 +1,39 @@
+version: '3.1'
+
+services:
+  mongo-db:
+    image:  mongo:7.0.4
+    container_name: mongo_dev_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data/db:/data/db
+      - ./initial_data/:/docker-entrypoint-initdb.d/
+    # environment:
+      # MONGO_INITDB_ROOT_USERNAME: 
+      # MONGO_INITDB_ROOT_PASSWORD:
+    user: root
+    restart: always
+
+  minio:
+    image: docker.io/bitnami/minio:2023
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    volumes:
+      - 'minio_data:/bitnami/minio/data'
+    restart: always
+
+  riddle:
+    build: /Dockerfile
+    ports:
+      - "3000:3000"
+    depends-on:
+     - minio
+     -  mongo-db
+    command: npm run start
+    restart: always
+
+volumes:
+  minio_data:
+    driver: local
