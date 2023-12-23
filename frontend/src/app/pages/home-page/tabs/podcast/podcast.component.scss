@@ -1,3 +1,11 @@
-.audioPlayer{
+.audioPlayer {
     width: 100%;
+}
+
+.podcast-image {
+    max-height: 400px;
+}
+
+.disabled-podcast {
+    filter: brightness(75%);
 }
