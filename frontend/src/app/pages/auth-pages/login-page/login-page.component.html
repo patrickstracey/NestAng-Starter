@@ -1,29 +1,20 @@
 <div class="page">
-  <div class="sign-in-card row ">
-    <div class="card-content">
-      <div class="header">
-        <h1>{{appName}} heißt dich Wolkommen</h1>
-      </div>
+  <mat-card class="sign-in-card">
+    <mat-card-header>
+      <h1>{{appName}} heißt dich Wilkommen</h1>
+    </mat-card-header>
+    <mat-card-content>
       <form [formGroup]="login">
         <div class="input-group column">
           <label for="password">Benutzername</label>
           <mat-form-field appearance="fill">
-            <input type="text"
-            id="name"
-            formControlName="name"
-            autocomplete="name"
-            required
-            matInput>
+            <input type="text" id="name" formControlName="name" autocomplete="name" required matInput>
           </mat-form-field>
         </div>
         <div class="input-group column">
           <label for="password">Passwort</label>
           <mat-form-field appearance="fill">
-            <input type="password"
-            id="password"
-            formControlName="password"
-            required
-            matInput>
+            <input type="password" id="password" formControlName="password" required matInput>
           </mat-form-field>
         </div>
         <p class="error" *ngIf="loginError">
@@ -31,14 +22,9 @@
         </p>
         <button mat-raised-button color="primary" (click)="attemptLogin()">Anmelden</button>
       </form>
-    </div>
-  </div>
-  <div class="welcome-image fade-in">
-    <img
-      class="img-hero"
-      alt="a lightbulb held by a person"
-      src="{{ imageUrl }}"
-    />
+    </mat-card-content>
+  </mat-card>
+  <div class="welcome-image">
+    <img class="img-hero" alt="a lightbulb held by a person" src="{{ imageUrl }}" />
   </div>
 </div>
-

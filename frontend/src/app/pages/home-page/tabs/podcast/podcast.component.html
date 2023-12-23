@@ -2,7 +2,7 @@
     <div [fxFlex]="(100/gridColumns) + '%'" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let podcast of podcasts">
         <mat-card [ngClass]="{ 'disabled-podcast': !podcast.enabled }">
             <mat-card-header>
-                <mat-card-title>{{podcast.name}}</mat-card-title>
+                <h3>{{podcast.name}}</h3>
             </mat-card-header>
             <ng-container *ngIf="podcast.imageUrl; else noImage" >
                 <img class="podcast-image" mat-card-image src="{{podcast.imageUrl}}" />
