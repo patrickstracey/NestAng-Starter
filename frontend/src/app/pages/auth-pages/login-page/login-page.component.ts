@@ -24,7 +24,7 @@ export class LoginPageComponent implements OnInit {
   login!: UntypedFormGroup;
   loginError: string | null = null;
   appName: string = environment.application_name;
-  imageUrl: string ='./assets/images/die_loge.png';
+  imageUrl: string ='https://ass-projects.de/founders/xmas-2023-files/-/raw/main/images/die_loge.png';
 
   constructor(
     private fb: UntypedFormBuilder,
