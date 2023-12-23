@@ -4,65 +4,75 @@
         "audioUrl":"https://www.w3schools.com/html/horse.mp3",
         "imageUrl":"",
         "enabled":false,
-        "_id":"wellYouTried"
+        "_id":"winner",
+        "number":10
     },
     {
         "name":"Amateure wollen Unschuldigen verhaften",
         "audioUrl":"https://www.w3schools.com/html/horse.mp3",
         "imageUrl":"",
         "enabled":false,
-        "_id":"winner"
+        "_id":"wellYouTried",
+        "number":11
     },
     {
         "name":"Leiche auf Friedhof gefunden",
         "audioUrl":"https://www.w3schools.com/html/horse.mp3",
         "imageUrl":"",
         "enabled":false,
-        "_id":"hof"
+        "_id":"hof",
+        "number":1
     },
     {
         "name":"Streit beim Denkmal",
         "audioUrl":"https://www.w3schools.com/html/horse.mp3",
         "imageUrl":"",
         "enabled":false,
-        "_id":"statue"
+        "_id":"statue",
+        "number":2
     },    {
         "name":"Die Brücke",
         "audioUrl":"https://www.w3schools.com/html/horse.mp3",
         "imageUrl":"",
         "enabled":false,
-        "_id":"bahn"
+        "_id":"bahn",
+        "number":3
     },    {
         "name":"Vögel beobachten",
         "audioUrl":"https://www.w3schools.com/html/horse.mp3",
         "imageUrl":"",
         "enabled":false,
-        "_id":"tower"
+        "_id":"tower",
+        "number":4
     },    {
         "name":"Die Liebschaft",
         "audioUrl":"https://www.w3schools.com/html/horse.mp3",
         "imageUrl":"",
         "enabled":false,
-        "_id":"wohnmobil"
+        "_id":"wohnmobil",
+        "number":5
     },    {
         "name":"Der Ehestreit",
         "audioUrl":"https://www.w3schools.com/html/horse.mp3",
         "imageUrl":"",
         "enabled":false,
-        "_id":"schule"
+        "_id":"schule",
+        "number":6
     },
     {
         "name":"Showdown vorm Altar",
         "audioUrl":"https://www.w3schools.com/html/horse.mp3",
         "imageUrl":"",
         "enabled":false,
-        "_id":"kirche"
+        "_id":"kirche",
+        "number":8
     },
     {
         "name":"Rock and Roll",
         "audioUrl":"https://www.w3schools.com/html/horse.mp3",
         "imageUrl":"",
         "enabled":false,
-        "_id":"konzert"
+        "_id":"konzert",
+        "number":7
     }
   ]

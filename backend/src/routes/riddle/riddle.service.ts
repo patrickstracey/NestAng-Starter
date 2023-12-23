@@ -26,7 +26,7 @@ export class RiddleService {
 
 stations = ["hof","statue", "bahn", "tower", "wohnmobil","schule", "kirche", "konzert"];
 
-killer = "PeterSchulze";
+killer = "Peter Schulze";
 
   async setRiddleToSolved(token:TokenInterface, station:string):Promise<PodcastDTO>{
     if(!this.stations.includes(station)){
@@ -81,7 +81,7 @@ killer = "PeterSchulze";
       }
     });
 
-    return podcasts;
+    return podcasts.sort((a,b) => {return a.number - b.number;});
   }
 
   async getPriceCert(token:TokenInterface){
@@ -90,18 +90,8 @@ killer = "PeterSchulze";
       throw new ForbiddenException("No you can not do this!");
     }
     const options = {
-      format: 'A4',
-      displayHeaderFooter: true,
-      margin: {
-        left: '10mm',
-        top: '25mm',
-        right: '10mm',
-        bottom: '15mm',
-      },
-      headerTemplate: `<div style="width: 100%; text-align: center;"><span style="font-size: 20px;">Die Lodge Gratuliert</span><br><span class="date" style="font-size:15px"><span></div>`,
-      footerTemplate:
-        '<div style="width: 100%; text-align: center; font-size: 10px;">Page <span class="pageNumber"></span> of <span class="totalPages"></span></div>',
-      landscape: true,
+      displayHeaderFooter: false,
+      landscape: false,
     };
     if(member.stations.includes("wellYouTried")){
       const filePath = path.join(process.cwd(), 'templates', 'pdf-failedCert.hbs');
