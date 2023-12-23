@@ -24,7 +24,7 @@ services:
     networks:
       - useerdb
     ports:
-      - "3000:3000"
+      - "8282:3000"
     command: npm run start
     restart: always
 
