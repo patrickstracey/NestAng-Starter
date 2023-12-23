@@ -6,3 +6,4 @@ export * from "./organization.interface";
 export * from "./response.interface";
 export * from "./user.interface";
 export * from "./podcast.interface";
+export * from "./character.interface"

@@ -24,7 +24,7 @@ export class LoginPageComponent implements OnInit {
   login!: UntypedFormGroup;
   loginError: string | null = null;
   appName: string = environment.application_name;
-  imageUrl: string ='./assets/images/die_loge.png';
+  imageUrl: string ='https://ass-projects.de/founders/xmas-2023-files/-/raw/main/images/die_loge.png';
 
   constructor(
     private fb: UntypedFormBuilder,
@@ -51,7 +51,10 @@ export class LoginPageComponent implements OnInit {
       this.authService.login(this.login.value).subscribe({
         next: () => {
           const redirectUrl = this.authService.redirectUrl || '/';
-          this.router.navigate([redirectUrl]);
+          const queryParams = this.authService.queryParams
+          console.log(redirectUrl)
+          console.log(queryParams)
+          this.router.navigate([redirectUrl], { queryParams });
           this.authService.redirectUrl = '/';
         },
         error: (err) => (this.loginError = err.error.message),
