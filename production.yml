@@ -11,9 +11,9 @@ services:
     volumes:
       - ./data/db:/data/db
       - ./initial_data/:/docker-entrypoint-initdb.d/
-    # environment:
-      # MONGO_INITDB_ROOT_USERNAME: 
-      # MONGO_INITDB_ROOT_PASSWORD:
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: master
+      MONGO_INITDB_ROOT_PASSWORD: 391f01c8-f4c2-49b4-9051-5b65a3595d5f
     user: root
     restart: always
 
@@ -27,7 +27,7 @@ services:
       - "3000:3000"
     command: npm run start
     restart: always
-    
+
 networks:
   useerdb:
     driver: bridge

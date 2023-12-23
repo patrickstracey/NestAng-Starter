@@ -4,7 +4,7 @@ export const prodEnvironment = {
   jwt_secret: 'temp4only_LOCAL_development_USE', //DO NOT EXPOSE THIS VALUE IN A PROD ENVIRONMENT!
   session_length: '360m',
   database: {
-    mongo_uri: 'mongodb://mongo_db:27017', //DO NOT EXPOSE THIS VALUE IN A PROD ENVIRONMENT!
+    mongo_uri: 'mongodb://master:391f01c8-f4c2-49b4-9051-5b65a3595d5f@localhost:27017', //DO NOT EXPOSE THIS VALUE IN A PROD ENVIRONMENT!
     name: 'nestAng',
   },
   sendgrid: {
