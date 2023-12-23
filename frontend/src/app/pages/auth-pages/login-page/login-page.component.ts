@@ -51,7 +51,10 @@ export class LoginPageComponent implements OnInit {
       this.authService.login(this.login.value).subscribe({
         next: () => {
           const redirectUrl = this.authService.redirectUrl || '/';
-          this.router.navigate([redirectUrl]);
+          const queryParams = this.authService.queryParams
+          console.log(redirectUrl)
+          console.log(queryParams)
+          this.router.navigate([redirectUrl], { queryParams });
           this.authService.redirectUrl = '/';
         },
         error: (err) => (this.loginError = err.error.message),

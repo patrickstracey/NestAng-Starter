@@ -14,6 +14,7 @@ import { environment } from '@environment';
 })
 export class AuthService {
   public redirectUrl: string = '/';
+  public queryParams!: Record<string, string>;
   private authApi = 'api/auth';
   private cookieName: string = `${environment.application_name.replace(
     ' ',
