@@ -9,15 +9,6 @@ export const APP_ROUTES: Routes = [
     loadChildren: () => import('@pages/account').then((m) => m.ACCOUNT_ROUTES),
   },
   {
-    path: 'organization/users',
-    loadChildren: () => import('@pages/users').then((m) => m.USERS_ROUTES),
-  },
-  {
-    path: 'organization/account',
-    loadChildren: () =>
-      import('@pages/organization').then((m) => m.ORGANIZATION_ROUTES),
-  },
-  {
     path: 'welcome',
     loadChildren: () => import('@pages/auth').then((m) => m.AUTH_ROUTES),
   },
