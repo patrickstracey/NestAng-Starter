@@ -1,0 +1,68 @@
+  [
+    {
+        "name":"Mörder Festgenommen",
+        "audioUrl":"https://www.w3schools.com/html/horse.mp3",
+        "imageUrl":"",
+        "enabled":false,
+        "_id":"wellYouTried"
+    },
+    {
+        "name":"Amateure wollen Unschuldigen verhaften",
+        "audioUrl":"https://www.w3schools.com/html/horse.mp3",
+        "imageUrl":"",
+        "enabled":false,
+        "_id":"winner"
+    },
+    {
+        "name":"Leiche auf Friedhof gefunden",
+        "audioUrl":"https://www.w3schools.com/html/horse.mp3",
+        "imageUrl":"",
+        "enabled":false,
+        "_id":"hof"
+    },
+    {
+        "name":"Streit beim Denkmal",
+        "audioUrl":"https://www.w3schools.com/html/horse.mp3",
+        "imageUrl":"",
+        "enabled":false,
+        "_id":"statue"
+    },    {
+        "name":"Die Brücke",
+        "audioUrl":"https://www.w3schools.com/html/horse.mp3",
+        "imageUrl":"",
+        "enabled":false,
+        "_id":"bahn"
+    },    {
+        "name":"Vögel beobachten",
+        "audioUrl":"https://www.w3schools.com/html/horse.mp3",
+        "imageUrl":"",
+        "enabled":false,
+        "_id":"tower"
+    },    {
+        "name":"Die Liebschaft",
+        "audioUrl":"https://www.w3schools.com/html/horse.mp3",
+        "imageUrl":"",
+        "enabled":false,
+        "_id":"wohnmobil"
+    },    {
+        "name":"Der Ehestreit",
+        "audioUrl":"https://www.w3schools.com/html/horse.mp3",
+        "imageUrl":"",
+        "enabled":false,
+        "_id":"schule"
+    },
+    {
+        "name":"Showdown vorm Altar",
+        "audioUrl":"https://www.w3schools.com/html/horse.mp3",
+        "imageUrl":"",
+        "enabled":false,
+        "_id":"kirche"
+    },
+    {
+        "name":"Rock and Roll",
+        "audioUrl":"https://www.w3schools.com/html/horse.mp3",
+        "imageUrl":"",
+        "enabled":false,
+        "_id":"konzert"
+    }
+  ]

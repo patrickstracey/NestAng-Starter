@@ -73,9 +73,11 @@ killer = "PeterSchulze";
     const podcasts = (await this.db.find({ _id : { $ne : "test" } }).toArray());
     podcasts.forEach(element => {
       if(member.stations.includes(element._id)){
-        element.enabled = true
+        element.enabled = true;
       }else{
-        element.enabled = false
+        element.enabled = false;
+        element.name = "Noch nicht verfügbar";
+        element.audioUrl = "";
       }
     });
 
