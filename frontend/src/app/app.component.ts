@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { UiModule } from '@ui';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { AuthService, UserService } from '@services';
 import { LodgeUserInterface, SessionInterface } from '@shared/interfaces';
 import { MaterialModule } from 'src/material.module';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-root',
@@ -24,10 +25,14 @@ export class AppComponent implements OnInit {
     this.authService.authenticated$;
   user$: Observable<LodgeUserInterface | null> = this.userService.getUser();
 
-  constructor(private authService: AuthService,  private userService: UserService) {}
+  constructor(private authService: AuthService,  private userService: UserService, private router: Router) {}
 
   ngOnInit() {
     this.authService.attemptAutoLogin();
+  }
+
+  navigateToGuess(){
+    this.router.navigateByUrl('/guess')
   }
 
   logout() {

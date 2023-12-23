@@ -2,8 +2,11 @@
   <div class="app">
     <p>
       <mat-toolbar color="primary">
-        <span class="toolbar-title">Dashbaord der Lodge</span>
+        <a [routerLink]="['/']" ><span class="toolbar-title">Dashbaord der Lodge</span></a>
         <span class="example-spacer"></span>
+        <button mat-icon-button class="example-icon" aria-label="Lösen" (click)="navigateToGuess()">
+          <mat-icon>key</mat-icon>
+        </button>
         <span *ngIf="user$ | async as user">
           {{user.userName}}
         </span>

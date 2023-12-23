@@ -4,4 +4,5 @@ export interface Podcast {
     imageUrl: string;
     _id: string;
     enabled: boolean;
+    number: number
 }

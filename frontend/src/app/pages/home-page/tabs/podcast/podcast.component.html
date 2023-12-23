@@ -16,6 +16,11 @@
                     <audio controls class="audioPlayer">
                         <source src="https://ass-projects.de/founders/xmas-2023-files/-/raw/main/audio/Bill_1.mp3" type="audio/mp3">
                     </audio>
+                    <ng-container *ngIf="podcast.enabled && (podcast.number === 10 || podcast.number === 11)" >
+                        <button mat-icon-button class="example-icon" aria-label="Download">
+                            <mat-icon>emoji_events</mat-icon>
+                          </button>
+                    </ng-container>
             </mat-card-actions>
         </mat-card>
     </div>
