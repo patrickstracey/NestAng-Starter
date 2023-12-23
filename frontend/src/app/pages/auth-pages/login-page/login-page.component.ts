@@ -10,13 +10,14 @@ import { Router, RouterModule } from '@angular/router';
 import { UiModule } from '@ui';
 import { AuthService } from '@services';
 import { environment } from '@environment';
+import { MaterialModule } from 'src/material.module';
 
 @Component({
   selector: 'page-login',
   templateUrl: './login-page.component.html',
   styleUrls: ['../auth.shared.scss'],
   standalone: true,
-  imports: [CommonModule, UiModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, UiModule, ReactiveFormsModule, RouterModule, MaterialModule],
 })
 export class LoginPageComponent implements OnInit {
   login!: UntypedFormGroup;
