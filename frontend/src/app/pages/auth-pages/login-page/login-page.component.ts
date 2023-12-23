@@ -11,20 +11,20 @@ import { UiModule } from '@ui';
 import { AuthService } from '@services';
 import { environment } from '@environment';
 import { MaterialModule } from 'src/material.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @Component({
   selector: 'page-login',
   templateUrl: './login-page.component.html',
   styleUrls: ['../auth.shared.scss'],
   standalone: true,
-  imports: [CommonModule, UiModule, ReactiveFormsModule, RouterModule, MaterialModule],
+  imports: [CommonModule, UiModule, ReactiveFormsModule, RouterModule, MaterialModule, FlexLayoutModule],
 })
 export class LoginPageComponent implements OnInit {
   login!: UntypedFormGroup;
   loginError: string | null = null;
   appName: string = environment.application_name;
-  imageUrl: string =
-    'https://images.unsplash.com/photo-1493612276216-ee3925520721?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80';
+  imageUrl: string ='./assets/images/die_loge.png';
 
   constructor(
     private fb: UntypedFormBuilder,
