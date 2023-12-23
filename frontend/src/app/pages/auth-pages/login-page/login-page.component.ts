@@ -49,7 +49,11 @@ export class LoginPageComponent implements OnInit {
   attemptLogin() {
     if (this.login.valid) {
       this.authService.login(this.login.value).subscribe({
-        next: () => this.router.navigate(['/']),
+        next: () => {
+          const redirectUrl = this.authService.redirectUrl || '/';
+          this.router.navigate([redirectUrl]);
+          this.authService.redirectUrl = '/';
+        },
         error: (err) => (this.loginError = err.error.message),
       });
     }
