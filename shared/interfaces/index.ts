@@ -8,3 +8,4 @@ export * from "./response.interface";
 export * from "./reset.interface";
 export * from "./user.interface";
 export * from "./podcast.interface";
+export * from "./character.interface"

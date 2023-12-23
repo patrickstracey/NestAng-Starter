@@ -37,7 +37,7 @@ services:
       - "3000:3000"
     depends-on:
      - minio
-     -  mongo-db
+     - mongo-db
     command: npm run start
     restart: always
 
