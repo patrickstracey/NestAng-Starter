@@ -14,7 +14,10 @@ import { OthersComponent } from './tabs/others/others.component';
   imports: [CommonModule, UiModule, MaterialModule, PodcastComponent, CharsComponent, OthersComponent],
 })
 export class HomePageComponent implements OnInit {
-  loading: boolean = true;
+  loading: boolean = false;
+  showTabPodcast: boolean = true;
+  showTabChars: boolean = false;
+  showTabOthers: boolean = false;
 
   ngOnInit() {
     this.setupHomePage();
@@ -22,5 +25,9 @@ export class HomePageComponent implements OnInit {
 
   setupHomePage() {
     this.loading = false;
+  }
+
+  onTabChange(index: number): void{
+
   }
 }
