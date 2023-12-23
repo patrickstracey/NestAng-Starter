@@ -3,7 +3,7 @@ version: '3.1'
 services:
   mongo-db:
     image:  mongo:7.0.4
-    container_name: mongo_dev_db
+    container_name: mongo_db
     networks:
       - useerdb
     ports:
@@ -17,27 +17,14 @@ services:
     user: root
     restart: always
 
-  minio:
-    image: docker.io/bitnami/minio:2023
-    networks:
-      - blobdb
-    ports:
-      - '9000:9000'
-      - '9001:9001'
-    volumes:
-      - 'minio_data:/bitnami/minio/data'
-    restart: always
-
   riddle:
-    build: /Dockerfile
+    build:
+      context: .
+      dockerfile: Dockerfile
     networks:
-      - blobdb
       - useerdb
     ports:
       - "3000:3000"
-    depends-on:
-     - minio
-     -  mongo-db
     command: npm run start
     restart: always
 
@@ -45,7 +32,5 @@ volumes:
   minio_data:
     driver: local
 networks:
-  blobdb:
-    driver: bridge
   useerdb:
     driver: bridge
