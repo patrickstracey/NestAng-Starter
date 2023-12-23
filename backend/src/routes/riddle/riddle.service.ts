@@ -79,7 +79,7 @@ killer = "Peter Schulze";
   }
   const cast = (await this.characterDB.find().toArray());
   cast.forEach(element => {
-    if(member.stations.includes(element.station)){
+    if(member.stations.includes(element.station) ||member.userType == 413 || element._id === 0){
       element.enabled = true;
   }else{
     element.enabled = false;
@@ -98,7 +98,7 @@ killer = "Peter Schulze";
     }
     const podcasts = (await this.db.find({ _id : { $ne : "test" } }).toArray());
     podcasts.forEach(element => {
-      if(member.stations.includes(element._id) || element._id ==="intro"){
+      if(member.stations.includes(element._id) || element._id ==="intro" || (member.userType == 413 && element.number != 10 && element.number != 11)){
         element.enabled = true;
       }else{
         element.enabled = false;
