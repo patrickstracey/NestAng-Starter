@@ -4,6 +4,8 @@ services:
   mongo-db:
     image:  mongo:7.0.4
     container_name: mongo_dev_db
+    networks:
+      - useerdb
     ports:
       - "27017:27017"
     volumes:
@@ -17,6 +19,8 @@ services:
 
   minio:
     image: docker.io/bitnami/minio:2023
+    networks:
+      - blobdb
     ports:
       - '9000:9000'
       - '9001:9001'
@@ -26,6 +30,9 @@ services:
 
   riddle:
     build: /Dockerfile
+    networks:
+      - blobdb
+      - useerdb
     ports:
       - "3000:3000"
     depends-on:
@@ -37,3 +44,8 @@ services:
 volumes:
   minio_data:
     driver: local
+networks:
+  blobdb:
+    driver: bridge
+  useerdb:
+    driver: bridge

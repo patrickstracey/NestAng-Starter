@@ -70,7 +70,16 @@ killer = "PeterSchulze";
     if(!member){
       throw new UnprocessableEntityException("");
     }
-    return (await this.db.find({ _id : { $in : member.stations } }).toArray())
+    const podcasts = (await this.db.find({ _id : { $ne : "test" } }).toArray());
+    podcasts.forEach(element => {
+      if(member.stations.includes(element._id)){
+        element.enabled = true
+      }else{
+        element.enabled = false
+      }
+    });
+
+    return podcasts;
   }
 
   async getPriceCert(token:TokenInterface){

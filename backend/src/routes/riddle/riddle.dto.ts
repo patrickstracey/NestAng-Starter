@@ -13,4 +13,5 @@ export class PodcastDTO{
   @IsString()
   @IsOptional()
   _id:string;
+  enabled:boolean;
 }
