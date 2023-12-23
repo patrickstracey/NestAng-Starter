@@ -19,7 +19,7 @@ export class UserService {
   }
 
   async getAllMembers():Promise<LodgeUserInterface[]>{
-      const allUsers = (await this.db.find({userType:1}).toArray())
+      const allUsers = (await this.db.find({userType:{$ne: 1032}}).toArray())
        allUsers.forEach(element => {
         element.password = "";
         element.finalGuess = ""
