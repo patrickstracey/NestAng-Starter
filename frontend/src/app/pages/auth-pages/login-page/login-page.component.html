@@ -6,32 +6,30 @@
       </div>
       <form [formGroup]="login">
         <div class="input-group column">
-          <label for="name">UserName</label>
-          <input
-            type="text"
+          <label for="password">Benutzername</label>
+          <mat-form-field appearance="fill">
+            <input type="text"
             id="name"
             formControlName="name"
             autocomplete="name"
             required
-            [ngClass]="{ error: loginError }"
-          />
+            matInput>
+          </mat-form-field>
         </div>
         <div class="input-group column">
-          <label for="password">Password</label>
-          <input
-            type="password"
+          <label for="password">Passwort</label>
+          <mat-form-field appearance="fill">
+            <input type="password"
             id="password"
             formControlName="password"
-            autocomplete="current-password"
             required
-            [ngClass]="{ error: loginError }"
-          />
+            matInput>
+          </mat-form-field>
         </div>
         <p class="error" *ngIf="loginError">
           {{ loginError }}
         </p>
-
-        <button class="btn primary" (click)="attemptLogin()">Log In</button>
+        <button mat-raised-button color="primary" (click)="attemptLogin()">Anmelden</button>
       </form>
     </div>
   </div>
