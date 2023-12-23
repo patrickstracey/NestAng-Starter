@@ -28,6 +28,8 @@ export class HomePageComponent implements OnInit {
   }
 
   onTabChange(index: number): void{
-
+    this.showTabPodcast = index === 0;
+    this.showTabChars = index === 1;
+    this.showTabOthers = index === 2;
   }
 }
