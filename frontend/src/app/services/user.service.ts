@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { LodgeUserInterface, UserInterface } from '@shared/interfaces';
 import { AuthService } from './auth.service';
 
@@ -23,16 +23,13 @@ export class UserService {
   }
 
   private fetchUser() {
-    this.http
+    return this.http
       .get<LodgeUserInterface>(this.baseUrl)
-      .subscribe((user) => this.userSubject.next(user));
+      .pipe(tap((user) => this.userSubject.next(user)))
   }
 
-  getUser(): Observable<LodgeUserInterface | null> {
-    if (this.userSubject.value == null) {
-      this.fetchUser();
-    }
-    return this.userSubject;
+  getUser(): Observable<LodgeUserInterface> {
+    return this.fetchUser();
   }
 
   patchUser(
