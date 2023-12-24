@@ -9,7 +9,7 @@ import { PodcastDTO } from './riddle.dto';
 import { UserService } from '../user';
 import { DatabaseService } from '../../database';
 import { DatabaseTables } from '../../../../shared/enums';
-import { createPdf } from '@saemhco/nestjs-html-pdf';
+import { createReadStream, readFileSync } from 'fs';
 import * as path from 'path';
 
 @Injectable()
@@ -32,7 +32,7 @@ export class RiddleService {
 
 stations = ["hof","statue", "bahn", "tower", "wohnmobil","schule", "kirche", "konzert"];
 
-killer = "Peter Schulze";
+killer = "Peter";
 
   async setRiddleToSolved(token:TokenInterface, station:string):Promise<PodcastDTO>{
     if(!this.stations.includes(station)){
@@ -121,14 +121,14 @@ killer = "Peter Schulze";
       landscape: false,
     };
     if(member.stations.includes("wellYouTried")){
-      const filePath = path.join(process.cwd(), 'templates', 'pdf-failedCert.hbs');
-      return createPdf(filePath, options, member)
+      const filePath = path.join(process.cwd(), 'pdf', 'lose.pdf');
+      return readFileSync(filePath)
     }
     if(member.stations.includes("winner")){
-      const filePath = path.join(process.cwd(), 'templates', 'pdf-winnerCert.hbs');
-      return createPdf(filePath, options, member)
+      const filePath = path.join(process.cwd(), 'pdf', 'win.pdf');
+      return readFileSync(filePath)
     }
-    const filePath = path.join(process.cwd(), 'templates', 'pdf-wtf.hbs');
-    return createPdf(filePath, options, member)
+    const filePath = path.join(process.cwd(), 'pdf', 'wtf.pdf');
+    return readFileSync(filePath)
   }
 }
