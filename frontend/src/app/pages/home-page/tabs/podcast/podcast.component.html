@@ -17,7 +17,7 @@
                         <source src="{{podcast.audioUrl}}" type="audio/mp3">
                     </audio>
                     <ng-container *ngIf="podcast.enabled && (podcast.number === 10 || podcast.number === 11)" >
-                        <button mat-icon-button class="example-icon" aria-label="Download">
+                        <button mat-icon-button class="example-icon" aria-label="Download" (click)="downloadPdf()">
                             <mat-icon>emoji_events</mat-icon>
                           </button>
                     </ng-container>
