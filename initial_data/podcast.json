@@ -8,7 +8,7 @@
     },
     {
         "name":"Mörder Festgenommen",
-        "audioUrl":"https://ass-projects.de/founders/xmas-2023-files/-/raw/main/audio/Station9_new.mp3",
+        "audioUrl":"https://ass-projects.de/founders/xmas-2023-files/-/raw/main/audio/Station9.mp3",
         "imageUrl":"",
         "enabled":false,
         "_id":"winner",
@@ -16,7 +16,7 @@
     },
     {
         "name":"Amateure wollen Unschuldigen verhaften",
-        "audioUrl":"https://ass-projects.de/founders/xmas-2023-files/-/raw/main/audio/Station10_new.mp3",
+        "audioUrl":"https://ass-projects.de/founders/xmas-2023-files/-/raw/main/audio/Station10.mp3",
         "imageUrl":"",
         "enabled":false,
         "_id":"wellYouTried",
@@ -24,7 +24,7 @@
     },
     {
         "name":"Leiche auf Friedhof gefunden",
-        "audioUrl":"https://ass-projects.de/founders/xmas-2023-files/-/raw/main/audio/station1_new.mp3",
+        "audioUrl":"https://ass-projects.de/founders/xmas-2023-files/-/raw/main/audio/Station1_new.mp3",
         "imageUrl":"",
         "enabled":false,
         "_id":"hof",
@@ -46,21 +46,21 @@
         "number":3
     },    {
         "name":"Vögel beobachten",
-        "audioUrl":"https://ass-projects.de/founders/xmas-2023-files/-/raw/main/audio/station5.mp3",
+        "audioUrl":"https://ass-projects.de/founders/xmas-2023-files/-/raw/main/audio/Station5.mp3",
         "imageUrl":"",
         "enabled":false,
         "_id":"tower",
         "number":4
     },    {
         "name":"Die Liebschaft",
-        "audioUrl":"https://ass-projects.de/founders/xmas-2023-files/-/raw/main/audio/station6.mp3",
+        "audioUrl":"https://ass-projects.de/founders/xmas-2023-files/-/raw/main/audio/Station6.mp3",
         "imageUrl":"",
         "enabled":false,
         "_id":"wohnmobil",
         "number":5
     },    {
         "name":"Der Ehestreit",
-        "audioUrl":"https://ass-projects.de/founders/xmas-2023-files/-/raw/main/audio/station7.mp3",
+        "audioUrl":"https://ass-projects.de/founders/xmas-2023-files/-/raw/main/audio/Station7.mp3",
         "imageUrl":"",
         "enabled":false,
         "_id":"schule",
@@ -68,7 +68,7 @@
     },
     {
         "name":"Showdown vorm Altar",
-        "audioUrl":"https://ass-projects.de/founders/xmas-2023-files/-/raw/main/audio/station8.mp3",
+        "audioUrl":"https://ass-projects.de/founders/xmas-2023-files/-/raw/main/audio/Station8.mp3",
         "imageUrl":"",
         "enabled":false,
         "_id":"kirche",
