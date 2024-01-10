@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, OnInit } from '@angular/core';
 import { UiModule } from '@ui';
 
@@ -7,7 +7,7 @@ import { UiModule } from '@ui';
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.scss'],
   standalone: true,
-  imports: [CommonModule, UiModule],
+  imports: [UiModule],
 })
 export class HomePageComponent implements OnInit {
   loading: boolean = true;

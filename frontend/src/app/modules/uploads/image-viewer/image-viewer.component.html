@@ -1,32 +1,35 @@
 <div class="row start image-card">
-  <img
-    *ngFor="let img of images; index as i"
-    src="{{ imageUrl + img }}"
-    alt="user uploaded image"
-    class="preview-img"
-    (click)="viewImage(i)"
-  />
+  @for (img of images; track img; let i = $index) {
+    <img
+      src="{{ imageUrl + img }}"
+      alt="user uploaded image"
+      class="preview-img"
+      (click)="viewImage(i)"
+      />
+  }
 </div>
 
-<div class="image-overlay" *ngIf="currentImage">
-  <div class="background" (click)="closeOverlay()"></div>
-  <button
-    class="btn primary"
-    (click)="cycleImage(imageIndex - 1)"
-    [disabled]="images.length < 2"
-  >
-    <
-  </button>
-  <img
-    [src]="imageUrl + currentImage"
-    alt="user uploaded image"
-    class="overlay-img"
-  />
-  <button
-    class="btn primary"
-    (click)="cycleImage(imageIndex + 1)"
-    [disabled]="images.length < 2"
-  >
-    >
-  </button>
-</div>
+@if (currentImage) {
+  <div class="image-overlay">
+    <div class="background" (click)="closeOverlay()"></div>
+    <button
+      class="btn primary"
+      (click)="cycleImage(imageIndex - 1)"
+      [disabled]="images.length < 2"
+      >
+      <
+    </button>
+    <img
+      [src]="imageUrl + currentImage"
+      alt="user uploaded image"
+      class="overlay-img"
+      />
+    <button
+      class="btn primary"
+      (click)="cycleImage(imageIndex + 1)"
+      [disabled]="images.length < 2"
+      >
+      >
+    </button>
+  </div>
+}
