@@ -1,6 +1,6 @@
 @if (documents.length > 0) {
   <div>
-    @for (doc of documents; track doc.url) {
+    @for (doc of documents; track doc[1].url) {
       <div class="doc-card">
         <div class="row">
           <div class="column">

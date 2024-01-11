@@ -81,7 +81,7 @@
   }
 
   <div>
-    @for (acl of acl$ | async; track acl.id) {
+    @for (acl of acl$ | async; track acl._id) {
       <div class="user-item row">
         <div class="info-item fade-in">
           <h3>
