@@ -14,7 +14,7 @@
             autocomplete="email"
             required
             [ngClass]="{ error: loginError }"
-          />
+            />
         </div>
         <div class="input-group column">
           <label for="password">Password</label>
@@ -25,11 +25,13 @@
             autocomplete="current-password"
             required
             [ngClass]="{ error: loginError }"
-          />
+            />
         </div>
-        <p class="error" *ngIf="loginError">
-          {{ loginError }}
-        </p>
+        @if (loginError) {
+          <p class="error">
+            {{ loginError }}
+          </p>
+        }
 
         <button class="btn primary" (click)="attemptLogin()">Log In</button>
       </form>
@@ -44,7 +46,7 @@
       class="img-hero"
       alt="a lightbulb held by a person"
       src="{{ imageUrl }}"
-    />
+      />
   </div>
 </div>
 

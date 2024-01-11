@@ -1,6 +1,8 @@
 <div class="page">
   <div class="sign-in-card row">
-    <div class="card-content fade-in" *ngIf="status == 'pending'">
+    <div class="card-content fade-in">
+      @if (status == 'pending') {
+
       <div class="header">
         <h1>Request a Password Reset</h1>
       </div>
@@ -9,20 +11,16 @@
         receive a link to reset it. If your account exists we will send an email
         to the address on file.
       </p>
-
       <div class="input-group column">
         <label for="email">Your Email</label>
-        <input type="email" id="email" [formControl]="email" required/>
+        <input type="email" id="email" [formControl]="email" required />
       </div>
       <button class="btn primary" (click)="generateReset()">
         Send Reset Email
       </button>
-      <div class="signup-link column">
-        <a routerLink="/welcome/login">Go Back to Login.</a>
-        <a routerLink="/welcome/signup">Need An Account? Sign Up Instead.</a>
-      </div>
-    </div>
-    <div *ngIf="status == 'submitted'" class="card-content request fade-in">
+
+      } @else if (status == 'submitted') {
+
       <div class="header">
         <h1>Email on the Way!</h1>
       </div>
@@ -32,9 +30,14 @@
       </p>
       <p>Didn't receive an email within 10 minutes?</p>
       <button class="btn primary" (click)="resetForm()">Try Again</button>
+
+      }
+
+      <div class="signup-link column">
+        <a routerLink="/welcome/login">Go Back to Login.</a>
+        <a routerLink="/welcome/signup">Need An Account? Sign Up Instead.</a>
+      </div>
     </div>
-
-
   </div>
   <div class="welcome-image fade-in">
     <img

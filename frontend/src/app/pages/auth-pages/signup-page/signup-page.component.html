@@ -4,22 +4,26 @@
       <div class="header">
         <h1>{{ invite ? "Join" : "Create" }} Your Organization</h1>
       </div>
-      <div *ngIf="invite" class="org-display">
-        <p>You have been invited to {{ invite.name_organization }}</p>
-      </div>
+      @if (invite) {
+        <div class="org-display">
+          <p>You have been invited to {{ invite.name_organization }}</p>
+        </div>
+      }
 
       <form [formGroup]="signup">
 
-        <div class="input-group column" *ngIf="!invite">
-          <label for="name">Organization Name</label>
-          <input
-            type="text"
-            id="organization_name"
-            formControlName="organization_name"
-            placeholder="Acme Inc."
-            [ngClass]="{ error: orgError }"
-          />
-        </div>
+        @if (!invite) {
+          <div class="input-group column">
+            <label for="name">Organization Name</label>
+            <input
+              type="text"
+              id="organization_name"
+              formControlName="organization_name"
+              placeholder="Acme Inc."
+              [ngClass]="{ error: orgError }"
+              />
+          </div>
+        }
 
         <div class="input-group column">
           <label for="name">Your Name</label>
@@ -30,7 +34,7 @@
             autocomplete="name"
             placeholder="Wiley Coyote"
             required
-          />
+            />
         </div>
         <div class="input-group column">
           <label for="email">Your Email</label>
@@ -41,7 +45,7 @@
             autocomplete="email"
             required
             [ngClass]="{ error: emailError }"
-          />
+            />
         </div>
         <div class="input-group column">
           <label for="password">Password</label>
@@ -52,7 +56,7 @@
             autocomplete="new-password"
             required
             [ngClass]="{ error: passwordError }"
-          />
+            />
         </div>
         <div class="input-group column">
           <label for="passwordConfirm">Confirm Password</label>
@@ -63,15 +67,21 @@
             autocomplete="new-password"
             required
             [ngClass]="{ error: passwordError }"
-          />
+            />
         </div>
-        <p class="error" *ngIf="passwordError">Passwords do not match'</p>
-        <p class="error" *ngIf="emailError">
-          {{ emailError }}
-        </p>
-        <p class="error" *ngIf="orgError">
-          {{ orgError }}
-        </p>
+        @if (passwordError) {
+          <p class="error">Passwords do not match'</p>
+        }
+        @if (emailError) {
+          <p class="error">
+            {{ emailError }}
+          </p>
+        }
+        @if (orgError) {
+          <p class="error">
+            {{ orgError }}
+          </p>
+        }
         <button class="btn primary" (click)="attemptSignup()">Signup</button>
       </form>
       <div class="signup-link">
@@ -85,6 +95,6 @@
       class="img-hero"
       alt="car on forest road"
       src="https://images.unsplash.com/photo-1685268586501-ae3c3ca67efe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=927&q=80"
-    />
+      />
   </div>
 </div>

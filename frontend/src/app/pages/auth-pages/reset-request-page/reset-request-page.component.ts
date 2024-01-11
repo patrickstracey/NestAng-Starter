@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -10,7 +10,7 @@ import { PasswordResetService } from '@services';
   templateUrl: './reset-request-page.component.html',
   styleUrls: ['../auth.shared.scss'],
   standalone: true,
-  imports: [CommonModule, UiModule, ReactiveFormsModule, RouterModule],
+  imports: [UiModule, ReactiveFormsModule, RouterModule],
 })
 export class ResetRequestPageComponent {
   constructor(private passwordReset: PasswordResetService) {}

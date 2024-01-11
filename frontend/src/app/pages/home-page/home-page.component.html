@@ -16,7 +16,8 @@
   </div>
 </ui-page>
 
-<ui-loader
-  *ngIf="loading"
-  [message]="'Loading Home Dashboard'"
-></ui-loader>
+@if (loading) {
+  <ui-loader
+    [message]="'Loading Home Dashboard'"
+  ></ui-loader>
+}

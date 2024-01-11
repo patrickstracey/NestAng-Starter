@@ -5,11 +5,13 @@
     <a routerLink="/account">My Account</a>
   </div>
 
-  <div class="content" id="admin" *ngIf="isAdmin$ | async">
-    <h1 id="admin-header">Admin Menu</h1>
-    <a routerLink="/organization/users" data-cy="com-users"><small>Organization</small><br/> Users</a>
-    <a routerLink="/organization/account" data-cy="com-account"><small>Organization</small><br/> Account</a>
-  </div>
+  @if (isAdmin$ | async) {
+    <div class="content" id="admin">
+      <h1 id="admin-header">Admin Menu</h1>
+      <a routerLink="/organization/users" data-cy="com-users"><small>Organization</small><br/> Users</a>
+      <a routerLink="/organization/account" data-cy="com-account"><small>Organization</small><br/> Account</a>
+    </div>
+  }
 
 
   <div class="content" id="logout-desktop">

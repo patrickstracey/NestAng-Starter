@@ -1,25 +1,28 @@
-<div *ngIf="documents.length > 0">
-  <div *ngFor="let doc of documents" class="doc-card">
-    <div class="row">
-      <div class="column">
-        <a (click)="navigateToDocument(doc[1].url)" class="doc-link">
-          {{ doc[0] }}
-        </a>
+@if (documents.length > 0) {
+  <div>
+    @for (doc of documents; track doc[1].url) {
+      <div class="doc-card">
         <div class="row">
+          <div class="column">
+            <a (click)="navigateToDocument(doc[1].url)" class="doc-link">
+              {{ doc[0] }}
+            </a>
+            <div class="row">
               <span
-              >Uploaded on
+                >Uploaded on
                 {{ doc[1].date_uploaded | date: "shortDate" }}</span
+                >
+              </div>
+            </div>
+            <button
+              class="btn warn mini"
+              (click)="deleteDocument(doc[0], doc[1].url)"
+              [disabled]="saving"
               >
+              Delete Document
+            </button>
+          </div>
         </div>
-
-      </div>
-      <button
-        class="btn warn mini"
-        (click)="deleteDocument(doc[0], doc[1].url)"
-        [disabled]="saving"
-      >
-        Delete Document
-      </button>
+      }
     </div>
-  </div>
-</div>
+  }

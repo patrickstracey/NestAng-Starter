@@ -59,10 +59,8 @@
   background-color: white;
   overflow-y: scroll;
   padding-bottom: 60px;
-}
-
-.overlay.fade-in {
-  animation-duration: 0.3s;
+  animation-duration: .4s;
+  animation-name: menu-slide-up;
 }
 
 .nav-btn {
@@ -79,4 +77,13 @@
   background-color: white;
   border-radius: 0;
   width: 50%;
+}
+
+@keyframes menu-slide-up {
+  0% {
+    top: 100vh;
+  }
+  100% {
+    top: 0;
+  }
 }

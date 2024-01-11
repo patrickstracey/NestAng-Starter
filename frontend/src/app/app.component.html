@@ -1,4 +1,4 @@
-<ng-container *ngIf="authenticated$ | async; else login">
+@if (authenticated$ | async) {
   <div class="row default" style="min-height: 100%">
     <nav-bar id="desktop-nav"></nav-bar>
     <nav-bar-mobile id="mobile-nav"></nav-bar-mobile>
@@ -6,9 +6,15 @@
       <ng-template *ngTemplateOutlet="outlet"></ng-template>
     </div>
   </div>
-</ng-container>
+} @else {
+  <div class="row default">
+    <div>
+      <ng-template *ngTemplateOutlet="outlet"></ng-template>
+    </div>
+  </div>
+}
 <ng-template #login>
-  <div class="row default" id="login">
+  <div class="row default">
     <div>
       <ng-template *ngTemplateOutlet="outlet"></ng-template>
     </div>

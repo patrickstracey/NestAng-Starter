@@ -52,8 +52,8 @@ export class AuthService {
   ): Observable<SessionInterface> {
     const url =
       invite != null && invite?._id
-        ? `${this.authApi}/welcome/signup/${invite._id}`
-        : `${this.authApi}/welcome/signup`;
+        ? `${this.authApi}/signup/${invite._id}`
+        : `${this.authApi}/signup`;
     return this.http
       .post<SessionInterface>(url, signupAttempt)
       .pipe(tap((result) => this.setupSession(result)));
