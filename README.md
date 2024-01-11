@@ -2,7 +2,7 @@
 
 _A Starter Template for full-stack Typescript projects utilizing Angular & NestJs_
 
-**Note:** This project was only started in May 2023 and some functionality is still in progress, but that has been
+**Note:** This project was started in May 2023 and some functionality is still in progress, but that has been
 noted below in this `README`.
 
 <img src="https://github.com/patrickstracey/NestAng-Starter/assets/8172098/c585bf4f-3512-4975-9564-0a38f25f6331"  width="600">
@@ -24,8 +24,8 @@ and `mock_data/mongo_seeds` directories.
 
 | Front-end                                                          | Back-end                                  | Database                                                            | Email                                                                                                  | Upload Storage                                      | Deployment                                     |
 |--------------------------------------------------------------------|-------------------------------------------|---------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|-----------------------------------------------------|------------------------------------------------|
-| [Angular 16](https://angular.io/)                                  | [NestJs 10](https://nestjs.com/)          | [MongoDB](https://www.mongodb.com/)                                 | [Sendgrid](https://sendgrid.com/)                                                                      | [Google Cloud Storage](https://cloud.google.com/)   | [Render](https://render.com/)                  |
-| [Official Docs](https://angular.io/guide/developer-guide-overview) | [Official Docs](https://docs.nestjs.com/) | [Official Docs](https://www.mongodb.com/docs/drivers/node/current/) | [Official Docs](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/authentication) | [Official Docs](https://cloud.google.com/storage)   | [Official Docs](https://render.com/docs/#node) |
+| [Angular 17](https://angular.dev/)                                  | [NestJs 10](https://nestjs.com/)          | [MongoDB](https://www.mongodb.com/)                                 | [Sendgrid](https://sendgrid.com/)                                                                      | [Google Cloud Storage](https://cloud.google.com/)   | [Render](https://render.com/)                  |
+| [Official Docs](https://angular.dev/overview) | [Official Docs](https://docs.nestjs.com/) | [Official Docs](https://www.mongodb.com/docs/drivers/node/current/) | [Official Docs](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/authentication) | [Official Docs](https://cloud.google.com/storage)   | [Official Docs](https://render.com/docs/#node) |
 | [Implemented](frontend/README.md)                                  | [Implemented](backend/README.md)          | [Implemented](backend/src/database/README.md)                       | [Implemented](backend/src/mail/README.md)                                                              | [Implemented](backend/src/routes/uploads/README.md) | Not Yet Implemented                            |     |
 
 ## Context
@@ -53,10 +53,9 @@ you with:
 - Account & Dashboard page
 - ACL management.
 
-### What Is Not Yet Implemented (as of 11/23/23)
+### What Is Not Yet Implemented (as of January 2024)
 
-I have used these services and built these features in multiple projects before and so my hope is that I will be able to
-get to adding these fairly quickly, but at the moment the project still needs the following items added:
+At the moment the project still needs the following items added:
 
 - Deployment scripts and configs, I use Render but these should be usable with any comparable hosting provider
 - An Admin Portal
@@ -79,11 +78,9 @@ a [different provider here](backend/src/database/README.md).
 
 **Some of this code seems a bit messy?**
 
-Yes it is probably not all ideal so I am planning to clean it up and standardize functionality in the weeks ahead, as of
-writing this the project is only three days old and a lot of the base items were pulled from projects that I was trying
-to build quickly as a solo dev.
+Yeah... It is probably not all ideal so I am planning to clean it up and standardize functionality as time goes on.
 
-Additionally, I often prefer readability over the small gains in performance or formatting that more advanced methods
+I often prefer readability over the small gains in performance or formatting that more advanced methods
 might give you. I find that clearly stating a result variable even when you can simply return the result of a function
 is often easier for newer developers to understand and quick onboarding time is important to me.
 
@@ -97,7 +94,7 @@ a [different provider here](backend/src/database/README.md).
 **Why the Commitment to certain providers?**
 
 These are just what I have personally used in projects with success and have found them all very easy to learn and
-onboard into. If you have your own preferences I hope the scaffolded services in this project allow you to easily switch
+onboard into when working alone. If you have your own preferences I hope the scaffolded services in this project allow you to easily switch
 to your chosen provider. For deployment I have found services like AWS, Azure, and Google Cloud to be great, but they
 are quite intimidating and probably overkill for MVP deployments if you don't already know them super well.
 
