@@ -22,11 +22,11 @@ and `mock_data/mongo_seeds` directories.
 
 ### The Stack
 
-| Front-end                                                          | Back-end                                  | Database                                                            | Email                                                                                                  | Upload Storage                                      | Deployment                                     |
-|--------------------------------------------------------------------|-------------------------------------------|---------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|-----------------------------------------------------|------------------------------------------------|
-| [Angular 17](https://angular.dev/)                                  | [NestJs 10](https://nestjs.com/)          | [MongoDB](https://www.mongodb.com/)                                 | [Sendgrid](https://sendgrid.com/)                                                                      | [Google Cloud Storage](https://cloud.google.com/)   | [Render](https://render.com/)                  |
+| Front-end                                     | Back-end                                  | Database                                                            | Email                                                                                                  | Upload Storage                                      |
+|-----------------------------------------------|-------------------------------------------|---------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|-----------------------------------------------------|
+| [Angular 17](https://angular.dev/)            | [NestJs 10](https://nestjs.com/)          | [MongoDB](https://www.mongodb.com/)                                 | [Sendgrid](https://sendgrid.com/)                                                                      | [Google Cloud Storage](https://cloud.google.com/)   |
 | [Official Docs](https://angular.dev/overview) | [Official Docs](https://docs.nestjs.com/) | [Official Docs](https://www.mongodb.com/docs/drivers/node/current/) | [Official Docs](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/authentication) | [Official Docs](https://cloud.google.com/storage)   | [Official Docs](https://render.com/docs/#node) |
-| [Implemented](frontend/README.md)                                  | [Implemented](backend/README.md)          | [Implemented](backend/src/database/README.md)                       | [Implemented](backend/src/mail/README.md)                                                              | [Implemented](backend/src/routes/uploads/README.md) | Not Yet Implemented                            |     |
+| [Implemented](frontend/README.md)             | [Implemented](backend/README.md)          | [Implemented](backend/src/database/README.md)                       | [Implemented](backend/src/mail/README.md)                                                              | [Implemented](backend/src/routes/uploads/README.md) |
 
 ## Context
 
@@ -39,26 +39,18 @@ you with:
       build you own project specific email templates._
 - Some basic styling and UI components
     - _I tried to avoid making the styles too overbearing so that you are able to remove them in favor of a css library
-      like
-      Tailwind is you would prefer._
+      like Angular Material or Tailwind if you prefer._
 - Simple Authentication implementation
-    - _Again you are encouraged to another authentication provider or library that you like, this is a password and
-      email
-      implementation stored on a users table which has suited my starting needs_
+    - _You are encouraged to another authentication provider or library that you like, this is a very simple password and
+      email implementation stored on a users table which has suited starting development needs but may not be appropriate for your product._
 - The ability to initialize, connect to, and seed a Mongo database
+  - _None of the mock data passwords will work when you first seed the project, so you will want to generate a password reset or "signup" as a new user._
 - Signup, Invite, and Password Reset emails via Sendgrid
 - Image and PDF uploads via Google Cloud Storage
-- JWT tokens and Cookies (including refesh endpoint and auto login functionality)
+- JWT tokens and Cookies (including refresh endpoint and auto login functionality)
 - Auth guards, route decorators, and interceptors
 - Account & Dashboard page
 - ACL management.
-
-### What Is Not Yet Implemented (as of January 2024)
-
-At the moment the project still needs the following items added:
-
-- Deployment scripts and configs, I use Render but these should be usable with any comparable hosting provider
-- An Admin Portal
 
 ### Database
 
