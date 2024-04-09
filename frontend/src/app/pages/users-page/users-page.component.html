@@ -1,11 +1,11 @@
 <div class="subheader row">
   <h1>Organization Users</h1>
   <button class="btn mini primary header" (click)="openInvite()">
-    {{ inviteOpen ? "Cancel Add New User" : "Add New User" }}
+    {{ inviteOpen() ? "Cancel Add New User" : "Add New User" }}
   </button>
 </div>
 
-@if (inviteOpen) {
+@if (inviteOpen()) {
   <div>
     <ui-card [border]="true">
       <ng-container>
@@ -58,17 +58,20 @@
           <button
             class="btn primary mini admin-add"
             (click)="inviteNewUser()"
-            [disabled]="saving"
+            [disabled]="saving()"
             >
             Invite New User
           </button>
           <button
             class="btn secondary mini admin-add"
             (click)="openInvite()"
-            [disabled]="saving"
+            [disabled]="saving()"
             >
             Cancel
           </button>
+          @if (adminErrorMessage()) {
+            <p class="error slide-up">{{ adminErrorMessage() }}</p>
+          }
         </div>
       </ng-container>
     </ui-card>
@@ -76,12 +79,8 @@
 }
 
 <ui-card>
-  @if (adminErrorMessage) {
-    <p class="warn">{{ adminErrorMessage }}</p>
-  }
-
-  <div>
-    @for (acl of acl$ | async; track acl._id) {
+   <div>
+    @for (acl of acls(); track acl._id) {
       <div class="user-item row">
         <div class="info-item fade-in">
           <h3>

@@ -1,6 +1,7 @@
-import {Injectable, Signal, signal, WritableSignal} from '@angular/core';
+import { Injectable, Signal, signal, WritableSignal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SuccessMessageInterface, AclInterface } from '@shared/interfaces';
+import { Observable, tap } from 'rxjs';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -10,7 +11,10 @@ export class AclService {
   private baseUrl = 'api/acls';
   private allAcls: WritableSignal<AclInterface[]> = signal([]);
 
-  constructor(private http: HttpClient, private authService: AuthService) {
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+  ) {
     this.authService.authenticated$.subscribe((session) => {
       if (session == undefined) {
         this.resetService();
@@ -18,15 +22,19 @@ export class AclService {
     });
   }
 
+  /* Using Typescript syntax to return as a read-only Signal type so that consumers
+  cannot alter the underlying data directly. A safer approach would be to have a
+  computed Signal that is returned to ensure Angular also enforces that convention
+  but for now this reduces the number of signals in the service. */
+  get acls(): Signal<AclInterface[]> {
+    this.fetchAcls();
+    return this.allAcls;
+  }
+
   private fetchAcls() {
     this.http
       .get<AclInterface[]>(this.baseUrl)
       .subscribe((result) => this.allAcls.set(result));
-  }
-
-  get acls(): Signal<AclInterface[]> {
-    this.fetchAcls();
-    return this.allAcls;
   }
 
   patchAcl(userChanges: AclInterface) {
@@ -46,9 +54,7 @@ export class AclService {
 
   removeAcl(user_id: string) {
     const originalAcls = [...this.allAcls()];
-    let filteredAcls = originalAcls.filter(
-      (keep) => keep._id != user_id
-    );
+    let filteredAcls = originalAcls.filter((keep) => keep._id != user_id);
 
     this.allAcls.set(filteredAcls);
 
@@ -57,7 +63,7 @@ export class AclService {
       .subscribe({
         next: () => {
           // We don't do anything here since we optimistically removed the value from our signal already.
-          return
+          return;
         },
         error: () => {
           // If the DELETE request fails, set our signal back to the original value.
@@ -71,7 +77,7 @@ export class AclService {
     permission: number;
     name_user: string;
     name_organization: string;
-  }) {
+  }): Observable<AclInterface> {
     const acl = {
       email: newAcl.email.trim(),
       permission: Number(newAcl.permission),
@@ -79,9 +85,9 @@ export class AclService {
       name_user: newAcl.name_user,
     };
 
-    this.http.post<AclInterface>(this.baseUrl, acl).subscribe((user) => {
-      this.allAcls.set([user, ...this.allAcls()]);
-    });
+    return this.http
+      .post<AclInterface>(this.baseUrl, acl)
+      .pipe(tap((user) => this.allAcls.set([user, ...this.allAcls()])));
   }
 
   resetService() {
