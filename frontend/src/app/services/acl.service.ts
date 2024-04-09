@@ -1,6 +1,5 @@
-import { Injectable } from '@angular/core';
+import {Injectable, Signal, signal, WritableSignal} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { SuccessMessageInterface, AclInterface } from '@shared/interfaces';
 import { AuthService } from './auth.service';
 
@@ -9,7 +8,7 @@ import { AuthService } from './auth.service';
 })
 export class AclService {
   private baseUrl = 'api/acls';
-  private aclsSubject = new BehaviorSubject<AclInterface[]>([]);
+  private allAcls: WritableSignal<AclInterface[]> = signal([]);
 
   constructor(private http: HttpClient, private authService: AuthService) {
     this.authService.authenticated$.subscribe((session) => {
@@ -22,41 +21,47 @@ export class AclService {
   private fetchAcls() {
     this.http
       .get<AclInterface[]>(this.baseUrl)
-      .subscribe((res) => this.aclsSubject.next(res));
+      .subscribe((result) => this.allAcls.set(result));
   }
 
-  getAcls(): Observable<AclInterface[]> {
+  get acls(): Signal<AclInterface[]> {
     this.fetchAcls();
-    return this.aclsSubject;
+    return this.allAcls;
   }
 
   patchAcl(userChanges: AclInterface) {
     this.http
       .patch<AclInterface>(this.baseUrl, userChanges)
       .subscribe((user) => {
-        let updatedAcls = [...this.aclsSubject.value];
+        let updatedAcls = [...this.allAcls()];
         for (let x = 0; x < updatedAcls.length; x++) {
           if (updatedAcls[x].id_user == user._id) {
             updatedAcls[x] = user;
             break;
           }
         }
-        this.aclsSubject.next(updatedAcls);
+        this.allAcls.set(updatedAcls);
       });
   }
 
   removeAcl(user_id: string) {
-    const originalAcls = this.aclsSubject.value;
-    let filteredAcls = this.aclsSubject.value.filter(
+    const originalAcls = [...this.allAcls()];
+    let filteredAcls = originalAcls.filter(
       (keep) => keep._id != user_id
     );
-    this.aclsSubject.next(filteredAcls);
+
+    this.allAcls.set(filteredAcls);
+
     this.http
       .delete<SuccessMessageInterface>(`${this.baseUrl}/${user_id}`)
       .subscribe({
-        next: () => {},
+        next: () => {
+          // We don't do anything here since we optimistically removed the value from our signal already.
+          return
+        },
         error: () => {
-          this.aclsSubject.next(originalAcls);
+          // If the DELETE request fails, set our signal back to the original value.
+          this.allAcls.set(originalAcls);
         },
       });
   }
@@ -75,11 +80,11 @@ export class AclService {
     };
 
     this.http.post<AclInterface>(this.baseUrl, acl).subscribe((user) => {
-      this.aclsSubject.next([...this.aclsSubject.value, user]);
+      this.allAcls.set([user, ...this.allAcls()]);
     });
   }
 
   resetService() {
-    this.aclsSubject.next([]);
+    this.allAcls.set([]);
   }
 }
