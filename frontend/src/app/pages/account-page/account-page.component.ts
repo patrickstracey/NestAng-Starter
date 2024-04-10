@@ -1,10 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, computed } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { UserInterface } from '@shared/interfaces';
 import { UiModule } from '@ui';
 import { UserService } from '@services';
-import { Observable, tap } from 'rxjs';
 
 @Component({
   selector: 'page-account',
@@ -20,15 +18,15 @@ export class AccountPageComponent {
   name = new FormControl<string | null>(null, Validators.required);
   phone = new FormControl<string | null>(null, Validators.required);
   email = new FormControl<string | null>(null, Validators.required);
-  user$: Observable<UserInterface | null> = this.userService.getUser().pipe(
-    tap((user) => {
-      if (user) {
-        this.name.setValue(user.name);
-        this.phone.setValue(user.phone);
-        this.email.setValue(user.email);
-      }
-    })
-  );
+  user = computed(() => {
+    if (this.userService.user()){
+      this.name.setValue(this.userService.user()!.name);
+      this.phone.setValue(this.userService.user()!.phone);
+      this.email.setValue(this.userService.user()!.email);
+    }
+
+    return this.userService.user();
+  });
 
   constructor(private userService: UserService) {}
 
