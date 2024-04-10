@@ -6,8 +6,8 @@ import {
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { first, Observable } from 'rxjs';
-import { AclInterface, UserInterface } from '@shared/interfaces';
+import { first } from 'rxjs';
+import { AclInterface } from '@shared/interfaces';
 import {
   UserService,
   AclService,
@@ -40,13 +40,13 @@ export class UsersPageComponent implements OnInit {
   saving = signal(false);
   inviteOpen = signal(false);
   adminErrorMessage = signal('');
-
-  user$: Observable<UserInterface | null> = this.userService.getUser();
+  user = this.userService.user;
+  isAdmin = this.authService.isAdmin;
 
   orgName: string | undefined;
   newAclForm!: FormGroup;
 
-  isAdmin: boolean = false;
+
 
   permissions = PermissionEnum;
 
@@ -62,8 +62,6 @@ export class UsersPageComponent implements OnInit {
           this.orgName = org!.name;
         }
       });
-
-    this.isAdmin = this.authService.isAdmin;
   }
 
   initForm() {

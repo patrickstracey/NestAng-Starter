@@ -95,10 +95,10 @@
               }
             </p>
           </div>
-          @if (isAdmin) {
+          @if (isAdmin()) {
             <button
               class="btn warn mini"
-              [disabled]="acl.id_user == (user$ | async)?._id"
+              [disabled]="acl.id_user == user()?._id"
               (click)="deleteUser(acl)"
               >
               Delete User
