@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Signal, signal, WritableSignal } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import {
   AclInviteInterface,
@@ -19,12 +19,16 @@ export class AuthService {
   private authApi = 'api/auth';
   private cookieName: string = `${environment.application_name.replace(
     ' ',
-    ''
+    '',
   )}Session`;
 
-  authenticated$ = new BehaviorSubject<SessionInterface | undefined>(undefined);
+  private userSession: WritableSignal<SessionInterface | undefined> =
+    signal(undefined);
 
-  constructor(private router: Router, private http: HttpClient) {
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+  ) {
     // When local storage changes in another tab check to see if session cookie was updated elsewhere and react accordingly
     window.onstorage = () => {
       if (localStorage.getItem(this.cookieName) == null) {
@@ -33,11 +37,12 @@ export class AuthService {
     };
   }
 
+  get session(): Signal<SessionInterface | undefined> {
+    return this.userSession;
+  }
+
   get isAdmin(): boolean {
-    return (
-      this.authenticated$.getValue()?.acl_active?.permission ===
-      PermissionEnum.ADMIN
-    );
+    return this.userSession()?.acl_active?.permission === PermissionEnum.ADMIN;
   }
 
   login(loginAttempt: LoginInterface): Observable<SessionInterface> {
@@ -48,7 +53,7 @@ export class AuthService {
 
   signup(
     signupAttempt: SignupInterface,
-    invite: AclInviteInterface | null
+    invite: AclInviteInterface | null,
   ): Observable<SessionInterface> {
     const url =
       invite != null && invite?._id
@@ -65,7 +70,7 @@ export class AuthService {
     if (navigate) {
       this.router.navigate(['welcome/login']);
     }
-    this.authenticated$.next(undefined);
+    this.userSession.set(undefined);
   }
 
   attemptAutoLogin() {
@@ -84,7 +89,7 @@ export class AuthService {
 
   private setupSession(newSession: SessionInterface) {
     this.setCookie(newSession.access_token);
-    this.authenticated$.next(newSession);
+    this.userSession.set(newSession);
   }
 
   private refreshSession(): Observable<SessionInterface> {

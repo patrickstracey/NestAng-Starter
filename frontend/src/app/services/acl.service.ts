@@ -2,7 +2,6 @@ import { Injectable, Signal, signal, WritableSignal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SuccessMessageInterface, AclInterface } from '@shared/interfaces';
 import { Observable, tap } from 'rxjs';
-import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,16 +10,7 @@ export class AclService {
   private baseUrl = 'api/acls';
   private allAcls: WritableSignal<AclInterface[]> = signal([]);
 
-  constructor(
-    private http: HttpClient,
-    private authService: AuthService,
-  ) {
-    this.authService.authenticated$.subscribe((session) => {
-      if (session == undefined) {
-        this.resetService();
-      }
-    });
-  }
+  constructor(private http: HttpClient) {}
 
   /* Using Typescript syntax to return as a read-only Signal type so that consumers
   cannot alter the underlying data directly. A safer approach would be to have a
@@ -88,9 +78,5 @@ export class AclService {
     return this.http
       .post<AclInterface>(this.baseUrl, acl)
       .pipe(tap((user) => this.allAcls.set([user, ...this.allAcls()])));
-  }
-
-  resetService() {
-    this.allAcls.set([]);
   }
 }
