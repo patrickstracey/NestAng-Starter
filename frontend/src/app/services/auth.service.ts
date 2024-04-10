@@ -1,7 +1,14 @@
-import { Injectable, Signal, signal, WritableSignal } from '@angular/core';
-import { Router } from '@angular/router';
-import { Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import {
+  computed,
+  Injectable,
+  Signal,
+  signal,
+  WritableSignal,
+} from '@angular/core';
+import { Router } from '@angular/router';
+import { environment } from '@environment';
+import { PermissionEnum } from '@shared/enums';
 import {
   AclInviteInterface,
   CookieInterface,
@@ -9,8 +16,7 @@ import {
   SessionInterface,
   SignupInterface,
 } from '@shared/interfaces';
-import { environment } from '@environment';
-import { PermissionEnum } from '@shared/enums';
+import { Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +30,10 @@ export class AuthService {
 
   private userSession: WritableSignal<SessionInterface | undefined> =
     signal(undefined);
+
+  private hasAdminPermissions = computed(() => {
+    return this.userSession()?.acl_active?.permission === PermissionEnum.ADMIN;
+  });
 
   constructor(
     private router: Router,
@@ -41,8 +51,8 @@ export class AuthService {
     return this.userSession;
   }
 
-  get isAdmin(): boolean {
-    return this.userSession()?.acl_active?.permission === PermissionEnum.ADMIN;
+  get isAdmin(): Signal<boolean> {
+    return this.hasAdminPermissions;
   }
 
   login(loginAttempt: LoginInterface): Observable<SessionInterface> {
