@@ -13,7 +13,7 @@
         <a (click)="navigate('/')">Home</a>
         <a (click)="navigate('/account')">My Account</a>
       </div>
-      @if (isAdmin$ | async) {
+      @if (isAdmin()) {
         <div class="content" id="admin">
           <h1 id="admin-header">Admin Menu</h1>
           <a (click)="navigate('/organization/users')" data-cy="com-users"><small>Organization</small><br/> Users</a>
