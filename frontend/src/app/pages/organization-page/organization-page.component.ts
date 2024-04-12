@@ -15,9 +15,7 @@ import { OrganizationService } from '@services';
 export class OrganizationPageComponent {
   nameEdit: boolean = false;
   name = new FormControl<string | null>(null, Validators.required);
-  organization$ = this.orgService
-    .getOrganization()
-    .pipe(tap((res) => (res ? this.name.patchValue(res.name) : '')));
+  organization = this.orgService.organization;
 
   constructor(private orgService: OrganizationService) {}
 

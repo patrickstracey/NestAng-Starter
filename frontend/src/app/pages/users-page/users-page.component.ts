@@ -42,7 +42,6 @@ export class UsersPageComponent implements OnInit {
   adminErrorMessage = signal('');
   user = this.userService.user;
   isAdmin = this.authService.isAdmin;
-
   orgName: string | undefined;
   newAclForm!: FormGroup;
 
@@ -52,16 +51,7 @@ export class UsersPageComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
-
-    this.orgService
-      .getOrganization()
-      .pipe(first((org) => org != null))
-      .subscribe((org) => {
-
-        if (org) {
-          this.orgName = org!.name;
-        }
-      });
+    this.orgName = this.orgService.organization()?.name;
   }
 
   initForm() {
