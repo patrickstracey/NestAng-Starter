@@ -15,9 +15,9 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     let reqHeader: HttpHeaders;
-    if (this.authService.authenticated$.value?.access_token) {
+    if (this.authService.session()?.access_token) {
       reqHeader = new HttpHeaders({
-        Authorization: `Bearer ${this.authService.authenticated$.value?.access_token}`,
+        Authorization: `Bearer ${this.authService.session()!.access_token}`,
       });
     } else {
       reqHeader = new HttpHeaders();

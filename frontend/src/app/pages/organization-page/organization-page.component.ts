@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { tap } from 'rxjs';
 import { UiModule } from '@ui';
@@ -12,14 +12,16 @@ import { OrganizationService } from '@services';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, UiModule],
 })
-export class OrganizationPageComponent {
+export class OrganizationPageComponent implements OnInit {
   nameEdit: boolean = false;
   name = new FormControl<string | null>(null, Validators.required);
-  organization$ = this.orgService
-    .getOrganization()
-    .pipe(tap((res) => (res ? this.name.patchValue(res.name) : '')));
+  organization = this.orgService.organization;
 
   constructor(private orgService: OrganizationService) {}
+
+  ngOnInit() {
+    this.name.patchValue(this.organization()?.name ? this.organization()!.name : '');
+  }
 
   editName() {
     if (this.nameEdit) {

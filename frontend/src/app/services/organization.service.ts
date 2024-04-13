@@ -1,46 +1,36 @@
-import { Injectable } from '@angular/core';
+import {Injectable, Signal, signal, WritableSignal} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { OrganizationInterface } from '@shared/interfaces';
-import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrganizationService {
   private baseUrl = 'api/organization';
-  private orgSubject = new BehaviorSubject<OrganizationInterface | null>(null);
+  private currentOrg: WritableSignal<OrganizationInterface | undefined> = signal(undefined)
 
-  constructor(private http: HttpClient, private authService: AuthService) {
-    this.authService.authenticated$.subscribe((session) => {
-      if (session == undefined) {
-        this.resetService();
-      }
-    });
+  constructor(private http: HttpClient) {
   }
 
   private fetchOrganization() {
     this.http
       .get<OrganizationInterface>(this.baseUrl)
-      .subscribe((org) => this.orgSubject.next(org));
+      .subscribe((org) => this.currentOrg.set(org));
   }
 
-  getOrganization(): Observable<OrganizationInterface | null> {
-    if (this.orgSubject.value == null) {
+  get organization(): Signal<OrganizationInterface | undefined> {
+    if (this.currentOrg() === undefined) {
       this.fetchOrganization();
     }
-    return this.orgSubject;
+    return this.currentOrg;
   }
 
   patchOrganization(orgChanges: { name: string }) {
-    if (orgChanges.name != this.orgSubject.value?.name) {
+    if (orgChanges.name != this.currentOrg()?.name) {
       this.http
         .patch<OrganizationInterface>(this.baseUrl, orgChanges)
-        .subscribe((update) => this.orgSubject.next(update));
+        .subscribe((update) => this.currentOrg.set(update));
     }
-  }
-
-  resetService() {
-    this.orgSubject.next(null);
   }
 }

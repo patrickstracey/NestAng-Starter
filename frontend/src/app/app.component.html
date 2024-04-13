@@ -1,4 +1,4 @@
-@if (authenticated$ | async) {
+@if (isAuthenticated()) {
   <div class="row default" style="min-height: 100%">
     <nav-bar id="desktop-nav"></nav-bar>
     <nav-bar-mobile id="mobile-nav"></nav-bar-mobile>
@@ -13,13 +13,6 @@
     </div>
   </div>
 }
-<ng-template #login>
-  <div class="row default">
-    <div>
-      <ng-template *ngTemplateOutlet="outlet"></ng-template>
-    </div>
-  </div>
-</ng-template>
 
 
 <ng-template #outlet>

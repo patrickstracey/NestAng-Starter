@@ -1,18 +1,18 @@
 <h1>Account Information</h1>
 <ui-page>
-  @if (user$ |async; as user) {
+  @if (user()!) {
     <ui-card class="holder">
       <div class="user-item row">
         <div class="info-item">
           <h3>Name</h3>
           @if (!nameEdit) {
-            <span>{{ user.name }}</span>
+            <span>{{ user()!!.name }}</span>
           }
           @else {
             <input type="text" [formControl]="name"/>
           }
         </div>
-        <button class="btn primary" (click)="editName(user.name)">
+        <button class="btn primary" (click)="editName(user()!.name)">
           {{ nameEdit ? "Save Name" : "Update" }}
         </button>
       </div>
@@ -20,13 +20,13 @@
         <div class="info-item">
           <h3>Email</h3>
           @if (!emailEdit) {
-            <span>{{ user.email }}</span>
+            <span>{{ user()!.email }}</span>
           }
           @else {
             <input type="email" [formControl]="email"/>
           }
         </div>
-        <button class="btn primary" (click)="editEmail(user.email)">
+        <button class="btn primary" (click)="editEmail(user()!.email)">
           {{ emailEdit ? "Save Email" : "Update" }}
         </button>
       </div>
@@ -35,14 +35,14 @@
           <h3>Phone</h3>
           @if (!phoneEdit) {
             <span>{{
-              user.phone ? (user.phone | phone) : "No phone number on file"
+              user()!.phone ? (user()!.phone | phone) : "No phone number on file"
             }}</span>
           }
           @else {
             <input type="tel" [formControl]="phone"/>
           }
         </div>
-        <button class="btn primary" (click)="editPhone(user.phone)">
+        <button class="btn primary" (click)="editPhone(user()!.phone)">
           {{ phoneEdit ? "Save Phone" : "Update" }}
         </button>
       </div>

@@ -33,7 +33,7 @@ export class LoginPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.initLoginForm();
-    if (this.authService.authenticated$.value?.access_token) {
+    if (this.authService.session()?.access_token) {
       this.router.navigate(['/']);
     }
   }

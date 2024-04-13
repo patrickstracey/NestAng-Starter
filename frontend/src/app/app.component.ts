@@ -1,11 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import {Component, computed, OnInit} from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NavBarComponent, NavBarMobileComponent } from '@navigation';
 import { UiModule } from '@ui';
-import { BehaviorSubject } from 'rxjs';
 import { AuthService } from '@services';
-import { SessionInterface } from '@shared/interfaces';
 
 @Component({
   selector: 'app-root',
@@ -21,8 +19,7 @@ import { SessionInterface } from '@shared/interfaces';
   ],
 })
 export class AppComponent implements OnInit {
-  public authenticated$: BehaviorSubject<SessionInterface | undefined> =
-    this.authService.authenticated$;
+  isAuthenticated = computed(()=> {return !!this.authService.session()})
 
   constructor(private authService: AuthService) {}
 

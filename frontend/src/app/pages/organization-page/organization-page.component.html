@@ -1,12 +1,12 @@
 <h1>Organization Information</h1>
 <ui-page>
-  @if ((organization$ | async)) {
+  @if (organization()) {
     <ui-card class="holder">
       <div class="organization-item row">
         <div class="info-item">
           <h3>Name</h3>
           @if (!nameEdit) {
-            <span>{{ (organization$ | async)?.name }}</span>
+            <span>{{ organization()?.name }}</span>
           }
           @else {
             <input type="text" [formControl]="name"/>
@@ -19,7 +19,7 @@
       <div class="organization-item row">
         <div class="info-item">
           <h3>Created On</h3>
-          <span>{{ (organization$ | async)?.date_created | date: 'longDate'}}</span>
+          <span>{{ organization()?.date_created | date: 'longDate'}}</span>
         </div>
       </div>
     </ui-card>

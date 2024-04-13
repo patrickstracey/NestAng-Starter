@@ -10,7 +10,7 @@ import { environment } from '@environment';
   imports: [],
 })
 export class ImageViewerComponent {
-  imageUrl = environment.IMAGE_URL;
+  imageUrl = environment.image_url;
   @Input() images: string[] = [];
   currentImage: string | null = null;
   imageIndex: number = 0;

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  IMAGE_URL: '{{YOU BASE URL FOR IMAGES FROM YOUR DEV STORAGE BUCKET}}',
+  image_url: '{{YOU BASE URL FOR IMAGES FROM YOUR DEV STORAGE BUCKET}}',
   version: 'development',
   application_name: 'NestAng',
 };
