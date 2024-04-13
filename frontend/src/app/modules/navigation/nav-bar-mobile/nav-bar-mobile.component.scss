@@ -1,17 +1,11 @@
-.nav {
-  width: 100%;
-  height: 55px;
-  min-height: unset;
-  bottom: 0;
+.nav-btn {
+  font-size: 1.2rem;
+  padding: 8px 24px;
+  bottom: 4px;
+  left: 4px;
   position: fixed;
-  border-top: 2px solid var(--primary-color);
-  border-right: unset;
   z-index: 100;
-  background-color: white;
-
-  button {
-    flex-grow: 1;
-  }
+  box-shadow: rgba(0, 0, 0, 0.16) 0 3px 6px, rgba(0, 0, 0, 0.23) 0 3px 6px;
 }
 
 .content {
@@ -49,6 +43,10 @@
   }
 }
 
+#logout {
+  margin-top: 16px;
+}
+
 .overlay {
   z-index: 50;
   min-width: 100%;
@@ -59,30 +57,15 @@
   background-color: white;
   overflow-y: scroll;
   padding-bottom: 60px;
-  animation-duration: .4s;
+  animation-duration: 0.3s;
   animation-name: menu-slide-up;
-}
-
-.nav-btn {
-  font-size: 1.4rem;
-  padding: 12px 24px;
-  font-family: var(--header-font);
-  font-weight: 400;
-  text-align: center;
-  text-decoration: none;
-  border-left: 1px solid var(--primary-superlight);
-  border-right: 1px solid var(--primary-superlight);
-  border-top: unset;
-  border-bottom: unset;
-  background-color: white;
-  border-radius: 0;
-  width: 50%;
 }
 
 @keyframes menu-slide-up {
   0% {
     top: 100vh;
   }
+
   100% {
     top: 0;
   }

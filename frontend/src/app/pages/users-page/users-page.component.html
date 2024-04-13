@@ -1,8 +1,10 @@
 <div class="subheader row">
   <h1>Organization Users</h1>
-  <button class="btn mini primary header" (click)="openInvite()">
-    {{ inviteOpen() ? "Cancel Add New User" : "Add New User" }}
-  </button>
+  @if (!inviteOpen()) {
+    <button class="btn mini primary header" (click)="openInvite()">
+      Add New User
+    </button>
+  }
 </div>
 
 @if (inviteOpen()) {
@@ -24,7 +26,7 @@
                 formControlName="name_user"
                 required
                 placeholder="David Smith"
-                />
+              />
               <span class="required">This field is required.</span>
             </div>
             <div class="selector input-group">
@@ -35,7 +37,7 @@
                 formControlName="email"
                 required
                 placeholder="userEmail@gmail.com"
-                />
+              />
               <span class="required">This field is required.</span>
             </div>
           </div>
@@ -46,8 +48,10 @@
                 id="permission"
                 name="permission"
                 formControlName="permission"
-                >
-                <option [value]="permissions.USER" selected>Regular User</option>
+              >
+                <option [value]="permissions.USER" selected>
+                  Regular User
+                </option>
                 <option [value]="permissions.ADMIN">Administrator</option>
               </select>
               <span class="required">This field is required.</span>
@@ -59,14 +63,14 @@
             class="btn primary mini admin-add"
             (click)="inviteNewUser()"
             [disabled]="saving()"
-            >
+          >
             Invite New User
           </button>
           <button
             class="btn secondary mini admin-add"
             (click)="openInvite()"
             [disabled]="saving()"
-            >
+          >
             Cancel
           </button>
           @if (adminErrorMessage()) {
@@ -79,7 +83,7 @@
 }
 
 <ui-card>
-   <div>
+  <div>
     @for (acl of acls(); track acl._id) {
       <div class="user-item row">
         <div class="info-item fade-in">
@@ -89,22 +93,20 @@
           <p class="user-info">
             {{ permissions[acl.permission].toLowerCase() }}
             @if (acl.id_user == null) {
-              <span class="pending">
-                - Invite Sent</span
-                >
-              }
-            </p>
-          </div>
-          @if (isAdmin()) {
-            <button
-              class="btn warn mini"
-              [disabled]="acl.id_user == user()?._id"
-              (click)="deleteUser(acl)"
-              >
-              Delete User
-            </button>
-          }
+              <span class="pending"> - Invite Sent</span>
+            }
+          </p>
         </div>
-      }
-    </div>
-  </ui-card>
+        @if (isAdmin()) {
+          <button
+            class="btn warn mini"
+            [disabled]="acl.id_user == user()?._id"
+            (click)="deleteUser(acl)"
+          >
+            Delete User
+          </button>
+        }
+      </div>
+    }
+  </div>
+</ui-card>
